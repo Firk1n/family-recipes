@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>המתכונים של המשפחה</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #f7f9f7;     
+            --primary: #408067;      /* User requested Viridian/Teal */
+            --card-bg: #ffffff;
+            --text-main: #2d3436;
+            
+            /* Tag Colors - Adjusted to match the new primary */
+            --tag-bg: #e4f0eb;       
+            --tag-text: #1d4a38;     
+        }
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        /* Header */
+        .site-header { text-align: center; margin-bottom: 2rem; }
+        .search-box {
+            width: 100%; max-width: 500px; padding: 15px;
+            font-size: 1.1rem; border: 2px solid #ddd; border-radius: 50px;
+            font-family: inherit; margin-bottom: 1rem;
+        }
+        
+        .tags-cloud { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .tag-btn {
+            background: #fff; border: 1px solid #ddd; padding: 8px 16px;
+            border-radius: 20px; cursor: pointer; transition: 0.2s;
+        }
+        .tag-btn:hover { background: #eee; }
+        /* New Active State for Tags */
+        .tag-btn.active-tag {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Grid & Cards */
+        .recipe-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px;
+        }
+        .card {
+            background: var(--card-bg); border-radius: 16px; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); cursor: pointer;
+            border: 1px solid #f0f0f0; transition: transform 0.2s;
+        }
+        .card:hover { transform: translateY(-5px); }
+        .card img { width: 100%; height: 200px; object-fit: cover; display: block; }
+        .card-content { padding: 1.5rem; }
+        .card h2 { margin: 0 0 0.5rem 0; font-size: 1.3rem; }
+        
+        /* Updated Badge to use variables */
+        .badge { 
+            background: var(--tag-bg); 
+            color: var(--tag-text); 
+            padding: 4px 10px; 
+            border-radius: 12px; 
+            font-size: 0.8rem; 
+            margin-left: 5px; 
+        }
+
+        /* Recipe Detail */
+        .recipe-detail { background: white; padding: 2rem; border-radius: 20px; }
+        .scaler {
+            background: #f8f9fa; padding: 15px; border-radius: 12px;
+            margin: 20px 0; display: inline-flex; gap: 10px; align-items: center; flex-wrap: wrap;
+        }
+        .scale-btn {
+            background: white; border: 1px solid #ddd; padding: 5px 15px;
+            border-radius: 6px; cursor: pointer;
+        }
+        .scale-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        
+        /* Updated Ingredients Styles - Interactive */
+        .ingredients-list {
+            max-width: 100%;
+        }
+        .ingredients-list ul { padding: 0; list-style: none; }
+        
+        .ingredients-list li {
+            padding: 10px 0;
+            display: flex;
+            align-items: baseline;
+            gap: 8px; /* Keeps amount and item close */
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        
+        /* Interactive Checkbox Bullet */
+        .ingredients-list li::before {
+            content: "";
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #dcdcdc;
+            border-radius: 4px;
+            background-color: transparent;
+            margin-left: 8px;
+            flex-shrink: 0;
+            position: relative;
+            top: 3px;
+            transition: all 0.2s;
+        }
+
+        /* Checked State */
+        .ingredients-list li.checked {
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+        .ingredients-list li.checked::before {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .ingredients-list li span {
+            font-weight: 400;
+            color: #444;
+        }
+
+        .auto-conversion {
+            font-size: 0.85em;
+            color: #888;
+            font-weight: normal;
+        }
+
+        /* CHANGED: Removed primary color and bold weight */
+        .ingredients-list li strong {
+            color: inherit;
+            font-weight: 400;
+            white-space: nowrap;
+        }
+
+        .ing-section-title { color: var(--primary); border-bottom: 2px solid var(--primary); display: inline-block; margin-top: 1.5rem; }
+
+        /* Instructions Text Styling */
+        .instructions {
+            white-space: pre-wrap;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #2d3436;
+        }
+        
+        .instructions u {
+            text-decoration: underline;
+            text-decoration-color: var(--primary);
+            text-decoration-thickness: 2px;
+            text-underline-offset: 3px;
+        }
+        .instructions b, .instructions strong {
+            font-weight: 700;
+            color: #000;
+        }
+
+        /* Footer */
+        .footer-section {
+            margin-top: 50px; padding: 30px; background: #2d3436; color: white;
+            border-radius: 20px; text-align: center;
+        }
+        .draft-form input, .draft-form textarea {
+            width: 90%; padding: 10px; margin: 10px 0; border-radius: 8px; border: none; font-family: inherit;
+        }
+        .draft-checkboxes { display: flex; gap: 15px; justify-content: center; margin: 10px 0; }
+        .admin-link { color: #888; text-decoration: none; font-size: 0.8rem; margin-top: 20px; display: inline-block; }
+
+        /* --- MODAL STYLES --- */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;
+        }
+        .modal-content {
+            background: white; padding: 30px; border-radius: 16px; width: 90%; max-width: 700px;
+            max-height: 90vh; overflow-y: auto; position: relative;
+        }
+        .close-modal {
+            position: absolute; top: 15px; left: 15px; font-size: 1.5rem; cursor: pointer; background: none; border: none;
+        }
+        .gen-input { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;}
+        
+        /* Generator Specifics */
+        .gen-tags-container { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
+        .gen-tag-check { display: flex; align-items: center; gap: 5px; background: #f8f9fa; padding: 5px 10px; border-radius: 15px; border: 1px solid #ddd;}
+        
+        .ing-row { 
+            display: grid; 
+            grid-template-columns: 0.5fr 0.5fr 2fr auto; 
+            gap: 5px; 
+            margin-bottom: 5px;
+            align-items: center; 
+        }
+        
+        .row-controls { display: flex; gap: 5px; }
+        
+        .remove-row-btn { background: #ff7675; color: white; border: none; border-radius: 4px; cursor: pointer; padding: 5px 10px; }
+        .move-btn { background: #e0e0e0; border: none; border-radius: 4px; cursor: pointer; padding: 5px 10px; font-weight: bold; color: #555; }
+        .move-btn:hover { background: #d0d0d0; }
+
+        .add-row-btn { background: #55efc4; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-bottom: 15px; display: block; }
+        
+        .code-output { width: 100%; height: 150px; background: #333; color: #0f0; font-family: monospace; direction: ltr; text-align: left; padding: 10px; margin-top: 10px; }
+        
+        .section-row { 
+            margin-top: 15px; 
+            margin-bottom: 5px; 
+            display: flex; 
+            gap: 5px; 
+            align-items: center;
+        }
+        .gen-section-name {
+            flex: 1;
+            font-weight: bold;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            background: #b9c4ba;
+            padding: 8px;
+            border-radius: 4px;
+            margin: 0;
+        }
+        .add-btn-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        
+        .editor-toolbar { display: flex; gap: 5px; margin-bottom: 5px; }
+        .toolbar-btn {
+            background: #f1f2f6; border: 1px solid #ddd; border-radius: 4px;
+            padding: 2px 10px; cursor: pointer; font-weight: bold; font-family: monospace;
+        }
+        .toolbar-btn:hover { background: #e1e1e1; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="site-header">
+        <h1 style="cursor: pointer;" onclick="window.location.search=''">
+    מתכונים משפחתיים 
+    </h1>
+        <input type="text" class="search-box" placeholder="חיפוש מתכון, כותב, תגית, או מרכיב..." onkeyup="searchRecipes(this.value)">
+        <div class="tags-cloud" id="header-tags"></div>
+    </header>
+
+    <main id="app"></main>
+
+    <div class="footer-section">
+        <h3>חסר מתכון?</h3>
+        <p>מלאו את הפרטים ושלחו אליי למייל</p>
+        <div class="draft-form">
+            <input type="text" id="draft-title" placeholder="שם המנה">
+            <div class="draft-checkboxes" id="draft-tags-container"></div>
+            <textarea id="draft-body" rows="3" placeholder="רשימת מצרכים והוראות..."></textarea>
+            <button class="tag-btn" style="background:var(--primary); color:white; border:none;" onclick="sendDraft()">שליחה למייל ✉️</button>
+        </div>
+        <a href="#" onclick="toggleModal(true)" class="admin-link">🛠️ מחולל מתכונים</a>
+    </div>
+</div>
+
+<div id="adminModal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="close-modal" onclick="toggleModal(false)">✖</button>
+        <h2>מחולל מתכונים</h2>
+        
+        <input type="text" id="gen-id" class="gen-input" placeholder="ID (אנגלית, בלי רווחים)">
+        <input type="text" id="gen-title" class="gen-input" placeholder="שם המתכון">
+        <input type="text" id="gen-author" class="gen-input" placeholder="יוצר">
+        
+        <label>תגיות:</label>
+        <div id="gen-tags-container" class="gen-tags-container"></div>
+
+        <input type="text" id="gen-image" class="gen-input" placeholder="שם קובץ תמונה (למשל cake.jpg) - להשאיר ריק אם אין">
+        <input type="text" id="gen-url" class="gen-input" placeholder="קישור למקור (אופציונלי)">
+        
+        <label>מצרכים:</label>
+        <div style="font-size: 0.8rem; color:#888; margin-bottom:5px; display:grid; grid-template-columns: 0.5fr 0.5fr 2fr auto; gap:5px; padding-right: 8px;">
+            <span>כמות</span><span>יחידה</span><span>מוצר</span><span></span>
+        </div>
+        <div id="gen-ing-rows"></div>
+
+        <div class="add-btn-group">
+            <button onclick="addIngRow()" class="add-row-btn" style="flex:2; background:#e4f0eb;">+ הוסף מצרך</button>
+            <button onclick="addSectionRow()" class="add-row-btn" style="flex:1; background:#e4f0eb;">+ הוסף כותרת</button>
+        </div>
+        
+        <label>הוראות הכנה:</label>
+        <div class="editor-toolbar">
+            <button class="toolbar-btn" onclick="wrapText('b')" title="הדגשה">B</button>
+            <button class="toolbar-btn" onclick="wrapText('u')" title="קו תחתון" style="text-decoration:underline;">U</button>
+        </div>
+        <textarea id="gen-inst" rows="5" class="gen-input"></textarea>
+        
+        <button class="tag-btn" style="background:var(--primary); color:white; width:100%" onclick="generateCode()">צור קוד</button>
+        <textarea id="gen-output" class="code-output" placeholder=""></textarea>
+    </div>
+</div>
+
+<script src="recipes.js"></script>
+<script src="conversions.js"></script>
+
+<script>
+    // --- CONFIGURATION ---
+    const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=2340&auto=format&fit=crop";
+    
+    // DEFINE TAGS HERE ONCE
+    const AVAILABLE_TAGS = ["חלבי", "צמחוני", "בשרי", "קינוחים", "עוגות"];
+
+    // --- INITIALIZATION ---
+    const headerTags = document.getElementById('header-tags');
+    headerTags.innerHTML = `<button class="tag-btn active-tag" onclick="filterByTag('')">הכל</button>` + 
+        AVAILABLE_TAGS.map(t => `<button class="tag-btn" onclick="filterByTag('${t}')">${t}</button>`).join('');
+
+    const draftTags = document.getElementById('draft-tags-container');
+    draftTags.innerHTML = AVAILABLE_TAGS.map(t => `<label><input type="checkbox" value="${t}" class="draft-tag"> ${t}</label>`).join('');
+
+    const genTags = document.getElementById('gen-tags-container');
+    genTags.innerHTML = AVAILABLE_TAGS.map(t => `
+        <label class="gen-tag-check">
+            <input type="checkbox" value="${t}" class="gen-tag-input"> ${t}
+        </label>`).join('');
+
+    // --- APP LOGIC ---
+    const app = document.getElementById('app');
+    let currentRecipe = null;
+    const urlParams = new URLSearchParams(window.location.search);
+    const recipeId = urlParams.get('recipe');
+
+    if (recipeId) showRecipe(recipeId);
+    else showList(recipes);
+
+    function showList(data) {
+        if (!data || !data.length) { app.innerHTML = '<p>לא נמצאו תוצאות</p>'; return; }
+        let html = '<div class="recipe-grid">';
+        data.forEach(r => {
+            const imgSrc = r.image ? r.image : DEFAULT_IMAGE;
+            html += `
+                <div class="card" onclick="window.location.search='?recipe=${r.id}'">
+                    <img src="${imgSrc}" alt="${r.title}">
+                    <div class="card-content">
+                        <h2>${r.title}</h2>
+                        <p class="author">מאת: ${r.author}</p>
+                        <div>${r.tags.map(t => `<span class="badge">${t}</span>`).join('')}</div>
+                    </div>
+                </div>`;
+        });
+        html += '</div>';
+        app.innerHTML = html;
+    }
+
+    function showRecipe(id) {
+        const r = recipes.find(x => x.id === id);
+        if (!r) return;
+        currentRecipe = r;
+        const imgSrc = r.image ? r.image : DEFAULT_IMAGE;
+        
+        let linkHTML = r.sourceUrl ? `<div style="margin:10px 0;"><a href="${r.sourceUrl}" target="_blank" style="color:blue; font-weight:bold;">🔗 למעבר למתכון המקורי</a></div>` : '';
+
+        app.innerHTML = `
+            <div class="recipe-detail">
+                <button class="tag-btn" onclick="window.location.search=''">➡️ חזרה</button>
+                <img src="${imgSrc}" style="width:100%; height:300px; object-fit:cover; border-radius:12px; margin-top:10px;">
+                <h1 style="text-align:center">${r.title}</h1>
+                <p style="text-align:center">מאת: ${r.author}</p>
+                ${linkHTML}
+                
+                ${r.ingredients.length > 0 ? `
+                <div class="scaler">
+                    <b>כמויות:</b>
+                    <button class="scale-btn" id="btn-0.5" onclick="renderIngredients(0.5)">0.5x</button>
+                    <button class="scale-btn active" id="btn-1" onclick="renderIngredients(1)">1x</button>
+                    <button class="scale-btn" id="btn-1.5" onclick="renderIngredients(1.5)">1.5x</button>
+                    <button class="scale-btn" id="btn-2" onclick="renderIngredients(2)">2x</button>
+                </div>
+                <div id="ing-list" class="ingredients-list"></div>
+                ` : ''}
+                
+                <h3>הוראות:</h3>
+                <div class="instructions">${r.instructions}</div>
+            </div>
+        `;
+        if(r.ingredients.length > 0) renderIngredients(1);
+    }
+
+    function formatAmount(amount) {
+        if (typeof amount !== 'number') return amount;
+        if (Number.isInteger(amount)) return amount;
+
+        const epsilon = 0.05; 
+        const decimal = amount % 1;
+        const integer = Math.floor(amount);
+        let fraction = '';
+
+        if (Math.abs(decimal - 0.25) < epsilon) fraction = '1/4';
+        else if (Math.abs(decimal - 0.33) < epsilon) fraction = '1/3';
+        else if (Math.abs(decimal - 0.5) < epsilon) fraction = '1/2';
+        else if (Math.abs(decimal - 0.66) < epsilon) fraction = '2/3';
+        else if (Math.abs(decimal - 0.75) < epsilon) fraction = '3/4';
+        
+        if (fraction) {
+            return integer > 0 ? `${integer} ${fraction}` : fraction;
+        }
+        return amount.toFixed(2).replace(/\.?0+$/, '');
+    }
+
+    function renderIngredients(mult) {
+        if (!currentRecipe) return;
+        document.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(`btn-${mult}`).classList.add('active');
+
+        let html = '<ul>';
+        const processItems = (items) => {
+            return items.map(item => {
+                let rawVal = item.amount ? (item.amount * mult) : '';
+                let displayVal = rawVal;
+                let conversionText = '';
+                
+                if (typeof rawVal === 'number') {
+                    const conv = getConversion(rawVal, item.unit, item.item);
+                    if (conv) {
+                        conversionText = `<span class="auto-conversion">(${conv})</span>`;
+                    }
+                    displayVal = formatAmount(rawVal);
+                }
+
+                return `<li onclick="this.classList.toggle('checked')">
+                    <strong><span style="direction:ltr; unicode-bidi:embed; display:inline-block;">${displayVal}</span> ${item.unit || ''}</strong>
+                    <span>${item.item} ${conversionText}</span>
+                </li>`;
+            }).join('');
+        };
+
+        currentRecipe.ingredients.forEach(entry => {
+            if (entry.sectionName) {
+                html += `</ul><h4 class="ing-section-title">${entry.sectionName}</h4><ul>`;
+                html += processItems(entry.items);
+            } else if (entry.amount !== undefined) {
+                html += processItems([entry]);
+            }
+        });
+        html += '</ul>';
+        document.getElementById('ing-list').innerHTML = html;
+    }
+
+    function searchRecipes(q) {
+        const term = q.toLowerCase();
+        
+        const filtered = recipes.filter(r => {
+            const inTitle = r.title.toLowerCase().includes(term);
+            const inTags = r.tags.some(t => t.includes(term));
+            const inAuthor = r.author && r.author.toLowerCase().includes(term);
+            const inIngredients = r.ingredients.some(entry => {
+                if (entry.items) {
+                    return entry.items.some(sub => sub.item.includes(term));
+                }
+                return entry.item && entry.item.includes(term);
+            });
+            return inTitle || inTags || inIngredients || inAuthor;
+        });
+
+        showList(filtered);
+    }
+
+    function filterByTag(tag) {
+        document.querySelectorAll('#header-tags .tag-btn').forEach(btn => {
+             const btnOnClick = btn.getAttribute('onclick');
+             if (btnOnClick === `filterByTag('${tag}')`) {
+                 btn.classList.add('active-tag');
+             } else {
+                 btn.classList.remove('active-tag');
+             }
+        });
+
+        if (!tag) showList(recipes);
+        else showList(recipes.filter(r => r.tags.includes(tag)));
+    }
+
+    function sendDraft() {
+        const t = document.getElementById('draft-title').value;
+        const b = document.getElementById('draft-body').value;
+        const selectedTags = Array.from(document.querySelectorAll('.draft-tag:checked')).map(cb => cb.value).join(', ');
+        const subject = `מתכון חדש: ${t}`;
+        const body = `שם: ${t}\nתגיות: ${selectedTags}\n\n${b}\n\n[נא לצרף תמונה או קובץ אם יש]`;
+        window.location.href = `mailto:shohamofek@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+
+    // --- GENERATOR LOGIC ---
+    function toggleModal(show) {
+        document.getElementById('adminModal').style.display = show ? 'flex' : 'none';
+        if(show && document.getElementById('gen-ing-rows').children.length === 0) {
+            addIngRow(); 
+        }
+    }
+
+    function addIngRow() {
+        const div = document.createElement('div');
+        div.className = 'ing-row';
+        div.innerHTML = `
+            <input type="text" class="gen-input gen-amount" placeholder="1 או 1/2">
+            <input type="text" class="gen-input gen-unit" placeholder="ק״ג">
+            <input type="text" class="gen-input gen-item" placeholder="קמח">
+            <div class="row-controls">
+                <button onclick="moveRow(this, -1)" class="move-btn">↑</button>
+                <button onclick="moveRow(this, 1)" class="move-btn">↓</button>
+                <button onclick="removeRow(this)" class="remove-row-btn">X</button>
+            </div>
+        `;
+        document.getElementById('gen-ing-rows').appendChild(div);
+    }
+
+    function addSectionRow() {
+        const div = document.createElement('div');
+        div.className = 'section-row'; 
+        div.innerHTML = `
+            <input type="text" class="gen-section-name" placeholder="שם הקבוצה (למשל: לרוטב)">
+            <div class="row-controls">
+                <button onclick="moveRow(this, -1)" class="move-btn">↑</button>
+                <button onclick="moveRow(this, 1)" class="move-btn">↓</button>
+                <button onclick="removeRow(this)" class="remove-row-btn">X</button>
+            </div>
+        `;
+        document.getElementById('gen-ing-rows').appendChild(div);
+    }
+
+    function moveRow(btn, dir) {
+        const row = btn.closest('.ing-row') || btn.closest('.section-row');
+        const container = document.getElementById('gen-ing-rows');
+        
+        if (dir === -1) { 
+            if (row.previousElementSibling) {
+                container.insertBefore(row, row.previousElementSibling);
+            }
+        } else { 
+            if (row.nextElementSibling) {
+                container.insertBefore(row, row.nextElementSibling.nextElementSibling);
+            }
+        }
+    }
+
+    function removeRow(btn) {
+        const row = btn.closest('.ing-row') || btn.closest('.section-row');
+        if(row) row.remove();
+    }
+
+    function wrapText(tag) {
+        const textarea = document.getElementById('gen-inst');
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const text = textarea.value;
+        
+        if (start === end) return; 
+
+        const before = text.substring(0, start);
+        const selected = text.substring(start, end);
+        const after = text.substring(end);
+        
+        textarea.value = before + `<${tag}>` + selected + `</${tag}>` + after;
+    }
+
+    function parseAmount(val) {
+        if (!val) return null;
+        val = val.trim();
+        try {
+            const parts = val.split(' ');
+            let total = 0;
+            for (let part of parts) {
+                if (part.includes('/')) {
+                    const [num, den] = part.split('/');
+                    if (den && parseFloat(den) !== 0) {
+                        total += parseFloat(num) / parseFloat(den);
+                    }
+                } else {
+                    total += parseFloat(part);
+                }
+            }
+            return isNaN(total) ? null : total;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    function generateCode() {
+        const id = document.getElementById('gen-id').value;
+        const title = document.getElementById('gen-title').value;
+        const author = document.getElementById('gen-author').value;
+        let image = document.getElementById('gen-image').value.trim();
+        const url = document.getElementById('gen-url').value;
+        const inst = document.getElementById('gen-inst').value;
+        
+        if (image && !image.startsWith('http') && !image.startsWith('images/')) {
+            image = 'images/' + image;
+        }
+
+        const tags = Array.from(document.querySelectorAll('.gen-tag-input:checked')).map(cb => cb.value);
+
+        const rowsContainer = document.getElementById('gen-ing-rows');
+        let finalIngredients = [];
+        let currentSection = null;
+
+        Array.from(rowsContainer.children).forEach(row => {
+            if (row.classList.contains('section-row')) {
+                const name = row.querySelector('.gen-section-name').value;
+                if (name) {
+                    currentSection = { sectionName: name, items: [] };
+                    finalIngredients.push(currentSection);
+                }
+            } 
+            else if (row.classList.contains('ing-row')) {
+                const amountStr = row.querySelector('.gen-amount').value;
+                const unit = row.querySelector('.gen-unit').value;
+                const item = row.querySelector('.gen-item').value;
+                
+                const amountVal = parseAmount(amountStr);
+
+                if (item) {
+                    const ingObj = {
+                        amount: amountVal,
+                        unit: unit,
+                        item: item
+                    };
+
+                    if (currentSection) {
+                        currentSection.items.push(ingObj);
+                    } else {
+                        finalIngredients.push(ingObj);
+                    }
+                }
+            }
+        });
+
+        const obj = {
+            id: id || "new-id",
+            title: title,
+            author: author,
+            tags: tags,
+            image: image,
+            sourceUrl: url,
+            ingredients: finalIngredients,
+            instructions: inst
+        };
+
+        const json = JSON.stringify(obj, null, 4);
+        const cleanJS = json.replace(/"([^"]+)":/g, '$1:');
+        document.getElementById('gen-output').value = cleanJS + ",";
+    }
+</script>
+
+</body>
+</html>
