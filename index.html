@@ -10,11 +10,9 @@
     <style>
         :root {
             --bg-color: #f7f9f7;     
-            --primary: #408067;      /* User requested Viridian/Teal */
+            --primary: #408067;
             --card-bg: #ffffff;
             --text-main: #2d3436;
-            
-            /* Tag Colors - Adjusted to match the new primary */
             --tag-bg: #e4f0eb;       
             --tag-text: #1d4a38;     
         }
@@ -26,6 +24,7 @@
             margin: 0;
             padding: 20px;
             line-height: 1.6;
+            -webkit-tap-highlight-color: transparent; /* Remove mobile tap highlight */
         }
 
         .container { max-width: 900px; margin: 0 auto; }
@@ -39,12 +38,15 @@
         }
         
         .tags-cloud { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        
+        /* Updated tag-btn to support Flexbox for icons */
         .tag-btn {
             background: #fff; border: 1px solid #ddd; padding: 8px 16px;
             border-radius: 20px; cursor: pointer; transition: 0.2s;
+            display: inline-flex; align-items: center; gap: 6px; /* Added for icon alignment */
+            font-family: inherit; font-size: 1rem;
         }
         .tag-btn:hover { background: #eee; }
-        /* New Active State for Tags */
         .tag-btn.active-tag {
             background: var(--primary);
             color: white;
@@ -65,7 +67,6 @@
         .card-content { padding: 1.5rem; }
         .card h2 { margin: 0 0 0.5rem 0; font-size: 1.3rem; }
         
-        /* Updated Badge to use variables */
         .badge { 
             background: var(--tag-bg); 
             color: var(--tag-text); 
@@ -76,7 +77,95 @@
         }
 
         /* Recipe Detail */
-        .recipe-detail { background: white; padding: 2rem; border-radius: 20px; }
+        .recipe-detail { background: white; padding: 2rem; border-radius: 20px; position: relative; }
+        
+        /* Action Buttons (Share, Wake Lock) */
+        .action-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        
+        .action-btn {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 8px 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #555;
+            transition: all 0.2s;
+            position: relative; /* For tooltip positioning */
+            font-family: inherit;
+        }
+        
+        .action-btn:hover {
+            background: #f8f9fa;
+            border-color: #bbb;
+            color: #333;
+        }
+
+        /* Common SVG Style */
+        .icon-svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Wake Lock Active State */
+        .action-btn.active {
+            background: #e4f0eb; /* Light green background */
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Tooltip Logic */
+        .action-btn[data-tooltip]:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 8px;
+            padding: 6px 10px;
+            background: #333;
+            color: white;
+            font-size: 0.75rem;
+            border-radius: 6px;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            animation: fadeIn 0.2s forwards;
+            z-index: 10;
+        }
+        
+        /* Small arrow for tooltip */
+        .action-btn[data-tooltip]:hover::before {
+            content: "";
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 3px;
+            border: 5px solid transparent;
+            border-top-color: #333;
+            opacity: 0;
+            animation: fadeIn 0.2s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
         .scaler {
             background: #f8f9fa; padding: 15px; border-radius: 12px;
             margin: 20px 0; display: inline-flex; gap: 10px; align-items: center; flex-wrap: wrap;
@@ -87,204 +176,74 @@
         }
         .scale-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
         
-        /* Updated Ingredients Styles - Interactive */
-        .ingredients-list {
-            max-width: 600px; /* Restored width limit for readability */
-        }
+        .ingredients-list { max-width: 600px; }
         .ingredients-list ul { padding: 0; list-style: none; }
-        
         .ingredients-list li {
-            padding: 10px 0;
-            display: flex; /* Use flexbox */
-            align-items: baseline;
-            gap: 8px;
-            border-bottom: 1px solid #f0f0f0;
-            cursor: pointer; /* Indicates clickable */
-            transition: opacity 0.2s;
+            padding: 10px 0; display: flex; align-items: baseline; gap: 8px;
+            border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: opacity 0.2s;
         }
-        
-        /* Interactive Checkbox Bullet */
         .ingredients-list li::before {
-            content: "";
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid #dcdcdc; /* Checkbox border */
-            border-radius: 4px;        /* Slightly rounded square */
-            background-color: transparent;
-            margin-left: 8px;
-            flex-shrink: 0;
-            position: relative;
-            top: 3px;
-            transition: all 0.2s;
+            content: ""; display: inline-block; width: 16px; height: 16px;
+            border: 2px solid #dcdcdc; border-radius: 4px; background-color: transparent;
+            margin-left: 8px; flex-shrink: 0; position: relative; top: 3px; transition: all 0.2s;
         }
-
-        /* Checked State */
-        .ingredients-list li.checked {
-            opacity: 0.5;
-            text-decoration: line-through;
-        }
-        .ingredients-list li.checked::before {
-            background-color: var(--primary);
-            border-color: var(--primary);
-        }
-
-        .ingredients-list li span {
-            font-weight: 400;
-            color: #444;
-        }
-
-        /* Styling for the automatic conversion text */
-        .auto-conversion {
-            font-size: 0.85em;
-            color: #888;
-            font-weight: normal;
-        }
-
-        .ingredients-list li strong {
-            color: inherit;
-            font-weight: 400;
-            white-space: nowrap;
-        }
+        .ingredients-list li.checked { opacity: 0.5; text-decoration: line-through; }
+        .ingredients-list li.checked::before { background-color: var(--primary); border-color: var(--primary); }
+        .ingredients-list li span { font-weight: 400; color: #444; }
+        .auto-conversion { font-size: 0.85em; color: #888; font-weight: normal; }
+        .ingredients-list li strong { color: inherit; font-weight: 400; white-space: nowrap; }
 
         .ing-section-title { color: var(--primary); border-bottom: 2px solid var(--primary); display: inline-block; margin-top: 1.5rem; }
 
-        /* Instructions Text Styling */
-        .instructions {
-            /* Removed pre-wrap to let HTML Lists handle indentation */
-            font-size: 1.05rem;
-            line-height: 1.8;
-            color: #2d3436;
-        }
-        
-        /* New Styling for generated lists (Ordered and Unordered) */
-        .instructions ol, .instructions ul {
-            padding-right: 1.5rem; 
-            margin: 0.5rem 0 1.5rem 0;
-        }
-        
-        .instructions li {
-            margin-bottom: 0.8rem;
-            padding-left: 0.5rem;
-        }
+        .instructions { font-size: 1.05rem; line-height: 1.8; color: #2d3436; }
+        .instructions ol, .instructions ul { padding-right: 1.5rem; margin: 0.5rem 0 1.5rem 0; }
+        .instructions li { margin-bottom: 0.8rem; padding-left: 0.5rem; }
+        .instructions p { margin-bottom: 1rem; }
+        .instructions u { text-decoration: underline; text-decoration-color: var(--primary); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+        .instructions b, .instructions strong { font-weight: 700; color: #000; }
 
-        .instructions p {
-            margin-bottom: 1rem;
-        }
-        
-        .instructions u {
-            text-decoration: underline;
-            text-decoration-color: var(--primary);
-            text-decoration-thickness: 2px;
-            text-underline-offset: 3px;
-        }
-        .instructions b, .instructions strong {
-            font-weight: 700;
-            color: #000;
-        }
-
-        /* Footer */
-        .footer-section {
-            margin-top: 50px; padding: 30px; background: #2d3436; color: white;
-            border-radius: 20px; text-align: center;
-        }
-        .draft-form input, .draft-form textarea {
-            width: 90%; padding: 10px; margin: 10px 0; border-radius: 8px; border: none; font-family: inherit;
-        }
+        /* Footer & Modal */
+        .footer-section { margin-top: 50px; padding: 30px; background: #2d3436; color: white; border-radius: 20px; text-align: center; }
+        .draft-form input, .draft-form textarea { width: 90%; padding: 10px; margin: 10px 0; border-radius: 8px; border: none; font-family: inherit; }
         .draft-checkboxes { display: flex; gap: 15px; justify-content: center; margin: 10px 0; }
-        .admin-link { color: #888; text-decoration: none; font-size: 0.8rem; margin-top: 20px; display: inline-block; }
+        .admin-link { color: #888; text-decoration: none; font-size: 0.8rem; margin-top: 20px; display: inline-flex; align-items: center; gap: 5px; }
 
-        /* --- MODAL STYLES --- */
-        .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;
-        }
-        .modal-content {
-            background: white; padding: 30px; border-radius: 16px; width: 90%; max-width: 700px;
-            max-height: 90vh; overflow-y: auto; position: relative;
-        }
-        .close-modal {
-            position: absolute; top: 15px; left: 15px; font-size: 1.5rem; cursor: pointer; background: none; border: none;
-        }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 30px; border-radius: 16px; width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto; position: relative; }
+        .close-modal { position: absolute; top: 15px; left: 15px; font-size: 1.5rem; cursor: pointer; background: none; border: none; }
         .gen-input { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;}
-        
-        /* Generator Specifics */
         .gen-tags-container { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
         .gen-tag-check { display: flex; align-items: center; gap: 5px; background: #f8f9fa; padding: 5px 10px; border-radius: 15px; border: 1px solid #ddd;}
-        
-        /* Ingredient Row Layout */
-        .ing-row { 
-            display: grid; 
-            grid-template-columns: 0.5fr 0.5fr 2fr auto; 
-            gap: 5px; 
-            margin-bottom: 5px;
-            align-items: center; 
-        }
-        
-        /* Row Controls (Up/Down/X) */
-        .row-controls {
-            display: flex;
-            gap: 5px;
-        }
-        
-        .remove-row-btn { 
-            background: #ff7675; color: white; border: none; border-radius: 4px; cursor: pointer; padding: 5px 10px;
-        }
-        .move-btn {
-            background: #e0e0e0; border: none; border-radius: 4px; cursor: pointer; padding: 5px 10px; font-weight: bold; color: #555;
-        }
-        .move-btn:hover { background: #d0d0d0; }
-
+        .ing-row { display: grid; grid-template-columns: 0.5fr 0.5fr 2fr auto; gap: 5px; margin-bottom: 5px; align-items: center; }
+        .row-controls { display: flex; gap: 5px; }
+        .remove-row-btn { background: #ff7675; color: white; border: none; border-radius: 4px; cursor: pointer; padding: 5px 10px; }
+        .move-btn { background: #e0e0e0; border: none; border-radius: 4px; cursor: pointer; padding: 5px 10px; font-weight: bold; color: #555; }
         .add-row-btn { background: #55efc4; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-bottom: 15px; display: block; }
-        
         .code-output { width: 100%; height: 150px; background: #333; color: #0f0; font-family: monospace; direction: ltr; text-align: left; padding: 10px; margin-top: 10px; }
-        
-        .section-row { 
-            margin-top: 15px; 
-            margin-bottom: 5px; 
-            display: flex; 
-            gap: 5px; 
-            align-items: center;
+        .section-row { margin-top: 15px; margin-bottom: 5px; display: flex; gap: 5px; align-items: center; }
+        .gen-section-name { flex: 1; font-weight: bold; color: var(--primary); border: 2px solid var(--primary); background: #b9c4ba; padding: 8px; border-radius: 4px; margin: 0; }
+        .add-btn-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        .editor-toolbar { display: flex; gap: 5px; margin-bottom: 5px; }
+        .toolbar-btn { background: #f1f2f6; border: 1px solid #ddd; border-radius: 4px; padding: 2px 10px; cursor: pointer; font-weight: bold; font-family: monospace; }
+
+        /* --- PRINT MODE --- */
+        @media print {
+            .site-header, .footer-section, .tag-btn, .action-bar, .scaler { display: none !important; }
+            body { background: white; color: black; padding: 0; }
+            .recipe-detail { padding: 0; box-shadow: none; border: none; }
+            .container { max-width: 100%; width: 100%; margin: 0; }
+            .card { break-inside: avoid; border: 1px solid #ddd; }
+            img { display: none; } /* Optional: Hide images to save ink */
+            .instructions { font-size: 12pt; }
+            h1 { font-size: 18pt; margin-bottom: 5px; }
         }
-        .gen-section-name {
-            flex: 1; /* Takes available space */
-            font-weight: bold;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-            background: #b9c4ba; /* Restored background color */
-            padding: 8px;
-            border-radius: 4px;
-            margin: 0;
-        }
-        .add-btn-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        
-        /* Editor Toolbar in Generator */
-        .editor-toolbar {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 5px;
-        }
-        .toolbar-btn {
-            background: #f1f2f6;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 2px 10px;
-            cursor: pointer;
-            font-weight: bold;
-            font-family: monospace;
-        }
-        .toolbar-btn:hover { background: #e1e1e1; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header class="site-header">
-        <h1 style="cursor: pointer;" onclick="window.location.search=''">
+        <h1 style="cursor: pointer;" onclick="navigateHome()">
     מתכונים משפחתיים 
     </h1>
         <input type="text" class="search-box" placeholder="חיפוש מתכון, כותב, תגית, או מרכיב..." onkeyup="searchRecipes(this.value)">
@@ -300,9 +259,16 @@
             <input type="text" id="draft-title" placeholder="שם המנה">
             <div class="draft-checkboxes" id="draft-tags-container"></div>
             <textarea id="draft-body" rows="3" placeholder="רשימת מצרכים והוראות..."></textarea>
-            <button class="tag-btn" style="background:var(--primary); color:white; border:none;" onclick="sendDraft()">שליחה למייל ✉️</button>
+            
+            <button class="tag-btn" style="background:var(--primary); color:white; border:none; width: 100%; justify-content: center;" onclick="sendDraft()">
+                שליחה למייל
+                <svg class="icon-svg" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
         </div>
-        <a href="#" onclick="toggleModal(true)" class="admin-link">🛠️ מחולל מתכונים</a>
+        <a href="#" onclick="toggleModal(true); return false;" class="admin-link">
+            <svg class="icon-svg" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+            מחולל מתכונים
+        </a>
     </div>
 </div>
 
@@ -310,37 +276,29 @@
     <div class="modal-content">
         <button class="close-modal" onclick="toggleModal(false)">✖</button>
         <h2>מחולל מתכונים</h2>
-        
         <input type="text" id="gen-id" class="gen-input" placeholder="ID (אנגלית, בלי רווחים)">
         <input type="text" id="gen-title" class="gen-input" placeholder="שם המתכון">
         <input type="text" id="gen-author" class="gen-input" placeholder="יוצר">
-        
         <label>תגיות:</label>
         <div id="gen-tags-container" class="gen-tags-container"></div>
-
         <input type="text" id="gen-image" class="gen-input" placeholder="שם קובץ תמונה (למשל cake.jpg) - להשאיר ריק אם אין">
         <input type="text" id="gen-url" class="gen-input" placeholder="קישור למקור (אופציונלי)">
-        
         <label>מצרכים:</label>
         <div style="font-size: 0.8rem; color:#888; margin-bottom:5px; display:grid; grid-template-columns: 0.5fr 0.5fr 2fr auto; gap:5px; padding-right: 8px;">
             <span>כמות</span><span>יחידה</span><span>מוצר</span><span></span>
         </div>
         <div id="gen-ing-rows"></div>
-
         <div class="add-btn-group">
             <button onclick="addIngRow()" class="add-row-btn" style="flex:2; background:#e4f0eb;">+ הוסף מצרך</button>
             <button onclick="addSectionRow()" class="add-row-btn" style="flex:1; background:#e4f0eb;">+ הוסף כותרת</button>
         </div>
-        
         <label>הוראות הכנה:</label>
-        <!-- Editor Toolbar -->
         <div class="editor-toolbar">
             <button class="toolbar-btn" onclick="wrapText('b')" title="הדגשה">B</button>
             <button class="toolbar-btn" onclick="wrapText('u')" title="קו תחתון" style="text-decoration:underline;">U</button>
         </div>
         <textarea id="gen-inst" rows="5" class="gen-input"></textarea>
-        
-        <button class="tag-btn" style="background:var(--primary); color:white; width:100%" onclick="generateCode()">צור קוד</button>
+        <button class="tag-btn" style="background:var(--primary); color:white; width:100%; justify-content:center;" onclick="generateCode()">צור קוד</button>
         <textarea id="gen-output" class="code-output" placeholder=""></textarea>
     </div>
 </div>
@@ -351,9 +309,8 @@
 <script>
     // --- CONFIGURATION ---
     const DEFAULT_IMAGE = "https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=2340&auto=format&fit=crop";
-    
-    // DEFINE TAGS HERE ONCE
     const AVAILABLE_TAGS = ["חלבי", "צמחוני", "בשרי", "קינוחים", "עוגות"];
+    let wakeLock = null; // Store wake lock reference
 
     // --- INITIALIZATION ---
     const headerTags = document.getElementById('header-tags');
@@ -369,22 +326,51 @@
             <input type="checkbox" value="${t}" class="gen-tag-input"> ${t}
         </label>`).join('');
 
-    // --- APP LOGIC ---
     const app = document.getElementById('app');
     let currentRecipe = null;
-    const urlParams = new URLSearchParams(window.location.search);
-    const recipeId = urlParams.get('recipe');
 
-    if (recipeId) showRecipe(recipeId);
-    else showList(recipes);
+    // --- HISTORY / NAVIGATION LOGIC ---
+    
+    // 1. Handle Initial Load
+    window.addEventListener('load', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const recipeId = urlParams.get('recipe');
+        if (recipeId) showRecipe(recipeId, false); // false = don't push state again
+        else showList(recipes, false);
+    });
 
-    function showList(data) {
+    // 2. Handle Back/Forward Browser Buttons
+    window.addEventListener('popstate', (event) => {
+        if (event.state && event.state.recipeId) {
+            showRecipe(event.state.recipeId, false);
+        } else {
+            showList(recipes, false);
+        }
+    });
+
+    // 3. Navigation Helper
+    function navigateToRecipe(id) {
+        showRecipe(id, true);
+    }
+
+    function navigateHome() {
+        showList(recipes, true);
+    }
+
+    function showList(data, pushState = true) {
         if (!data || !data.length) { app.innerHTML = '<p>לא נמצאו תוצאות</p>'; return; }
+        
+        // Update History
+        if (pushState) {
+            history.pushState({}, '', window.location.pathname);
+            document.title = "מתכונים משפחתיים";
+        }
+
         let html = '<div class="recipe-grid">';
         data.forEach(r => {
             const imgSrc = r.image ? r.image : DEFAULT_IMAGE;
             html += `
-                <div class="card" onclick="window.location.search='?recipe=${r.id}'">
+                <div class="card" onclick="navigateToRecipe('${r.id}')">
                     <img src="${imgSrc}" alt="${r.title}">
                     <div class="card-content">
                         <h2>${r.title}</h2>
@@ -395,20 +381,51 @@
         });
         html += '</div>';
         app.innerHTML = html;
+        window.scrollTo(0,0);
+        releaseWakeLock(); // Always release lock when leaving recipe
     }
 
-    function showRecipe(id) {
+    function showRecipe(id, pushState = true) {
         const r = recipes.find(x => x.id === id);
         if (!r) return;
         currentRecipe = r;
-        const imgSrc = r.image ? r.image : DEFAULT_IMAGE;
         
+        // Update History
+        if (pushState) {
+            history.pushState({ recipeId: id }, '', `?recipe=${id}`);
+            document.title = `${r.title} | מתכונים משפחתיים`;
+        }
+
+        const imgSrc = r.image ? r.image : DEFAULT_IMAGE;
         let linkHTML = r.sourceUrl ? `<div style="margin:10px 0;"><a href="${r.sourceUrl}" target="_blank" style="color:blue; font-weight:bold;">🔗 למעבר למתכון המקורי</a></div>` : '';
 
-        // UPDATED: Use formatInstructions instead of plain output
+        // Share & WakeLock Buttons - Cleaner Design
+        const shareBtn = navigator.share 
+            ? `<button class="action-btn" onclick="shareRecipe()">
+                 <svg class="icon-svg" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
+                 שיתוף
+               </button>`
+            : '';
+
+        const wakeLockBtn = `
+            <button class="action-btn" id="wakeLockBtn" onclick="toggleWakeLock()" data-tooltip="מונע מהמסך להיכבות בזמן הבישול">
+                מסך פעיל
+            </button>`;
+
         app.innerHTML = `
             <div class="recipe-detail">
-                <button class="tag-btn" onclick="window.location.search=''">➡️ חזרה</button>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <button class="tag-btn" onclick="navigateHome()">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 19 12 12 5"></polyline></svg>
+                        חזרה
+                    </button>
+                    
+                    <div class="action-bar">
+                        ${shareBtn}
+                        ${wakeLockBtn}
+                    </div>
+                </div>
+
                 <img src="${imgSrc}" style="width:100%; height:300px; object-fit:cover; border-radius:12px; margin-top:10px;">
                 <h1 style="text-align:center">${r.title}</h1>
                 <p style="text-align:center">מאת: ${r.author}</p>
@@ -430,71 +447,99 @@
             </div>
         `;
         if(r.ingredients.length > 0) renderIngredients(1);
+        window.scrollTo(0,0);
     }
 
-    // NEW FUNCTION: Format text into HTML lists (OL and UL)
+    // --- WAKE LOCK LOGIC ---
+    async function toggleWakeLock() {
+        const btn = document.getElementById('wakeLockBtn');
+        if (!wakeLock) {
+            try {
+                wakeLock = await navigator.wakeLock.request('screen');
+                wakeLock.addEventListener('release', () => {
+                    wakeLock = null;
+                    if(document.getElementById('wakeLockBtn')) {
+                        document.getElementById('wakeLockBtn').classList.remove('active');
+                    }
+                });
+                btn.classList.add('active');
+            } catch (err) {
+                console.error(`${err.name}, ${err.message}`);
+                alert("הדפדפן שלך לא תומך באפשרות זו (או שהסוללה נמוכה מדי)");
+            }
+        } else {
+            await wakeLock.release();
+            wakeLock = null;
+            btn.classList.remove('active');
+        }
+    }
+
+    function releaseWakeLock() {
+        if (wakeLock) {
+            wakeLock.release();
+            wakeLock = null;
+        }
+    }
+    
+    // Re-acquire lock if tab becomes visible again
+    document.addEventListener('visibilitychange', async () => {
+        if (wakeLock !== null && document.visibilityState === 'visible') {
+            await toggleWakeLock(); // simple retry
+        }
+    });
+
+    // --- SHARE LOGIC ---
+    async function shareRecipe() {
+        if (!currentRecipe) return;
+        try {
+            await navigator.share({
+                title: currentRecipe.title,
+                text: `מתכון ל${currentRecipe.title} מאת ${currentRecipe.author}`,
+                url: window.location.href
+            });
+        } catch (err) {
+            console.log("Share canceled");
+        }
+    }
+
+    // --- EXISTING HELPER FUNCTIONS ---
     function formatInstructions(text) {
         if (!text) return '';
-        
         const lines = text.split('\n').filter(line => line.trim() !== '');
-        
         let html = '';
-        let listType = null; // 'ol', 'ul', or null
-        
+        let listType = null;
         lines.forEach(line => {
             line = line.trim();
-            
-            // Regex checks for "1.", "1)", "1-" at start of line
             const orderedMatch = line.match(/^(\d+)[\.\)\-]\s+(.*)/);
-            // Regex checks for "- " or "* " at start of line
             const unorderedMatch = line.match(/^[\-\*]\s+(.*)/);
-            
             if (orderedMatch) {
-                if (listType !== 'ol') {
-                    if (listType) html += `</${listType}>`; // Close previous list
-                    html += '<ol>';
-                    listType = 'ol';
-                }
+                if (listType !== 'ol') { if (listType) html += `</${listType}>`; html += '<ol>'; listType = 'ol'; }
                 html += `<li>${orderedMatch[2]}</li>`; 
             } else if (unorderedMatch) {
-                if (listType !== 'ul') {
-                    if (listType) html += `</${listType}>`; // Close previous list
-                    html += '<ul>';
-                    listType = 'ul';
-                }
+                if (listType !== 'ul') { if (listType) html += `</${listType}>`; html += '<ul>'; listType = 'ul'; }
                 html += `<li>${unorderedMatch[1]}</li>`;
             } else {
-                if (listType) {
-                    html += `</${listType}>`;
-                    listType = null;
-                }
+                if (listType) { html += `</${listType}>`; listType = null; }
                 html += `<p>${line}</p>`;
             }
         });
-        
         if (listType) html += `</${listType}>`;
-        
         return html;
     }
 
     function formatAmount(amount) {
         if (typeof amount !== 'number') return amount;
         if (Number.isInteger(amount)) return amount;
-
         const epsilon = 0.05; 
         const decimal = amount % 1;
         const integer = Math.floor(amount);
         let fraction = '';
-
         if (Math.abs(decimal - 0.25) < epsilon) fraction = '1/4';
         else if (Math.abs(decimal - 0.33) < epsilon) fraction = '1/3';
         else if (Math.abs(decimal - 0.5) < epsilon) fraction = '1/2';
         else if (Math.abs(decimal - 0.66) < epsilon) fraction = '2/3';
         else if (Math.abs(decimal - 0.75) < epsilon) fraction = '3/4';
-        
-        if (fraction) {
-            return integer > 0 ? `${integer} ${fraction}` : fraction;
-        }
+        if (fraction) return integer > 0 ? `${integer} ${fraction}` : fraction;
         return amount.toFixed(2).replace(/\.?0+$/, '');
     }
 
@@ -502,44 +547,30 @@
         if (!currentRecipe) return;
         document.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(`btn-${mult}`).classList.add('active');
-
         let html = '<ul>';
         const processItems = (items) => {
             return items.map(item => {
                 let rawVal = item.amount ? (item.amount * mult) : '';
                 let displayVal = rawVal;
                 let conversionText = '';
-                
                 if (typeof rawVal === 'number') {
                     const conv = getConversion(rawVal, item.unit, item.item);
-                    if (conv) {
-                        conversionText = `<span class="auto-conversion">(${conv})</span>`;
-                    }
+                    if (conv) conversionText = `<span class="auto-conversion">(${conv})</span>`;
                     displayVal = formatAmount(rawVal);
                 }
-                
-                // Logic check: do we have anything to display in the bold section?
-                // This hides the <strong> tag if both amount and unit are missing.
                 const shouldShowBold = (displayVal !== '') || (item.unit && item.unit.trim().length > 0);
-                
                 const amountHTML = shouldShowBold 
                     ? `<strong><span style="direction:ltr; unicode-bidi:embed; display:inline-block;">${displayVal}</span> ${item.unit || ''}</strong>`
                     : '';
-
                 return `<li onclick="this.classList.toggle('checked')">
                     ${amountHTML}
                     <span>${item.item} ${conversionText}</span>
                 </li>`;
             }).join('');
         };
-
         currentRecipe.ingredients.forEach(entry => {
-            if (entry.sectionName) {
-                html += `</ul><h4 class="ing-section-title">${entry.sectionName}</h4><ul>`;
-                html += processItems(entry.items);
-            } else if (entry.amount !== undefined) {
-                html += processItems([entry]);
-            }
+            if (entry.sectionName) { html += `</ul><h4 class="ing-section-title">${entry.sectionName}</h4><ul>`; html += processItems(entry.items); } 
+            else if (entry.amount !== undefined) { html += processItems([entry]); }
         });
         html += '</ul>';
         document.getElementById('ing-list').innerHTML = html;
@@ -547,35 +578,27 @@
 
     function searchRecipes(q) {
         const term = q.toLowerCase();
-        
         const filtered = recipes.filter(r => {
             const inTitle = r.title.toLowerCase().includes(term);
             const inTags = r.tags.some(t => t.includes(term));
             const inAuthor = r.author && r.author.toLowerCase().includes(term);
             const inIngredients = r.ingredients.some(entry => {
-                if (entry.items) {
-                    return entry.items.some(sub => sub.item.includes(term));
-                }
+                if (entry.items) return entry.items.some(sub => sub.item.includes(term));
                 return entry.item && entry.item.includes(term);
             });
             return inTitle || inTags || inIngredients || inAuthor;
         });
-
-        showList(filtered);
+        showList(filtered, false); // don't push state on search typing
     }
 
     function filterByTag(tag) {
         document.querySelectorAll('#header-tags .tag-btn').forEach(btn => {
              const btnOnClick = btn.getAttribute('onclick');
-             if (btnOnClick === `filterByTag('${tag}')`) {
-                 btn.classList.add('active-tag');
-             } else {
-                 btn.classList.remove('active-tag');
-             }
+             if (btnOnClick === `filterByTag('${tag}')`) btn.classList.add('active-tag');
+             else btn.classList.remove('active-tag');
         });
-
-        if (!tag) showList(recipes);
-        else showList(recipes.filter(r => r.tags.includes(tag)));
+        if (!tag) showList(recipes, true);
+        else showList(recipes.filter(r => r.tags.includes(tag)), true);
     }
 
     function sendDraft() {
@@ -590,161 +613,47 @@
     // --- GENERATOR LOGIC ---
     function toggleModal(show) {
         document.getElementById('adminModal').style.display = show ? 'flex' : 'none';
-        if(show && document.getElementById('gen-ing-rows').children.length === 0) {
-            addIngRow(); 
-        }
+        if(show && document.getElementById('gen-ing-rows').children.length === 0) addIngRow(); 
     }
-
     function addIngRow() {
-        const div = document.createElement('div');
-        div.className = 'ing-row';
-        div.innerHTML = `
-            <input type="text" class="gen-input gen-amount" placeholder="1 או 1/2">
-            <input type="text" class="gen-input gen-unit" placeholder="ק״ג">
-            <input type="text" class="gen-input gen-item" placeholder="קמח">
-            <div class="row-controls">
-                <button onclick="moveRow(this, -1)" class="move-btn">↑</button>
-                <button onclick="moveRow(this, 1)" class="move-btn">↓</button>
-                <button onclick="removeRow(this)" class="remove-row-btn">X</button>
-            </div>
-        `;
+        const div = document.createElement('div'); div.className = 'ing-row';
+        div.innerHTML = `<input type="text" class="gen-input gen-amount" placeholder="1 או 1/2"><input type="text" class="gen-input gen-unit" placeholder="ק״ג"><input type="text" class="gen-input gen-item" placeholder="קמח"><div class="row-controls"><button onclick="moveRow(this, -1)" class="move-btn">↑</button><button onclick="moveRow(this, 1)" class="move-btn">↓</button><button onclick="removeRow(this)" class="remove-row-btn">X</button></div>`;
         document.getElementById('gen-ing-rows').appendChild(div);
     }
-
     function addSectionRow() {
-        const div = document.createElement('div');
-        div.className = 'section-row'; 
-        div.innerHTML = `
-            <input type="text" class="gen-section-name" placeholder="שם הקבוצה (למשל: לרוטב)">
-            <div class="row-controls">
-                <button onclick="moveRow(this, -1)" class="move-btn">↑</button>
-                <button onclick="moveRow(this, 1)" class="move-btn">↓</button>
-                <button onclick="removeRow(this)" class="remove-row-btn">X</button>
-            </div>
-        `;
+        const div = document.createElement('div'); div.className = 'section-row'; 
+        div.innerHTML = `<input type="text" class="gen-section-name" placeholder="שם הקבוצה (למשל: לרוטב)"><div class="row-controls"><button onclick="moveRow(this, -1)" class="move-btn">↑</button><button onclick="moveRow(this, 1)" class="move-btn">↓</button><button onclick="removeRow(this)" class="remove-row-btn">X</button></div>`;
         document.getElementById('gen-ing-rows').appendChild(div);
     }
-
     function moveRow(btn, dir) {
         const row = btn.closest('.ing-row') || btn.closest('.section-row');
         const container = document.getElementById('gen-ing-rows');
-        
-        if (dir === -1) { 
-            if (row.previousElementSibling) {
-                container.insertBefore(row, row.previousElementSibling);
-            }
-        } else { 
-            if (row.nextElementSibling) {
-                container.insertBefore(row, row.nextElementSibling.nextElementSibling);
-            }
-        }
+        if (dir === -1 && row.previousElementSibling) container.insertBefore(row, row.previousElementSibling);
+        else if (dir === 1 && row.nextElementSibling) container.insertBefore(row, row.nextElementSibling.nextElementSibling);
     }
-
-    function removeRow(btn) {
-        const row = btn.closest('.ing-row') || btn.closest('.section-row');
-        if(row) row.remove();
-    }
-
+    function removeRow(btn) { const row = btn.closest('.ing-row') || btn.closest('.section-row'); if(row) row.remove(); }
     function wrapText(tag) {
         const textarea = document.getElementById('gen-inst');
-        const start = textarea.selectionStart;
-        const end = textarea.selectionEnd;
-        const text = textarea.value;
-        
+        const start = textarea.selectionStart; const end = textarea.selectionEnd; const text = textarea.value;
         if (start === end) return; 
-
-        const before = text.substring(0, start);
-        const selected = text.substring(start, end);
-        const after = text.substring(end);
-        
-        textarea.value = before + `<${tag}>` + selected + `</${tag}>` + after;
+        textarea.value = text.substring(0, start) + `<${tag}>` + text.substring(start, end) + `</${tag}>` + text.substring(end);
     }
-
     function parseAmount(val) {
-        if (!val) return null;
-        val = val.trim();
-        try {
-            const parts = val.split(' ');
-            let total = 0;
-            for (let part of parts) {
-                if (part.includes('/')) {
-                    const [num, den] = part.split('/');
-                    if (den && parseFloat(den) !== 0) {
-                        total += parseFloat(num) / parseFloat(den);
-                    }
-                } else {
-                    total += parseFloat(part);
-                }
-            }
-            return isNaN(total) ? null : total;
-        } catch (e) {
-            return null;
-        }
+        if (!val) return null; val = val.trim();
+        try { const parts = val.split(' '); let total = 0; for (let part of parts) { if (part.includes('/')) { const [num, den] = part.split('/'); if (den && parseFloat(den) !== 0) total += parseFloat(num) / parseFloat(den); } else { total += parseFloat(part); } } return isNaN(total) ? null : total; } catch (e) { return null; }
     }
-
     function generateCode() {
-        const id = document.getElementById('gen-id').value;
-        const title = document.getElementById('gen-title').value;
-        const author = document.getElementById('gen-author').value;
-        let image = document.getElementById('gen-image').value.trim();
-        const url = document.getElementById('gen-url').value;
-        const inst = document.getElementById('gen-inst').value;
-        
-        if (image && !image.startsWith('http') && !image.startsWith('images/')) {
-            image = 'images/' + image;
-        }
-
+        const id = document.getElementById('gen-id').value; const title = document.getElementById('gen-title').value; const author = document.getElementById('gen-author').value; let image = document.getElementById('gen-image').value.trim(); const url = document.getElementById('gen-url').value; const inst = document.getElementById('gen-inst').value;
+        if (image && !image.startsWith('http') && !image.startsWith('images/')) image = 'images/' + image;
         const tags = Array.from(document.querySelectorAll('.gen-tag-input:checked')).map(cb => cb.value);
-
         const rowsContainer = document.getElementById('gen-ing-rows');
-        let finalIngredients = [];
-        let currentSection = null;
-
+        let finalIngredients = []; let currentSection = null;
         Array.from(rowsContainer.children).forEach(row => {
-            if (row.classList.contains('section-row')) {
-                const name = row.querySelector('.gen-section-name').value;
-                if (name) {
-                    currentSection = { sectionName: name, items: [] };
-                    finalIngredients.push(currentSection);
-                }
-            } 
-            else if (row.classList.contains('ing-row')) {
-                const amountStr = row.querySelector('.gen-amount').value;
-                const unit = row.querySelector('.gen-unit').value;
-                const item = row.querySelector('.gen-item').value;
-                
-                const amountVal = parseAmount(amountStr);
-
-                if (item) {
-                    const ingObj = {
-                        amount: amountVal,
-                        unit: unit,
-                        item: item
-                    };
-
-                    if (currentSection) {
-                        currentSection.items.push(ingObj);
-                    } else {
-                        finalIngredients.push(ingObj);
-                    }
-                }
-            }
+            if (row.classList.contains('section-row')) { const name = row.querySelector('.gen-section-name').value; if (name) { currentSection = { sectionName: name, items: [] }; finalIngredients.push(currentSection); } } 
+            else if (row.classList.contains('ing-row')) { const amountStr = row.querySelector('.gen-amount').value; const unit = row.querySelector('.gen-unit').value; const item = row.querySelector('.gen-item').value; const amountVal = parseAmount(amountStr); if (item) { const ingObj = { amount: amountVal, unit: unit, item: item }; if (currentSection) { currentSection.items.push(ingObj); } else { finalIngredients.push(ingObj); } } }
         });
-
-        const obj = {
-            id: id || "new-id",
-            title: title,
-            author: author,
-            tags: tags,
-            image: image,
-            sourceUrl: url,
-            ingredients: finalIngredients,
-            instructions: inst
-        };
-
-        const json = JSON.stringify(obj, null, 4);
-        const cleanJS = json.replace(/"([^"]+)":/g, '$1:');
-        document.getElementById('gen-output').value = cleanJS + ",";
+        const obj = { id: id || "new-id", title: title, author: author, tags: tags, image: image, sourceUrl: url, ingredients: finalIngredients, instructions: inst };
+        const json = JSON.stringify(obj, null, 4); document.getElementById('gen-output').value = json.replace(/"([^"]+)":/g, '$1:') + ",";
     }
 </script>
 
