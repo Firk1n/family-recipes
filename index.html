@@ -517,9 +517,17 @@
                     }
                     displayVal = formatAmount(rawVal);
                 }
+                
+                // Logic check: do we have anything to display in the bold section?
+                // This hides the <strong> tag if both amount and unit are missing.
+                const shouldShowBold = (displayVal !== '') || (item.unit && item.unit.trim().length > 0);
+                
+                const amountHTML = shouldShowBold 
+                    ? `<strong><span style="direction:ltr; unicode-bidi:embed; display:inline-block;">${displayVal}</span> ${item.unit || ''}</strong>`
+                    : '';
 
                 return `<li onclick="this.classList.toggle('checked')">
-                    <strong><span style="direction:ltr; unicode-bidi:embed; display:inline-block;">${displayVal}</span> ${item.unit || ''}</strong>
+                    ${amountHTML}
                     <span>${item.item} ${conversionText}</span>
                 </li>`;
             }).join('');
