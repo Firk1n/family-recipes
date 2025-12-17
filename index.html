@@ -505,7 +505,7 @@
         try {
             await navigator.share({
                 title: currentRecipe.title,
-                text: `מתכון ל${currentRecipe.title} מאת ${currentRecipe.author}`,
+                text: `${currentRecipe.title} - ${currentRecipe.author}`,
                 url: window.location.href
             });
         } catch (err) {
