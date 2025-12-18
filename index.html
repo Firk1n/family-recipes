@@ -414,7 +414,8 @@
         const r = recipes.find(x => x.id === id);
         if (!r) return;
         currentRecipe = r;
-        currentLang = 'he'; // Reset to Hebrew on load
+    // Auto-switch to English if the English tag filter is active
+        currentLang = (currentTag === 'English') ? 'en' : 'he'; 
         
         if (pushState) {
             history.pushState({ recipeId: id }, '', `?recipe=${id}`);
