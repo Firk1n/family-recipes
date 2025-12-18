@@ -741,4 +741,32 @@ const recipes = [
     ],
     instructions: "1. מעבדים חמאה, אבקת סוכר, שקדים, מלח ווניל לקרם רך במעבד מזון עם להב מתכת. \n2. מוסיפים ביצים בהדרגה עד שהן נטמעות בקרם. מנפים לקערה קמח ומעבדים רק עד שנוצר בצק במרקם אחיד ודחוס.\n3. מפרידים את הבצק ל 3 חתיכות שוות, יוצרים דיסקית מכל אחת ועוטפים בניילון נצמד. כל דיסקית מספיקה בדיוק לתבנית טארט סטנדרטית. מומלץ להשתמש באחת ולהקפיא את השתיים האחרות."
 },
+{
+    id: "simon_salad",
+    title: "סלט מרוקאי (סלט סימון)",
+    author: "סבתא סימון",
+    tags: ["סלטים", "צמחוני", "English"],
+    image: "", 
+    sourceUrl: "",
+    ingredients: [
+        { amount: 3, unit: "", item: "עגבניות קלופות וחתוכות לקוביות" },
+        { amount: 2, unit: "", item: "פלפלים חריפים (חלפיניו) קצוצים" },
+        { amount: 1, unit: "", item: "שן שום כתושה" },
+        { amount: null, unit: "", item: "שמן זית" },
+        { amount: null, unit: "", item: "מלח" }
+    ],
+    instructions: "מערבבים את הכל, מוסיפים שמן זית ומלח (כן, בלי פלפל), ובתיאבון!",
+    english: {
+        title: "Moroccan Salad (Simon Salad)",
+        author: "Grandma Simone",
+        ingredients: [
+            { amount: 2.5, unit: "", item: "peeled diced tomatoes" },
+            { amount: 2, unit: "", item: "diced jalapeños" },
+            { amount: null, unit: "", item: "Minced garlic" },
+            { amount: null, unit: "", item: "Olive oil" },
+            { amount: null, unit: "", item: "Salt" }
+        ],
+        instructions: "Mix everything, add Olive oil and salt (yes, no pepper), and bon appétit!"
+    }
+},
 ];
