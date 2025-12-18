@@ -742,8 +742,8 @@ const recipes = [
     instructions: "1. מעבדים חמאה, אבקת סוכר, שקדים, מלח ווניל לקרם רך במעבד מזון עם להב מתכת. \n2. מוסיפים ביצים בהדרגה עד שהן נטמעות בקרם. מנפים לקערה קמח ומעבדים רק עד שנוצר בצק במרקם אחיד ודחוס.\n3. מפרידים את הבצק ל 3 חתיכות שוות, יוצרים דיסקית מכל אחת ועוטפים בניילון נצמד. כל דיסקית מספיקה בדיוק לתבנית טארט סטנדרטית. מומלץ להשתמש באחת ולהקפיא את השתיים האחרות."
 },
 {
-    id: "simon_salad",
-    title: "סלט מרוקאי (סלט סימון)",
+    id: "simone_salad",
+    title: "סלט סימון (סלט מרוקאי)",
     author: "סבתא סימון",
     tags: ["סלטים", "צמחוני", "English"],
     image: "", 
@@ -751,13 +751,13 @@ const recipes = [
     ingredients: [
         { amount: 3, unit: "", item: "עגבניות קלופות וחתוכות לקוביות" },
         { amount: 2, unit: "", item: "פלפלים חריפים (חלפיניו) קצוצים" },
-        { amount: 1, unit: "", item: "שן שום כתושה" },
+        { amount: 2, unit: "", item: "שן שום כתושה" },
         { amount: null, unit: "", item: "שמן זית" },
         { amount: null, unit: "", item: "מלח" }
     ],
     instructions: "מערבבים את הכל, מוסיפים שמן זית ומלח (כן, בלי פלפל), ובתיאבון!",
     english: {
-        title: "Moroccan Salad (Simon Salad)",
+        title: "Moroccan Salad (Simone Salad)",
         author: "Grandma Simone",
         ingredients: [
             { amount: 2.5, unit: "", item: "peeled diced tomatoes" },
@@ -767,6 +767,78 @@ const recipes = [
             { amount: null, unit: "", item: "Salt" }
         ],
         instructions: "Mix everything, add Olive oil and salt (yes, no pepper), and bon appétit!"
+    }
+},
+{
+    id: "simone_couscous_chicken",
+    title: "קוסקוס",
+    author: "סבתא סימון",
+    tags: ["בשרי", "English"],
+    image: "", 
+    sourceUrl: "",
+    ingredients: [
+        { amount: null, unit: "", item: "קוסקוס" },
+        {
+            sectionName: "למרק ולעוף",
+            items: [
+                { amount: 5, unit: "חתיכות", item: "עוף (אופציונלי)" },
+                { amount: 3, unit: "", item: "גזרים" },
+                { amount: 2.5, unit: "", item: "גבעולי סלרי" },
+                { amount: 3, unit: "", item: "קישואים" },
+                { amount: 1, unit: "חתיכת", item: "דלעת או חצי דלורית" },
+                { amount: 1.5, unit: "", item: "בטטות (אופציונלי)" },
+                { amount: 1, unit: "קופסת שימורים", item: "גרגירי חומוס (אופציונלי)" },
+                { amount: 1, unit: "", item: "בצל קטן (אופציונלי)" },
+                { amount: 1.5, unit: "", item: "קוביות מרק (כתושות) או ציר ירקות/עוף" },
+                { amount: 0.5, unit: "כפית", item: "מלח (לפי הטעם, תלוי במליחות המרק)" },
+                { amount: 0.25, unit: "כפית", item: "פלפל" },
+                { amount: 0.25, unit: "כפית", item: "קינמון" },
+                { amount: 0.25, unit: "כפית", item: "כורכום" }
+            ]
+        },
+        {
+            sectionName: "להגשה",
+            items: [
+                { amount: null, unit: "", item: "סוכר" },
+                { amount: null, unit: "", item: "קינמון" },
+                { amount: null, unit: "", item: "צנוברים" }
+            ]
+        }
+    ],
+    instructions: "1. מפשירים את העוף: שמים בסיר עם מים רגילים ומביאים לרתיחה. ברגע שהמים רותחים, מנמיכים מעט את האש ומבשלים כשעה (יש לוודא שהמים עדיין מבעבעים).\n2. בינתיים, מקלפים וחותכים את הירקות.\n3. אחרי שהעוף התבשל כ-30 דקות, מוסיפים את הירקות והתבלינים ומבשלים 30 דקות נוספות. הערה: אם הוספתם חומוס, צריך להכניס אותו מעט קודם לכן.\n4. מכינים את הקוסקוס לפי הוראות היצרן - שמים בקערה מים רותחים מהסיר (או ציר) על הקוסקוס ומכסים בצלחת עד שמוכן.\n5. מערבבים מעט סוכר וקינמון (לפי הטעם). מגישים בצד כדי שכל סועד יוכל לפזר מעל המנה, יחד עם הצנוברים.",
+    english: {
+        title: "Couscous",
+        author: "Grandma Simone",
+        ingredients: [
+            { amount: null, unit: "", item: "Couscous" },
+            {
+                sectionName: "Soup & Chicken",
+                items: [
+                    { amount: 5, unit: "pieces", item: "Chicken (optional)" },
+                    { amount: 3, unit: "", item: "Carrots" },
+                    { amount: 2.5, unit: "stems", item: "Celery" },
+                    { amount: 3, unit: "", item: "Zucchini" },
+                    { amount: 1, unit: "piece", item: "Pumpkin or half squash" },
+                    { amount: 1.5, unit: "", item: "Sweet potatoes (optional)" },
+                    { amount: 1, unit: "can", item: "Garbanzo beans (optional)" },
+                    { amount: 1, unit: "small", item: "Onion (optional)" },
+                    { amount: 1.5, unit: "", item: "Smashed bouillon or vegetable/chicken stock" },
+                    { amount: 0.5, unit: "teaspoon", item: "Salt (to taste, depends on bouillon)" },
+                    { amount: 0.25, unit: "teaspoon", item: "Pepper" },
+                    { amount: 0.25, unit: "teaspoon", item: "Cinnamon" },
+                    { amount: 0.25, unit: "teaspoon", item: "Turmeric" }
+                ]
+            },
+            {
+                sectionName: "To Serve",
+                items: [
+                    { amount: null, unit: "", item: "Sugar" },
+                    { amount: null, unit: "", item: "Cinnamon" },
+                    { amount: null, unit: "", item: "Pine nuts" }
+                ]
+            }
+        ],
+        instructions: "1. Defrost chicken: place in pot of plain water and boil. Once the water boils, lower the heat slightly, leave for ~1 hour, make sure water is still boiling.\n2. Meanwhile, cut and peel vegetables.\n3. After the chicken has cooked for ~30 minutes, add the vegetables and spices, then cook for the remaining 30 minutes. Note: If using garbanzo beans, add them slightly earlier.\n4. Follow box instructions for couscous – place boiling water from the pot in a bowl with couscous and cover with plate until ready (or instead of boiling water add bouillon broth or veggie broth).\n5. Mix some cinnamon and sugar, to taste. Can be placed on top of prepared dish by individual. Same with pine nuts."
     }
 },
 ];

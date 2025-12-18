@@ -414,8 +414,9 @@
         const r = recipes.find(x => x.id === id);
         if (!r) return;
         currentRecipe = r;
-    // Auto-switch to English if the English tag filter is active
-        currentLang = (currentTag === 'English') ? 'en' : 'he'; 
+        
+        // Auto-switch to English if the English tag filter is active
+        currentLang = (currentTag === 'English') ? 'en' : 'he';
         
         if (pushState) {
             history.pushState({ recipeId: id }, '', `?recipe=${id}`);
@@ -635,16 +636,34 @@
 
     function searchRecipes(q) {
         const term = q.toLowerCase();
+        const isEnglishMode = currentTag === 'English';
+
         const filtered = recipes.filter(r => {
-            // IGNORE ENGLISH in search as requested, only checking Hebrew fields
-            const inTitle = r.title.toLowerCase().includes(term);
-            const inTags = r.tags.some(t => t.includes(term));
-            const inAuthor = r.author && r.author.toLowerCase().includes(term);
-            const inIngredients = r.ingredients.some(entry => {
-                if (entry.items) return entry.items.some(sub => sub.item.includes(term));
-                return entry.item && entry.item.includes(term);
-            });
-            return inTitle || inTags || inIngredients || inAuthor;
+            // 1. If in English mode, MUST have English tag
+            if (isEnglishMode && !r.tags.includes('English')) return false;
+
+            // 2. Choose fields to search based on mode
+            if (isEnglishMode) {
+                if (!r.english) return false;
+                const title = r.english.title ? r.english.title.toLowerCase() : '';
+                const author = r.english.author ? r.english.author.toLowerCase() : '';
+                // Search ingredients
+                const ing = r.english.ingredients.some(entry => {
+                    if (entry.items) return entry.items.some(sub => sub.item.toLowerCase().includes(term));
+                    return entry.item && entry.item.toLowerCase().includes(term);
+                });
+                return title.includes(term) || author.includes(term) || ing;
+            } else {
+                // Hebrew search (standard)
+                const inTitle = r.title.toLowerCase().includes(term);
+                const inTags = r.tags.some(t => t.includes(term));
+                const inAuthor = r.author && r.author.toLowerCase().includes(term);
+                const inIngredients = r.ingredients.some(entry => {
+                    if (entry.items) return entry.items.some(sub => sub.item.includes(term));
+                    return entry.item && entry.item.includes(term);
+                });
+                return inTitle || inTags || inIngredients || inAuthor;
+            }
         });
         showList(filtered, false); 
     }
@@ -656,6 +675,16 @@
              if (btnOnClick === `filterByTag('${tag}')`) btn.classList.add('active-tag');
              else btn.classList.remove('active-tag');
         });
+        
+        const searchBox = document.querySelector('.search-box');
+        if (tag === 'English') {
+            searchBox.placeholder = "Search for a recipe, author, tag, or ingredient...";
+            searchBox.style.direction = "ltr";
+        } else {
+            searchBox.placeholder = "חיפוש מתכון, כותב, תגית, או מרכיב...";
+            searchBox.style.direction = "rtl";
+        }
+
         if (!tag) showList(recipes, true);
         else showList(recipes.filter(r => r.tags.includes(tag)), true);
     }
@@ -669,7 +698,7 @@
         window.location.href = `mailto:shohamofek@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     }
 
-    // --- GENERATOR LOGIC ---
+    // --- GENERATOR LOGIC (Restored) ---
     function toggleModal(show) {
         document.getElementById('adminModal').style.display = show ? 'flex' : 'none';
         if(show && document.getElementById('gen-ing-rows').children.length === 0) addIngRow(); 
