@@ -390,7 +390,7 @@ async function shareRecipe() {
         try {
             await navigator.clipboard.writeText(window.location.href);
             // Optional: Simple alert or toast to notify user
-            alert("הקישור הועתק ללוח!"); 
+            alert("הקישור הועתק"); 
         } catch (err) {
             console.error("Failed to copy", err);
         }
