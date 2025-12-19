@@ -62,6 +62,7 @@
             border: 1px solid #f0f0f0; transition: transform 0.2s;
         }
         .card:hover { transform: translateY(-5px); }
+        .card:focus { outline: 3px solid var(--primary); transform: translateY(-5px); } /* Keyboard focus style */
         .card img { width: 100%; height: 200px; object-fit: cover; display: block; }
         .card-content { padding: 1.5rem; }
         .card h2 { margin: 0 0 0.5rem 0; font-size: 1.3rem; }
@@ -208,7 +209,7 @@
         .ingredients-list { max-width: 600px; }
         .ingredients-list ul { padding: 0; list-style: none; }
         .ingredients-list li {
-            padding: 10px 0; display: flex; align-items: baseline; gap: 8px;
+            padding: 10px 0; display: flex; align-items: baseline; gap: 12px;
             border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: opacity 0.2s;
         }
         .ingredients-list li::before {
@@ -216,7 +217,8 @@
             border: 2px solid #dcdcdc; border-radius: 4px; background-color: transparent;
             margin-left: 8px; flex-shrink: 0; position: relative; top: 3px; transition: all 0.2s;
         }
-        .ingredients-list li.checked { opacity: 0.5; text-decoration: line-through; }
+        .ingredients-list li.checked { opacity: 0.5; }
+        .ingredients-list li.checked .ing-content { text-decoration: line-through; text-decoration-thickness: 1px; }
         .ingredients-list li.checked::before { background-color: var(--primary); border-color: var(--primary); }
         .ingredients-list li span { font-weight: 400; color: #444; }
         .auto-conversion { font-size: 0.85em; color: #888; font-weight: normal; }
@@ -235,7 +237,7 @@
         .footer-section { margin-top: 50px; padding: 30px; background: #2d3436; color: white; border-radius: 20px; text-align: center; }
         .draft-form input, .draft-form textarea { width: 90%; padding: 10px; margin: 10px 0; border-radius: 8px; border: none; font-family: inherit; }
         .draft-checkboxes { display: flex; gap: 15px; justify-content: center; margin: 10px 0; }
-        .admin-link { color: #888; text-decoration: none; font-size: 0.8rem; margin-top: 20px; display: inline-flex; align-items: center; gap: 5px; }
+        .admin-link { color: #888; text-decoration: none; font-size: 0.8rem; margin: 20px 10px 0 10px; display: inline-flex; align-items: center; gap: 5px; }
 
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
         .modal-content { background: white; padding: 30px; border-radius: 16px; width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto; position: relative; }
@@ -254,6 +256,10 @@
         .add-btn-group { display: flex; gap: 10px; margin-bottom: 15px; }
         .editor-toolbar { display: flex; gap: 5px; margin-bottom: 5px; }
         .toolbar-btn { background: #f1f2f6; border: 1px solid #ddd; border-radius: 4px; padding: 2px 10px; cursor: pointer; font-weight: bold; font-family: monospace; }
+        
+        /* Optimizer Styles */
+        .optimizer-box { background: #f0f8ff; border: 2px dashed #a0cfee; padding: 20px; border-radius: 10px; margin-top: 30px; }
+        .optimizer-box h3 { margin-top: 0; color: #2980b9; }
 
         /* --- PRINT MODE --- */
         @media print {
@@ -294,9 +300,15 @@
                 <svg class="icon-svg" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
             </button>
         </div>
+        
         <a href="#" onclick="toggleModal(true); return false;" class="admin-link">
             <svg class="icon-svg" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
             מחולל מתכונים
+        </a>
+        
+        <a href="#" onclick="loadRecipeToEdit(); return false;" class="admin-link" id="edit-json-link" style="display: none;">
+            <svg class="icon-svg" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+            עריכה
         </a>
     </div>
 </div>
@@ -304,6 +316,7 @@
 <div id="adminModal" class="modal-overlay">
     <div class="modal-content">
         <button class="close-modal" onclick="toggleModal(false)">✖</button>
+        
         <h2>מחולל מתכונים</h2>
         <input type="text" id="gen-id" class="gen-input" placeholder="ID (אנגלית, בלי רווחים)">
         <input type="text" id="gen-title" class="gen-input" placeholder="שם המתכון">
@@ -329,6 +342,23 @@
         <textarea id="gen-inst" rows="5" class="gen-input"></textarea>
         <button class="tag-btn" style="background:var(--primary); color:white; width:100%; justify-content:center;" onclick="generateCode()">צור קוד</button>
         <textarea id="gen-output" class="code-output" placeholder=""></textarea>
+
+        <!-- OPTIMIZER TOOL -->
+        <div class="optimizer-box">
+            <h3>כלי לכיווץ תמונות (Optimizer)</h3>
+            <p style="font-size:0.9rem;">
+                בחר את קובץ התמונה הגדול מהמחשב שלך. הכלי יוריד מיידית גרסה מוקטנת (thumbnail).
+                <br>
+                העתק את הקובץ החדש לתיקיית <code>images</code> שלך.
+            </p>
+            
+            <input type="file" id="opt-files" multiple accept="image/*" class="gen-input">
+            <button class="tag-btn" style="background:#2980b9; color:white; width:100%; justify-content:center;" onclick="processImages()">
+                צור תמונה מוקטנת
+            </button>
+            <div id="opt-status" style="margin-top:10px; font-size:0.9rem;"></div>
+        </div>
+
     </div>
 </div>
 
@@ -342,12 +372,16 @@
     let wakeLock = null; 
     let currentRecipe = null;
     let currentLang = 'he';
-    let currentTag = '';
+    let activeTags = new Set(); // Changed from single string to Set for multi-select
 
     // --- INITIALIZATION ---
     const headerTags = document.getElementById('header-tags');
-    headerTags.innerHTML = `<button class="tag-btn active-tag" onclick="filterByTag('')">הכל</button>` + 
-        AVAILABLE_TAGS.map(t => `<button class="tag-btn" onclick="filterByTag('${t}')">${t}</button>`).join('');
+    // Initialize "All" button
+    let tagsHTML = `<button class="tag-btn active-tag" id="tag-all" onclick="filterByTag('')">הכל</button>`;
+    
+    // Initialize other tags
+    tagsHTML += AVAILABLE_TAGS.map(t => `<button class="tag-btn" id="tag-${t}" onclick="filterByTag('${t}')">${t}</button>`).join('');
+    headerTags.innerHTML = tagsHTML;
 
     const draftTags = document.getElementById('draft-tags-container');
     draftTags.innerHTML = AVAILABLE_TAGS.filter(t=>t!=='English').map(t => `<label><input type="checkbox" value="${t}" class="draft-tag"> ${t}</label>`).join('');
@@ -372,14 +406,26 @@
         if (event.state && event.state.recipeId) {
             showRecipe(event.state.recipeId, false);
         } else {
+            // Reset filters when going back to list
+            activeTags.clear();
+            updateFilterUI();
             showList(recipes, false);
         }
     });
 
     function navigateToRecipe(id) { showRecipe(id, true); }
-    function navigateHome() { showList(recipes, true); }
+    function navigateHome() { 
+        // Reset filters when clicking Home/Back
+        activeTags.clear();
+        updateFilterUI();
+        showList(recipes, true); 
+    }
 
+    // --- MAIN LIST LOGIC ---
     function showList(data, pushState = true) {
+        // HIDE Edit Button in list view
+        document.getElementById('edit-json-link').style.display = 'none';
+
         if (!data || !data.length) { app.innerHTML = '<p>לא נמצאו תוצאות</p>'; return; }
         
         if (pushState) {
@@ -387,16 +433,35 @@
             document.title = "מתכונים משפחתיים";
         }
 
+        const isEnglishMode = activeTags.has('English');
+
         let html = '<div class="recipe-grid">';
         data.forEach(r => {
             const imgSrc = r.image ? r.image : DEFAULT_IMAGE;
-            // If English tag is active, use English title if available
-            const displayTitle = (currentTag === 'English' && r.english) ? r.english.title : r.title;
-            const displayAuthor = (currentTag === 'English' && r.english) ? r.english.author : r.author;
+            // Generate thumb path: images/cake.jpg -> images/cake_thumb.jpg
+            let thumbSrc = imgSrc;
+            if (imgSrc !== DEFAULT_IMAGE && !imgSrc.startsWith('http')) {
+                const parts = imgSrc.split('.');
+                const ext = parts.pop();
+                thumbSrc = parts.join('.') + '_thumb.' + ext;
+            }
 
+            // If English tag is active, use English title if available
+            const displayTitle = (isEnglishMode && r.english) ? r.english.title : r.title;
+            const displayAuthor = (isEnglishMode && r.english) ? r.english.author : r.author;
+
+            // Accessibility: tabindex="0" and keyboard handler
             html += `
-                <div class="card" onclick="navigateToRecipe('${r.id}')">
-                    <img src="${imgSrc}" alt="${displayTitle}">
+                <div class="card" 
+                     tabindex="0"
+                     onclick="navigateToRecipe('${r.id}')"
+                     onkeypress="if(event.key === 'Enter') navigateToRecipe('${r.id}')">
+                     
+                    <img src="${thumbSrc}" 
+                         alt="${displayTitle}" 
+                         loading="lazy" 
+                         decoding="async"
+                         onerror="this.onerror=null; this.src='${imgSrc}'">
                     <div class="card-content">
                         <h2>${displayTitle}</h2>
                         <p class="author">מאת: ${displayAuthor}</p>
@@ -416,7 +481,7 @@
         currentRecipe = r;
         
         // Auto-switch to English if the English tag filter is active
-        currentLang = (currentTag === 'English') ? 'en' : 'he';
+        currentLang = activeTags.has('English') ? 'en' : 'he';
         
         if (pushState) {
             history.pushState({ recipeId: id }, '', `?recipe=${id}`);
@@ -432,6 +497,9 @@
     }
 
     function renderRecipeDetail() {
+        // SHOW Edit Button in recipe view
+        document.getElementById('edit-json-link').style.display = 'inline-flex';
+
         const r = currentRecipe;
         const isEn = currentLang === 'en';
         const data = isEn && r.english ? r.english : r;
@@ -451,7 +519,7 @@
             <button class="action-btn" id="wakeLockBtn" onclick="toggleWakeLock()" data-tooltip="${isEn ? 'Prevent screen from sleeping' : 'מונע מהמסך להיכבות בזמן הבישול'}">
                 ${isEn ? 'Wake Lock' : 'מסך פעיל'}
             </button>`;
-
+        
         // Language Toggle
         const langToggle = r.tags.includes('English') ? `
             <div class="lang-toggle">
@@ -618,11 +686,12 @@
                 }
                 const shouldShowBold = (displayVal !== '') || (item.unit && item.unit.trim().length > 0);
                 const amountHTML = shouldShowBold 
-                    ? `<strong><span style="direction:ltr; unicode-bidi:embed; display:inline-block;">${displayVal}</span> ${item.unit || ''}</strong>`
+                    ? `<strong><span style="direction:ltr; unicode-bidi:embed;">${displayVal}</span> ${item.unit || ''}</strong> `
                     : '';
                 return `<li onclick="this.classList.toggle('checked')">
-                    ${amountHTML}
-                    <span>${item.item} ${conversionText}</span>
+                    <span class="ing-content">
+                        ${amountHTML}<span>${item.item} ${conversionText}</span>
+                    </span>
                 </li>`;
             }).join('');
         };
@@ -634,27 +703,83 @@
         document.getElementById('ing-list').innerHTML = html;
     }
 
+    // --- SEARCH & FILTER LOGIC (UPDATED FOR MULTI-TAG) ---
+
+    function filterByTag(tag) {
+        if (tag === '') {
+            // "All" clicked - clear everything
+            activeTags.clear();
+        } else {
+            // Toggle specific tag
+            if (activeTags.has(tag)) {
+                activeTags.delete(tag);
+            } else {
+                activeTags.add(tag);
+            }
+        }
+        
+        updateFilterUI();
+        runFilterAndShow();
+    }
+
+    function updateFilterUI() {
+        // Update visual button states
+        document.querySelectorAll('.tag-btn').forEach(btn => {
+            const btnId = btn.id;
+            if (btnId === 'tag-all') {
+                if (activeTags.size === 0) btn.classList.add('active-tag');
+                else btn.classList.remove('active-tag');
+            } else {
+                const tagName = btnId.replace('tag-', '');
+                if (activeTags.has(tagName)) btn.classList.add('active-tag');
+                else btn.classList.remove('active-tag');
+            }
+        });
+
+        // Update search box style based on "English" tag
+        const searchBox = document.querySelector('.search-box');
+        if (activeTags.has('English')) {
+            searchBox.placeholder = "Search for a recipe, author, tag, or ingredient...";
+            searchBox.style.direction = "ltr";
+        } else {
+            searchBox.placeholder = "חיפוש מתכון, כותב, תגית, או מרכיב...";
+            searchBox.style.direction = "rtl";
+        }
+    }
+
     function searchRecipes(q) {
-        const term = q.toLowerCase();
-        const isEnglishMode = currentTag === 'English';
+        // We pass the query to the main filter function
+        runFilterAndShow(q);
+    }
+
+    function runFilterAndShow(searchTerm = '') {
+        // Combine Tag Filter + Search Term
+        const term = searchTerm.toLowerCase();
+        const isEnglishMode = activeTags.has('English');
 
         const filtered = recipes.filter(r => {
-            // 1. If in English mode, MUST have English tag
-            if (isEnglishMode && !r.tags.includes('English')) return false;
+            // 1. Tag Filtering (Intersection: MUST have ALL selected tags)
+            // If activeTags is empty, pass this check.
+            if (activeTags.size > 0) {
+                for (let tag of activeTags) {
+                    if (!r.tags.includes(tag)) return false;
+                }
+            }
 
-            // 2. Choose fields to search based on mode
+            // 2. Search Term Filtering
+            if (term === '') return true; // No search term, keep it.
+
             if (isEnglishMode) {
                 if (!r.english) return false;
                 const title = r.english.title ? r.english.title.toLowerCase() : '';
                 const author = r.english.author ? r.english.author.toLowerCase() : '';
-                // Search ingredients
                 const ing = r.english.ingredients.some(entry => {
                     if (entry.items) return entry.items.some(sub => sub.item.toLowerCase().includes(term));
                     return entry.item && entry.item.toLowerCase().includes(term);
                 });
                 return title.includes(term) || author.includes(term) || ing;
             } else {
-                // Hebrew search (standard)
+                // Hebrew search
                 const inTitle = r.title.toLowerCase().includes(term);
                 const inTags = r.tags.some(t => t.includes(term));
                 const inAuthor = r.author && r.author.toLowerCase().includes(term);
@@ -665,28 +790,8 @@
                 return inTitle || inTags || inIngredients || inAuthor;
             }
         });
-        showList(filtered, false); 
-    }
 
-    function filterByTag(tag) {
-        currentTag = tag;
-        document.querySelectorAll('#header-tags .tag-btn').forEach(btn => {
-             const btnOnClick = btn.getAttribute('onclick');
-             if (btnOnClick === `filterByTag('${tag}')`) btn.classList.add('active-tag');
-             else btn.classList.remove('active-tag');
-        });
-        
-        const searchBox = document.querySelector('.search-box');
-        if (tag === 'English') {
-            searchBox.placeholder = "Search for a recipe, author, tag, or ingredient...";
-            searchBox.style.direction = "ltr";
-        } else {
-            searchBox.placeholder = "חיפוש מתכון, כותב, תגית, או מרכיב...";
-            searchBox.style.direction = "rtl";
-        }
-
-        if (!tag) showList(recipes, true);
-        else showList(recipes.filter(r => r.tags.includes(tag)), true);
+        showList(filtered, false);
     }
 
     function sendDraft() {
@@ -698,21 +803,90 @@
         window.location.href = `mailto:shohamofek@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     }
 
-    // --- GENERATOR LOGIC (Restored) ---
+    // --- GENERATOR LOGIC ---
     function toggleModal(show) {
         document.getElementById('adminModal').style.display = show ? 'flex' : 'none';
         if(show && document.getElementById('gen-ing-rows').children.length === 0) addIngRow(); 
     }
-    function addIngRow() {
+
+    // UPDATED: Accepts optional item to pre-fill
+    function addIngRow(itemData = null) {
         const div = document.createElement('div'); div.className = 'ing-row';
-        div.innerHTML = `<input type="text" class="gen-input gen-amount" placeholder="1 או 1/2"><input type="text" class="gen-input gen-unit" placeholder="ק״ג"><input type="text" class="gen-input gen-item" placeholder="קמח"><div class="row-controls"><button onclick="moveRow(this, -1)" class="move-btn">↑</button><button onclick="moveRow(this, 1)" class="move-btn">↓</button><button onclick="removeRow(this)" class="remove-row-btn">X</button></div>`;
+        
+        let valAmount = '', valUnit = '', valItem = '';
+        if (itemData) {
+            valAmount = itemData.amount !== null ? itemData.amount : '';
+            valUnit = itemData.unit || '';
+            valItem = itemData.item || '';
+        }
+
+        div.innerHTML = `
+            <input type="text" class="gen-input gen-amount" placeholder="1 או 1/2" value="${valAmount}">
+            <input type="text" class="gen-input gen-unit" placeholder="ק״ג" value="${valUnit}">
+            <input type="text" class="gen-input gen-item" placeholder="קמח" value="${valItem}">
+            <div class="row-controls">
+                <button onclick="moveRow(this, -1)" class="move-btn">↑</button>
+                <button onclick="moveRow(this, 1)" class="move-btn">↓</button>
+                <button onclick="removeRow(this)" class="remove-row-btn">X</button>
+            </div>`;
         document.getElementById('gen-ing-rows').appendChild(div);
     }
-    function addSectionRow() {
+
+    // UPDATED: Accepts optional name to pre-fill
+    function addSectionRow(name = '') {
         const div = document.createElement('div'); div.className = 'section-row'; 
-        div.innerHTML = `<input type="text" class="gen-section-name" placeholder="שם הקבוצה (למשל: לרוטב)"><div class="row-controls"><button onclick="moveRow(this, -1)" class="move-btn">↑</button><button onclick="moveRow(this, 1)" class="move-btn">↓</button><button onclick="removeRow(this)" class="remove-row-btn">X</button></div>`;
+        div.innerHTML = `
+            <input type="text" class="gen-section-name" placeholder="שם הקבוצה (למשל: לרוטב)" value="${name}">
+            <div class="row-controls">
+                <button onclick="moveRow(this, -1)" class="move-btn">↑</button>
+                <button onclick="moveRow(this, 1)" class="move-btn">↓</button>
+                <button onclick="removeRow(this)" class="remove-row-btn">X</button>
+            </div>`;
         document.getElementById('gen-ing-rows').appendChild(div);
     }
+
+    // NEW: Load existing recipe into generator
+    function loadRecipeToEdit() {
+        if(!currentRecipe) return;
+        const r = currentRecipe;
+        
+        // 1. Fill basic text fields
+        document.getElementById('gen-id').value = r.id;
+        document.getElementById('gen-title').value = r.title;
+        document.getElementById('gen-author').value = r.author;
+        document.getElementById('gen-image').value = r.image;
+        document.getElementById('gen-url').value = r.sourceUrl || '';
+        // Note: For instructions, we just dump the text. Bold/Underline tags remain as text tags <b>...</b>
+        document.getElementById('gen-inst').value = r.instructions; 
+
+        // 2. Fill Tags
+        document.querySelectorAll('.gen-tag-input').forEach(cb => {
+            cb.checked = r.tags.includes(cb.value);
+        });
+
+        // 3. Fill Ingredients
+        const rowsContainer = document.getElementById('gen-ing-rows');
+        rowsContainer.innerHTML = ''; // Clear existing rows
+        
+        r.ingredients.forEach(entry => {
+            if(entry.sectionName) {
+                // It's a section
+                addSectionRow(entry.sectionName);
+                if(entry.items) {
+                    entry.items.forEach(subItem => addIngRow(subItem));
+                }
+            } else if (entry.items) {
+                // Rare structure (section without name?), treat as flat items
+                 entry.items.forEach(subItem => addIngRow(subItem));
+            } else {
+                 // Standard flat item
+                 addIngRow(entry);
+            }
+        });
+        
+        toggleModal(true);
+    }
+
     function moveRow(btn, dir) {
         const row = btn.closest('.ing-row') || btn.closest('.section-row');
         const container = document.getElementById('gen-ing-rows');
@@ -727,7 +901,7 @@
         textarea.value = text.substring(0, start) + `<${tag}>` + text.substring(start, end) + `</${tag}>` + text.substring(end);
     }
     function parseAmount(val) {
-        if (!val) return null; val = val.trim();
+        if (!val) return null; val = String(val).trim();
         try { const parts = val.split(' '); let total = 0; for (let part of parts) { if (part.includes('/')) { const [num, den] = part.split('/'); if (den && parseFloat(den) !== 0) total += parseFloat(num) / parseFloat(den); } else { total += parseFloat(part); } } return isNaN(total) ? null : total; } catch (e) { return null; }
     }
     function generateCode() {
@@ -742,6 +916,64 @@
         });
         const obj = { id: id || "new-id", title: title, author: author, tags: tags, image: image, sourceUrl: url, ingredients: finalIngredients, instructions: inst };
         const json = JSON.stringify(obj, null, 4); document.getElementById('gen-output').value = json.replace(/"([^"]+)":/g, '$1:') + ",";
+    }
+
+    // --- CLIENT SIDE OPTIMIZER ---
+    async function processImages() {
+        const files = document.getElementById('opt-files').files;
+        if (files.length === 0) { alert('נא לבחור קבצים'); return; }
+        
+        const status = document.getElementById('opt-status');
+        
+        const maxWidth = 400; // Thumbnail width
+        let count = 0;
+
+        status.innerHTML = 'מעבד תמונות...';
+
+        for (let file of files) {
+            try {
+                // Only process images
+                if (!file.type.startsWith('image/')) continue;
+
+                const bitmap = await createImageBitmap(file);
+                const scale = maxWidth / bitmap.width;
+                const newHeight = bitmap.height * scale;
+
+                const canvas = document.createElement('canvas');
+                canvas.width = maxWidth;
+                canvas.height = newHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(bitmap, 0, 0, maxWidth, newHeight);
+
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.8));
+                
+                // Create filename: cake.jpg -> cake_thumb.jpg
+                const originalName = file.name;
+                const dotIndex = originalName.lastIndexOf('.');
+                const namePart = dotIndex !== -1 ? originalName.substring(0, dotIndex) : originalName;
+                const newName = `${namePart}_thumb.jpg`;
+
+                // Download directly
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = newName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                count++;
+                status.innerHTML = `הורד: ${count}/${files.length}`;
+                
+                // Small delay to prevent browser choking on multiple downloads
+                await new Promise(r => setTimeout(r, 200));
+
+            } catch (e) {
+                console.error(e);
+                status.innerHTML += `<br>שגיאה בקובץ ${file.name}`;
+            }
+        }
+        
+        status.innerHTML = `סיום! ${count} תמונות הורדו.`;
     }
 </script>
 

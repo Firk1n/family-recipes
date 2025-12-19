@@ -841,4 +841,86 @@ const recipes = [
         instructions: "1. Defrost chicken: place in pot of plain water and boil. Once the water boils, lower the heat slightly, leave for ~1 hour, make sure water is still boiling.\n2. Meanwhile, cut and peel vegetables.\n3. After the chicken has cooked for ~30 minutes, add the vegetables and spices, then cook for the remaining 30 minutes. Note: If using garbanzo beans, add them slightly earlier.\n4. Follow box instructions for couscous – place boiling water from the pot in a bowl with couscous and cover with plate until ready (or instead of boiling water add bouillon broth or veggie broth).\n5. Mix some cinnamon and sugar, to taste. Can be placed on top of prepared dish by individual. Same with pine nuts."
     }
 },
+{
+    id: "simone_fish_hummus",
+    title: "דג וחומוס",
+    author: "סבתא סימון",
+    tags: ["דגים", "עיקרית", "English"],
+    image: "", 
+    sourceUrl: "",
+    ingredients: [
+        {
+            sectionName: "לחלוקה (חצי לחומוס, חצי לדג)",
+            items: [
+                { amount: 1, unit: "", item: "גמבה אדומה (חתוכה)" },
+                { amount: 9, unit: "שיני", item: "שום (כתוש או פרוס)" },
+                { amount: 5, unit: "כפות", item: "שמן זית" },
+                { amount: 1, unit: "חופן", item: "פטרוזיליה/כוסברה קצוצה" }
+            ]
+        },
+        {
+            sectionName: "לחומוס",
+            items: [
+                { amount: 4, unit: "קופסאות שימורים", item: "גרגירי חומוס (שטופים)" },
+                { amount: 1, unit: "כף", item: "פפריקה" },
+                { amount: 0.5, unit: "כפית", item: "כמון" },
+                { amount: 0.25, unit: "כפית", item: "כורכום" },
+                { amount: 1, unit: "כפית", item: "מלח" },
+                { amount: 0.25, unit: "כפית", item: "פלפל" },
+                { amount: 3, unit: "כוסות", item: "מים" }
+            ]
+        },
+        {
+            sectionName: "לדגים",
+            items: [
+                { amount: 2, unit: "", item: "דגי פורל (עם או בלי ראש)" },
+                { amount: 1, unit: "", item: "לימון" },
+                { amount: 0.25, unit: "כפית", item: "כורכום" },
+                { amount: 0.5, unit: "כפית", item: "מלח" },
+                { amount: 0.25, unit: "כפית", item: "פלפל" },
+                { amount: 0.5, unit: "כוס", item: "מים" }
+            ]
+        }
+    ],
+    instructions: "1. הכנת החומוס: שמים בסיר את מחצית מכמות השמן, גרגירי החומוס, הגמבה והשום. מוסיפים את תבליני החומוס והמים. מכסים ומביאים לרתיחה. מנמיכים ללהבה בינונית-נמוכה ומבשלים עד שרוב המים מתאדים.\n2. הכנת הדג: בסיר נפרד (רחב) שמים את את המחצית השנייה של השמן, הדגים, הגמבה והשום. מוסיפים את תבליני הדג והמים. מכסים ומביאים לרתיחה. מנמיכים ללהבה בינונית ומבשלים 20-30 דקות עד שהמים מצטמצמים.\n3. לקראת סוף הבישול בשני הסירים, מחלקים את עשבי התיבול בין שני הסירים. סוחטים את הלימון מעל הדגים.\n4. גרסה משודרגת (למשקיענים): במקום לשים את הכל יחד, מטגנים תחילה את השום, הגמבה והתבלינים בשמן כ-15-20 דקות תוך כדי ערבוב, ורק אז מוסיפים את שאר המרכיבים וממשיכים כרגיל.",
+    english: {
+        title: "Hummus and Fish",
+        author: "Grandma Simone",
+        ingredients: [
+            {
+                sectionName: "To Split (Half for Fish, Half for Hummus)",
+                items: [
+                    { amount: 1, unit: "", item: "Red bell pepper (cut)" },
+                    { amount: 9, unit: "cloves", item: "Garlic (crushed or sliced)" },
+                    { amount: 5, unit: "tbsp", item: "Olive oil" },
+                    { amount: 1, unit: "handful", item: "Chopped Parsley/Cilantro" }
+                ]
+            },
+            {
+                sectionName: "For the Hummus",
+                items: [
+                    { amount: 4, unit: "cans", item: "Garbanzo beans (washed)" },
+                    { amount: 1, unit: "tbsp", item: "Paprika" },
+                    { amount: 0.5, unit: "tsp", item: "Cumin" },
+                    { amount: 0.25, unit: "tsp", item: "Turmeric" },
+                    { amount: 1, unit: "tsp", item: "Salt" },
+                    { amount: 0.25, unit: "tsp", item: "Pepper" },
+                    { amount: 3, unit: "cups", item: "Water" }
+                ]
+            },
+            {
+                sectionName: "For the Fish",
+                items: [
+                    { amount: 2, unit: "", item: "Trout (head/tail optional)" },
+                    { amount: 1, unit: "", item: "Lemon" },
+                    { amount: 0.25, unit: "tsp", item: "Turmeric" },
+                    { amount: 0.5, unit: "tsp", item: "Salt" },
+                    { amount: 0.25, unit: "tsp", item: "Pepper" },
+                    { amount: 0.5, unit: "cup", item: "Water" }
+                ]
+            }
+        ],
+        instructions: "1. Prepare the Hummus: Put the chickpeas, half the oil, pepper, and garlic (from the shared list), plus the hummus spices and water in a pot. Cover and bring to a boil. Simmer on medium-low heat until most water evaporates.\n2. Prepare the Fish: In a separate wide pan, put the fish, the other half of the oil, pepper, and garlic, plus the fish spices and water. Cover and bring to a boil. Lower heat to medium and cook for 20-30 minutes until water reduces.\n3. Towards the end of cooking in both pots, divide the chopped herbs between them. Squeeze lemon over the fish.\n4. Fancy Version: Instead of putting everything in at once, sauté the garlic, pepper, and spices in the oil for 15-20 minutes while stirring, then add the rest of the ingredients and proceed as written."
+    }
+}
 ];
