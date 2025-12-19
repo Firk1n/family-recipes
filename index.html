@@ -265,12 +265,15 @@
         let linkHTML = r.sourceUrl ? `<div style="margin:10px 0;"><a href="${r.sourceUrl}" target="_blank" style="color:blue; font-weight:bold;">🔗 ${isEn ? 'Link to original' : 'למעבר למתכון המקורי'}</a></div>` : '';
 
         // Share & WakeLock Buttons
-        const shareBtn = navigator.share 
-            ? `<button class="action-btn" onclick="shareRecipe()">
-                 <svg class="icon-svg" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
-                 ${isEn ? 'Share' : 'שיתוף'}
-               </button>`
-            : '';
+		const shareBtn = `
+			<button class="action-btn" onclick="shareRecipe()">
+				<svg class="icon-svg" viewBox="0 0 24 24">
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+            <polyline points="16 6 12 2 8 6"></polyline>
+            <line x1="12" y1="2" x2="12" y2="15"></line>
+				</svg>
+			${isEn ? 'Share' : 'שיתוף'}
+			</button>`;
 
         const wakeLockBtn = `
             <button class="action-btn" id="wakeLockBtn" onclick="toggleWakeLock()" data-tooltip="${isEn ? 'Prevent screen from sleeping' : 'מונע מהמסך להיכבות בזמן הבישול'}">
@@ -366,9 +369,12 @@
         }
     });
 
-    // --- SHARE LOGIC ---
-    async function shareRecipe() {
-        if (!currentRecipe) return;
+// --- SHARE LOGIC ---
+async function shareRecipe() {
+    if (!currentRecipe) return;
+    
+    // 1. Try Native Share (Mobile/Chrome)
+    if (navigator.share) {
         try {
             await navigator.share({
                 title: currentRecipe.title,
@@ -378,7 +384,18 @@
         } catch (err) {
             console.log("Share canceled");
         }
+    } 
+    // 2. Fallback for Firefox/Desktop: Copy URL
+    else {
+        try {
+            await navigator.clipboard.writeText(window.location.href);
+            // Optional: Simple alert or toast to notify user
+            alert("הקישור הועתק ללוח!"); 
+        } catch (err) {
+            console.error("Failed to copy", err);
+        }
     }
+}
 
     // --- EXISTING HELPER FUNCTIONS ---
     function formatInstructions(text) {

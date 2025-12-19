@@ -1060,6 +1060,11 @@ const recipes = [
     image: "",
     sourceUrl: "",
     ingredients: [
+	 {
+            amount: 1,
+            unit: "כף",
+            item: "קמח לבן"
+        },
         {
             amount: null,
             unit: "",

@@ -45,10 +45,11 @@ body {
 .sort-select {
     appearance: none;
     -webkit-appearance: none;
+    -moz-appearance: none; /* Add this for Firefox */
+    
     background-color: #fff;
     border: 1px solid #e0e0e0;
     border-radius: 25px;
-    /* In RTL: Text is on Right, Icon is on Left. Left padding accommodates the icon. */
     padding: 8px 16px 8px 40px; 
     font-family: inherit;
     font-size: 0.95rem;
@@ -58,12 +59,17 @@ body {
     transition: all 0.2s ease;
     font-weight: 500;
     
-    /* Custom Icon (Arrow Down) aligned to the left */
+    /* Ensure the SVG is clean. The one below is robust for all browsers */
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23408067' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
     background-repeat: no-repeat;
     background-position: left 12px center;
     background-size: 16px;
-    min-width: 130px; /* Ensure consistent width */
+    min-width: 130px; 
+}
+
+/* Firefox specific hack: hides the default arrow if appearance:none fails */
+.sort-select::-ms-expand {
+    display: none;
 }
 
 .sort-select:hover {
