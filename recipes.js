@@ -922,5 +922,132 @@ const recipes = [
         ],
         instructions: "1. Prepare the Hummus: Put the chickpeas, half the oil, pepper, and garlic (from the shared list), plus the hummus spices and water in a pot. Cover and bring to a boil. Simmer on medium-low heat until most water evaporates.\n2. Prepare the Fish: In a separate wide pan, put the fish, the other half of the oil, pepper, and garlic, plus the fish spices and water. Cover and bring to a boil. Lower heat to medium and cook for 20-30 minutes until water reduces.\n3. Towards the end of cooking in both pots, divide the chopped herbs between them. Squeeze lemon over the fish.\n4. Fancy Version: Instead of putting everything in at once, sauté the garlic, pepper, and spices in the oil for 15-20 minutes while stirring, then add the rest of the ingredients and proceed as written."
     }
-}
+},
+{
+    id: "pilaf",
+    title: "פילאף",
+    author: "סבתא שרה",
+    tags: [
+        "בשרי"
+    ],
+    image: "",
+    sourceUrl: "",
+    ingredients: [
+        {
+            amount: 3,
+            unit: "",
+            item: "בצלים"
+        },
+        {
+            amount: 4,
+            unit: "",
+            item: "תפוחי אדמה בינוניים"
+        },
+        {
+            amount: 8,
+            unit: "",
+            item: "כרעיים עוף"
+        },
+        {
+            amount: 1,
+            unit: "",
+            item: "חבילה גזר (אפשר גם X1.5)"
+        },
+        {
+            amount: 3,
+            unit: "כוסות",
+            item: "אורז"
+        },
+        {
+            amount: 0.5,
+            unit: "שקית",
+            item: "צימוקים שחורים"
+        },
+        {
+            amount: 1,
+            unit: "חופן",
+            item: "שקדים\\צנוברים"
+        },
+        {
+            amount: null,
+            unit: "",
+            item: "מלח"
+        },
+        {
+            amount: null,
+            unit: "",
+            item: "פלפל"
+        },
+        {
+            amount: null,
+            unit: "",
+            item: "קינמון"
+        }
+    ],
+    instructions: "הכמות היא ל 8 מנות.\n\n<u>הכנה:‏</u>\n1. לפני הבישול להשרות את האורז והצימוקים במים כשעה.‏\n2. מטגנים את הבצל ומשחימים <u>היטב</u> את העוף היטב עדי כדי כמעט בישול סופי. שמים בצד.\n3. קולפים את תפוחי האדמה והגזר. פורסים את הגזר לקיסמים דקים ואת תפוחי האדמה לפרוסות בעובי בינוני.‏\n4. מסננים את המים מהאורז ומתבלים במלח, פלפל וקינמון. קולים את השקדים במחבת ומוסיפים אותם לאורז עם הצימוקים, מערבבים היטב.‏\n\n<u>התקנת המנה:‏</u>\n1. בתחתית הסיר מסדרים פרוסות תפוחי אדמה ומעליהן קצת מהגזר.\n2. מוסיפים את העוף מעליו את שארית הגזר.‏\n3. מוסיפים את בלילת האורז ומכסים במים רותחים עד גובה האורז.‏\n4. מביאים לרתיחה ומכסים את הסיר במכסה עם מגבת על אש קטנה כ-45 דקות. תוך כדי הבישול יוצרים בעזרת כף עץ \"ארובות\" לאידוי. בתום הבישול לתת לסיר לעמוד כ-10 דקות ולהגיש חם.‏"
+},
+{
+    id: "creamed_mushroom_soup",
+    title: "מרק פטריות בשמנת",
+    author: "יאיר",
+    tags: [
+        "חלבי",
+        "צמחוני"
+    ],
+    image: "",
+    sourceUrl: "",
+    ingredients: [
+        {
+            amount: 1,
+            unit: "",
+            item: "בצל בינוני קצוץ"
+        },
+        {
+            amount: 2,
+            unit: "כפות",
+            item: "חמאה"
+        },
+        {
+            amount: 6,
+            unit: "",
+            item: "עלי דפנה"
+        },
+        {
+            amount: 1,
+            unit: "כף",
+            item: "גרגירי פלפל שחור שלמים"
+        },
+        {
+            amount: 1,
+            unit: "כוס",
+            item: "יין לבן יבש (אחד טוב)"
+        },
+        {
+            amount: 1,
+            unit: "כוס ",
+            item: "מים"
+        },
+        {
+            amount: 4,
+            unit: "כוסות",
+            item: "מרק עוף\\ירקות"
+        },
+        {
+            amount: 2,
+            unit: "סלסלות",
+            item: "פטריות שמפיניון פרוסות"
+        },
+        {
+            amount: 1,
+            unit: "מיכל",
+            item: "שמנת מתוקה"
+        },
+        {
+            amount: null,
+            unit: "",
+            item: "מלח"
+        }
+    ],
+    instructions: "מטגנים את הבצל בחמאה עד להזהבה. מוסיפים גרגרי פלפל, עלי דפנה, מלח ויין, מאדים כחצי שעה על אש נמוכה. מסירים את עלי הדפנה וגרגרי הפלפל, מוסיפים את המרק והמים וממשיכים לבשל עד לרתיחה. ממש לפני ההגשה, מוסיפים שמנת ופטריות ומבשלים 10-15 דקות. מגישים חם."
+},
 ];
