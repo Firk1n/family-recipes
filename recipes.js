@@ -845,7 +845,7 @@ const recipes = [
     id: "simone_fish_hummus",
     title: "דג וחומוס",
     author: "סבתא סימון",
-    tags: ["דגים", "עיקרית", "English"],
+    tags: ["דגים", "English"],
     image: "", 
     sourceUrl: "",
     ingredients: [
@@ -1174,7 +1174,7 @@ const recipes = [
     id: "meatballs_eggplant_tomato",
     title: "קציצות וחצילים ברוטב עגבניות",
     author: "סבתא ברטה",
-    tags: ["בשרי", "עיקרית", "English"],
+    tags: ["בשרי", "English"],
     image: "", 
     sourceUrl: "",
     ingredients: [
@@ -1252,6 +1252,68 @@ const recipes = [
             }
         ],
         instructions: "1. Prepare the sauce: In a medium pot, mix the tomato paste with water, garlic, parsley, and spices. Bring to a boil and simmer.\n2. Prepare the meatballs: In a bowl, mix the meat, onion, parsley, eggs, breadcrumbs, and spices. Form into round balls.\n3. Prepare the eggplant: Make a batter by mixing the egg and flour. Dip each eggplant slice in the batter and fry in a pan with oil until golden.\n4. Assemble: Transfer the fried eggplant slices directly from the pan into the simmering sauce pot. Carefully add the meatballs to the sauce as well.\n5. Cook everything together until the meatballs are cooked through and flavors combine."
+    }
+},
+{
+    id: "zvi_paprika_chicken_nokedli",
+    title: "עוף בפפריקה ונוקדלי",
+    author: "סבא צבי",
+    tags: ["עוף", "English"],
+    image: "", 
+    sourceUrl: "",
+    ingredients: [
+        {
+            sectionName: "לעוף",
+            items: [
+                { amount: 5, unit: "חתיכות", item: "כרעיים (ללא עור)" },
+                { amount: 1, unit: "", item: "בצל קצוץ גדול" },
+                { amount: null, unit: "", item: "שמן (לטיגון)" },
+                { amount: null, unit: "", item: "פפריקה מתוקה" },
+                { amount: null, unit: "", item: "פפריקה חריפה" },
+                { amount: null, unit: "", item: "אבקת מרק (אופציונלי)" },
+                { amount: null, unit: "", item: "מים" }
+            ]
+        },
+        {
+            sectionName: "לנוקדלי (בצקניות)",
+            items: [
+                { amount: 500, unit: "גרם", item: "קמח" },
+                { amount: 3, unit: "", item: "ביצים" },
+                { amount: null, unit: "", item: "מים (לפי הצורך)" },
+                { amount: null, unit: "", item: "מלח" },
+                { amount: null, unit: "", item: "מחמאה או מרגרינה (להגשה)" }
+            ]
+        }
+    ],
+    instructions: "1. הכנת העוף: מטגנים את הבצל בסיר. מוסיפים את העוף והופכים אותו מעט (צריבה). מוסיפים ממש מעט מים (טיפה).\n2. מתבלים בתבלינים (פפריקה מתוקה, חריפה ואבקת מרק אם רוצים) על כל צד של העוף.\n3. מוסיפים מים עד לכיסוי העוף. מבשלים על אש קטנה למשך שעה, תוך כדי הפיכת העוף מדי פעם.\n4. הכנת הנוקדלי: מערבבים את הקמח, הביצים והמלח. מוסיפים מים בהדרגה ולשים עד שמתקבל בצק.\n5. מבשלים את הנוקדלי במים רותחים (נוטפים את הבצק למים בעזרת מכשיר לנוקדלי או כפית) ומסננים.\n6. בסיום, שמים את הנוקדלי המוכנים על מגש ומוסיפים מעט מחמאה או מרגרינה למניעת הידבקות.",
+    english: {
+        title: "Paprika Chicken & Nokedli",
+        author: "Grandpa Zvi",
+        ingredients: [
+            {
+                sectionName: "For the Chicken",
+                items: [
+                    { amount: 5, unit: "pieces", item: "Chicken legs/quarters (skinless)" },
+                    { amount: 1, unit: "", item: "Large chopped onion" },
+                    { amount: null, unit: "", item: "Oil (for frying)" },
+                    { amount: null, unit: "", item: "Sweet Paprika" },
+                    { amount: null, unit: "", item: "Hot Paprika" },
+                    { amount: null, unit: "", item: "Soup powder (optional)" },
+                    { amount: null, unit: "", item: "Water" }
+                ]
+            },
+            {
+                sectionName: "For the Nokedli (Dumplings)",
+                items: [
+                    { amount: 0.5, unit: "kg", item: "Flour" },
+                    { amount: 3, unit: "", item: "Eggs" },
+                    { amount: null, unit: "", item: "Water (as needed)" },
+                    { amount: null, unit: "", item: "Salt" },
+                    { amount: null, unit: "", item: "Margarine or Butter (for serving)" }
+                ]
+            },
+        ],
+        instructions: "1. Prepare the Chicken: Fry the onion in a pot. Add the chicken and flip/sear it. Add a tiny drop of water.\n2. Season with spices (sweet paprika, hot paprika, and soup powder if desired) on every side of the chicken.\n3. Add water until the chicken is covered. Cook on low heat for an hour, flipping the chicken occasionally.\n4. Prepare the Nokedli: Mix the flour, eggs, and salt. Add water gradually until a dough forms.\n5. Cook the dumplings in boiling water (drop batter into water) and drain.\n6. Place the cooked Nokedli on a tray and coat with a little margarine or butter to prevent sticking."
     }
 }
 ];
