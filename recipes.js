@@ -930,7 +930,7 @@ const recipes = [
     tags: [
         "בשרי"
     ],
-    image: "",
+    image: "images/pilaf.jpeg",
     sourceUrl: "",
     ingredients: [
         {
