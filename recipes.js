@@ -1050,4 +1050,208 @@ const recipes = [
     ],
     instructions: "מטגנים את הבצל בחמאה עד להזהבה. מוסיפים גרגרי פלפל, עלי דפנה, מלח ויין, מאדים כחצי שעה על אש נמוכה. מסירים את עלי הדפנה וגרגרי הפלפל, מוסיפים את המרק והמים וממשיכים לבשל עד לרתיחה. ממש לפני ההגשה, מוסיפים שמנת ופטריות ומבשלים 10-15 דקות. מגישים חם."
 },
+{
+    id: "tomato_soup",
+    title: "מרק עגבניות",
+    author: "סבתא ברטה",
+    tags: [
+        "צמחוני"
+    ],
+    image: "",
+    sourceUrl: "",
+    ingredients: [
+        {
+            amount: null,
+            unit: "",
+            item: "שמן צמחי"
+        },
+        {
+            amount: 12,
+            unit: "כוסות",
+            item: "מים"
+        },
+        {
+            amount: 11,
+            unit: "",
+            item: "עגבניות (חתוכות לקוביות)"
+        },
+        {
+            amount: 12,
+            unit: "כפיות",
+            item: "סוכר"
+        },
+        {
+            amount: 2,
+            unit: "כפיות",
+            item: "מלח"
+        },
+        {
+            amount: 12,
+            unit: "כפיות",
+            item: "רסק עגבניות"
+        },
+        {
+            amount: 12,
+            unit: "כפות",
+            item: "אורז"
+        }
+    ],
+    instructions: "מתכון לסיר גדול:\n1.\tמשחימים את הקמח בשמן\n2.\tמוסיפים מים, עגבניות ורסק עגבניות, ומתבלים בסוכר ומלח.\n6.\tמביאים לרתיחה. <b>לא חובה</b>: תוך כדי ניתן לרסק את העגבניות בבלנדר מוט לקבלת מרקם אחיד.\n7.\tמוסיפים את האורז ומבשלים על אש קטנה 20 דקות.\n\nבתיאבון!\n"
+},
+{
+    id: "pineapple_meatballs",
+    title: "כדורי בשר ברוטב אננס (טראש נוסטלגי)",
+    author: "ענבל",
+    tags: ["בשרי", "English"],
+    image: "", 
+    sourceUrl: "",
+    ingredients: [
+        {
+            sectionName: "לקציצות",
+            items: [
+                { amount: 0.5, unit: "ק\"ג", item: "בשר טחון" },
+                { amount: 1, unit: "", item: "ביצה טרופה" },
+                { amount: 1, unit: "כף", item: "רוטב סויה" },
+                { amount: 1, unit: "כפית", item: "ג'ינג'ר טרי מגורד" },
+                { amount: 3, unit: "כפות", item: "פירורי לחם טריים" },
+                { amount: 3, unit: "כפות", item: "שמן (לטיגון)" },
+                { amount: null, unit: "", item: "מלח" },
+                { amount: null, unit: "", item: "פלפל" }
+            ]
+        },
+        {
+            sectionName: "לרוטב",
+            items: [
+                { amount: 1, unit: "קופסה", item: "קוביות אננס (בסירופ טבעי)" },
+                { amount: 3, unit: "", item: "בצלים ירוקים פרוסים" },
+                { amount: 1, unit: "כפית", item: "ג'ינג'ר טרי קצוץ" },
+                { amount: 1, unit: "", item: "פלפל אדום חתוך לקוביות" },
+                { amount: 1, unit: "כף", item: "עמילן תירס (קורנפלור)" },
+                { amount: 3, unit: "כפות", item: "חומץ" },
+                { amount: 3, unit: "כפות", item: "סוכר" },
+                { amount: null, unit: "", item: "מלח" },
+                { amount: null, unit: "", item: "פלפל" }
+            ]
+        }
+    ],
+    instructions: "1. שמים את הבשר בקערה, מוסיפים את הביצה, הסויה, הג'ינג'ר ופירורי הלחם. מתבלים במלח ופלפל ולשים היטב.\n2. יוצרים כדורים קטנים בגודל כדורי פלאפל.\n3. מחממים את השמן במחבת ומטגנים את הכדורים עד שישחימו מכל הצדדים. מוציאים לקערה נפרדת.\n4. באותה מחבת מטגנים קלות את הבצלים הירוקים והג'ינג'ר. מוסיפים את הפלפל האדום, מערבבים ומבשלים מספר דקות.\n5. מסננים את מיץ האננס לתוך קערה (צריך כוס אחת של נוזל). מוסיפים למיץ את החומץ, הסוכר וכף עמילן תירס. שופכים למחבת ומבשלים מספר דקות עד שהרוטב מסמיך. טועמים ומתקנים תיבול עם מלח ופלפל.\n6. מוסיפים לרוטב את כדורי הבשר וכוס מקוביות האננס (ללא המיץ).\n7. מבשלים עוד מספר דקות עד לרתיחה ואיחוד טעמים. מגישים.",
+    english: {
+        title: "Meatballs in Pineapple Sauce (Nostalgic Trash)",
+        author: "Inbal",
+        ingredients: [
+            {
+                sectionName: "For the Meatballs",
+                items: [
+                    { amount: 0.5, unit: "kg", item: "Ground meat" },
+                    { amount: 1, unit: "", item: "Beaten egg" },
+                    { amount: 1, unit: "tbsp", item: "Soy sauce" },
+                    { amount: 1, unit: "tsp", item: "Grated fresh ginger" },
+                    { amount: 3, unit: "tbsp", item: "breadcrumbs" },
+                    { amount: 3, unit: "tbsp", item: "Oil (for frying)" },
+                    { amount: null, unit: "", item: "Salt" },
+                    { amount: null, unit: "", item: "Pepper" }
+                ]
+            },
+            {
+                sectionName: "For the Sauce",
+                items: [
+                    { amount: 1, unit: "can", item: "Pineapple chunks (in natural syrup)" },
+                    { amount: 3, unit: "", item: "Sliced green onions" },
+                    { amount: 1, unit: "tsp", item: "Chopped fresh ginger" },
+                    { amount: 1, unit: "", item: "Red bell pepper (diced)" },
+                    { amount: 1, unit: "tbsp", item: "Cornstarch" },
+                    { amount: 3, unit: "tbsp", item: "Vinegar" },
+                    { amount: 3, unit: "tbsp", item: "Sugar" },
+                    { amount: null, unit: "", item: "Salt" },
+                    { amount: null, unit: "", item: "Pepper" }
+                ]
+            }
+        ],
+        instructions: "1. Place the meat in a bowl and add the egg, soy sauce, grated ginger, and breadcrumbs. Season with salt and pepper and knead well.\n2. Form small balls, about the size of falafel balls.\n3. Heat oil in a pan and fry the meatballs until browned on all sides. Remove to a separate bowl.\n4. In the same pan, lightly fry the green onions and chopped ginger. Add the red bell pepper, stir, and cook for a few minutes.\n5. Strain the pineapple juice into a bowl (you need 1 cup of liquid). Add the vinegar, sugar, and cornstarch to the juice. Pour into the pan and cook for a few minutes until the sauce thickens. Taste and adjust seasoning with salt and pepper.\n6. Add the meatballs and 1 cup of pineapple chunks (without the juice) to the sauce.\n7. Cook for a few more minutes until boiling and flavors are combined. Serve."
+    }
+},
+{
+    id: "meatballs_eggplant_tomato",
+    title: "קציצות וחצילים ברוטב עגבניות",
+    author: "סבתא ברטה",
+    tags: ["בשרי", "עיקרית", "English"],
+    image: "", 
+    sourceUrl: "",
+    ingredients: [
+        {
+            sectionName: "לקציצות",
+            items: [
+                { amount: 0.5, unit: "ק\"ג", item: "בשר טחון (עוף או בקר)" },
+                { amount: 1, unit: "", item: "בצל קצוץ" },
+                { amount: 1, unit: "חופן", item: "פטרוזיליה קצוצה" },
+                { amount: 2, unit: "", item: "ביצים טרופות" },
+                { amount: 3, unit: "כפות", item: "פירורי לחם" },
+                { amount: 1, unit: "כף", item: "אבקת מרק עוף" },
+                { amount: 1, unit: "כפית", item: "פפריקה מתוקה" },
+                { amount: null, unit: "", item: "מלח" },
+                { amount: null, unit: "", item: "פלפל" }
+            ]
+        },
+        {
+            sectionName: "לרוטב",
+            items: [
+                { amount: 2, unit: "קופסאות קטנות", item: "רסק עגבניות" },
+                { amount: 4, unit: "כוסות", item: "מים (לפי הצורך לדילול הרסק)" },
+                { amount: 3, unit: "שיני", item: "שום כתוש" },
+                { amount: 1, unit: "חופן", item: "פטרוזיליה קצוצה" },
+                { amount: null, unit: "", item: "תבלינים (מלח, פלפל, פפריקה)" }
+            ]
+        },
+        {
+            sectionName: "לחצילים",
+            items: [
+                { amount: 1, unit: "", item: "חציל מקולף ופרוס" },
+                { amount: 2, unit: "כפות", item: "קמח תופח" },
+                { amount: 1, unit: "", item: "ביצה" },
+                { amount: null, unit: "", item: "שמן (לטיגון)" }
+            ]
+        }
+    ],
+    instructions: "1. הכנת הרוטב: בסיר בינוני, מערבבים את רסק העגבניות עם המים, השום, הפטרוזיליה והתבלינים. מביאים לרתיחה ומבשלים על אש קטנה.\n2. הכנת הקציצות: מערבבים בקערה את הבשר, הבצל, הפטרוזיליה, הביצים, פירורי הלחם והתבלינים. יוצרים קציצות עגולות.\n3. הכנת החצילים: מכינים בלילה מהביצה והקמח (מערבבים יחד). טובלים כל פרוסת חציל בבלילה ומטגנים במחבת חמה עם שמן עד להזהבה.\n4. הרכבת המנה: מעבירים את פרוסות החציל המטוגנות ישר מהמחבת אל סיר הרוטב המבעבע. מוסיפים בזהירות את כדורי הבשר לרוטב.\n5. מבשלים הכל יחד עד שהקציצות מוכנות והטעמים מתמזגים.",
+    english: {
+        title: "Meatballs & Eggplant in Tomato Sauce",
+        author: "Grandma Berta",
+        ingredients: [
+            {
+                sectionName: "For the Meatballs",
+                items: [
+                    { amount: 0.5, unit: "kg", item: "Ground meat (Chicken/Beef)" },
+                    { amount: 1, unit: "", item: "Chopped onion" },
+                    { amount: 1, unit: "handful", item: "Chopped Parsley" },
+                    { amount: 2, unit: "", item: "Beaten eggs" },
+                    { amount: 3, unit: "tbsp", item: "Breadcrumbs" },
+                    { amount: 1, unit: "tbsp", item: "Chicken soup powder" },
+                    { amount: 1, unit: "tsp", item: "Sweet Paprika" },
+                    { amount: null, unit: "", item: "Salt" },
+                    { amount: null, unit: "", item: "Pepper" }
+                ]
+            },
+            {
+                sectionName: "For the Sauce",
+                items: [
+                    { amount: 2, unit: "small cans", item: "Tomato paste" },
+                    { amount: 4, unit: "cups", item: "Water (to dilute paste)" },
+                    { amount: 3, unit: "cloves", item: "Crushed garlic" },
+                    { amount: 1, unit: "handful", item: "Chopped Parsley" },
+                    { amount: null, unit: "", item: "Spices (Salt, Pepper, Paprika)" }
+                ]
+            },
+            {
+                sectionName: "For the Eggplant",
+                items: [
+                    { amount: 1, unit: "", item: "Eggplant (peeled and sliced)" },
+                    { amount: 2, unit: "tbsp", item: "Self-rising flour" },
+                    { amount: 1, unit: "", item: "Egg" },
+                    { amount: null, unit: "", item: "Oil (for frying)" }
+                ]
+            }
+        ],
+        instructions: "1. Prepare the sauce: In a medium pot, mix the tomato paste with water, garlic, parsley, and spices. Bring to a boil and simmer.\n2. Prepare the meatballs: In a bowl, mix the meat, onion, parsley, eggs, breadcrumbs, and spices. Form into round balls.\n3. Prepare the eggplant: Make a batter by mixing the egg and flour. Dip each eggplant slice in the batter and fry in a pan with oil until golden.\n4. Assemble: Transfer the fried eggplant slices directly from the pan into the simmering sauce pot. Carefully add the meatballs to the sauce as well.\n5. Cook everything together until the meatballs are cooked through and flavors combine."
+    }
+}
 ];
