@@ -4,12 +4,43 @@
 }
 
 :root {
+    /* Light Theme Defaults */
     --bg-color: #f7f9f7;     
     --primary: #408067;
     --card-bg: #ffffff;
     --text-main: #2d3436;
+    --text-muted: #718096;
+    --header-text: #1a202c;
+    
     --tag-bg: #e4f0eb;       
-    --tag-text: #1d4a38;     
+    --tag-text: #1d4a38;
+    
+    --input-bg: #ffffff;
+    --border-color: #e0e0e0;
+    --shadow-color: rgba(0,0,0,0.05);
+    
+    --column-bg: #fcfcfc;
+    --scaler-bg: #f8f9fa;
+}
+
+[data-theme="dark"] {
+    /* Dark Theme Overrides */
+    --bg-color: #121212;
+    --primary: #469c76; 
+    --card-bg: #1e1e1e;
+    --text-main: #e0e0e0;
+    --text-muted: #a0a0a0;
+    --header-text: #ffffff;
+    
+    --tag-bg: #2c3e36;
+    --tag-text: #a8d5c2;
+    
+    --input-bg: #2d2d2d;
+    --border-color: #333333;
+    --shadow-color: rgba(0,0,0,0.5);
+    
+    --column-bg: #181818;
+    --scaler-bg: #2d2d2d;
 }
 
 body {
@@ -22,6 +53,7 @@ body {
     -webkit-tap-highlight-color: transparent;
     overflow-x: hidden;
     width: 100%;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container { 
@@ -29,12 +61,42 @@ body {
     margin: 0 auto; 
 }
 
-/* --- HEADER --- */
+/* --- HEADER & TOGGLE --- */
 .site-header { 
+    position: relative;
     text-align: center; 
     margin-bottom: 2rem; 
     padding-bottom: 1rem;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid var(--border-color);
+    transition: border-color 0.3s;
+}
+
+/* Dark Mode Toggle Button */
+.theme-toggle {
+    position: absolute;
+    top: 10px;
+    left: 0; 
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-main);
+    padding: 8px;
+    border-radius: 50%;
+    transition: background 0.2s, transform 0.2s, color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.theme-toggle:hover {
+    background: rgba(128,128,128,0.1);
+    transform: rotate(15deg);
+}
+
+.theme-toggle svg {
+    width: 24px;
+    height: 24px;
 }
 
 .site-header h1 {
@@ -42,8 +104,9 @@ body {
     margin-bottom: 1rem;
     font-weight: 800;
     letter-spacing: -1px;
-    color: #1a202c;
+    color: var(--header-text);
     cursor: pointer;
+    transition: color 0.3s;
 }
 
 .search-container {
@@ -55,12 +118,13 @@ body {
     width: 100%;
     padding: 12px 20px;
     font-size: 1rem;
-    background: #fff;
-    border: 1px solid #cbd5e0;
+    background: var(--input-bg);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
     border-radius: 50px;
     font-family: inherit;
-    transition: border-color 0.2s;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+    transition: border-color 0.2s, background 0.3s, color 0.3s;
+    box-shadow: 0 2px 5px var(--shadow-color);
 }
 
 .search-box:focus {
@@ -77,21 +141,22 @@ body {
 
 .sort-select {
     appearance: none;
-    background-color: #fff;
-    border: 1px solid #e0e0e0;
-    border-radius: 25px;
-    padding: 8px 16px 8px 40px; /* RTL */
+    background-color: var(--input-bg);
+    border: 1px solid var(--border-color);
+    padding: 8px 16px 8px 40px; 
     font-family: inherit;
     font-size: 0.95rem;
-    color: #333;
+    color: var(--text-main);
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    box-shadow: 0 2px 4px var(--shadow-color);
     font-weight: 500;
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23408067' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
     background-repeat: no-repeat;
     background-position: left 12px center;
     background-size: 16px;
     min-width: 130px; 
+    border-radius: 25px;
+    transition: background 0.3s, color 0.3s, border-color 0.3s;
 }
 
 .tags-scroll-container {
@@ -101,10 +166,9 @@ body {
     justify-content: center;
 }
 
-/* Original Tag Style Reverted */
 .tag-btn {
-    background: #fff;
-    border: 1px solid #ddd;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
     padding: 8px 16px;
     border-radius: 20px;
     cursor: pointer;
@@ -114,13 +178,13 @@ body {
     gap: 6px;
     font-family: inherit;
     font-size: 0.95rem;
-    color: #555;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-    white-space: nowrap; /* Prevent text wrapping inside buttons */
+    color: var(--text-muted);
+    box-shadow: 0 2px 4px var(--shadow-color);
+    white-space: nowrap; 
 }
 
 @media (hover: hover) {
-    .tag-btn:hover { background: #eee; transform: translateY(-1px); }
+    .tag-btn:hover { background: rgba(128,128,128,0.1); transform: translateY(-1px); }
 }
 
 .tag-btn.active-tag {
@@ -142,10 +206,10 @@ body {
     background: var(--card-bg);
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 15px var(--shadow-color);
     cursor: pointer;
-    border: 1px solid #f0f0f0;
-    transition: transform 0.2s;
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s, background 0.3s, border-color 0.3s;
     display: flex;
     flex-direction: column;
 }
@@ -171,13 +235,13 @@ body {
     margin: 0 0 0.25rem 0;
     font-size: 1.25rem;
     font-weight: 700;
-    color: #1a202c;
+    color: var(--header-text);
     line-height: 1.3;
 }
 
 .card .author {
     font-size: 0.85rem;
-    color: #718096;
+    color: var(--text-muted);
     margin: 0 0 1rem 0;
 }
 
@@ -188,7 +252,6 @@ body {
     margin-top: auto;
 }
 
-/* Original Badge Style Reverted */
 .badge { 
     background: var(--tag-bg); 
     color: var(--tag-text); 
@@ -200,10 +263,11 @@ body {
 
 /* --- RECIPE DETAIL --- */
 .recipe-detail {
-    background: white;
+    background: var(--card-bg);
     border-radius: 20px;
     position: relative;
     padding: 2rem;
+    transition: background 0.3s;
 }
 
 .recipe-nav {
@@ -217,27 +281,23 @@ body {
     border: none;
     position: static;
     padding: 0;
-    direction: ltr; /* Keeps buttons stable when switching languages */
+    direction: ltr; 
 }
 
-/* Container for Share, Wake Lock, and Lang Toggle */
 .nav-actions {
     display: flex;
     gap: 10px;
     align-items: center;
-    flex-wrap: wrap; /* Allows buttons to wrap on small screens */
+    flex-wrap: wrap;
     justify-content: flex-end;
 }
 
-/* FIX: Fixed width for action buttons to prevent jitter on language switch */
 .nav-actions .tag-btn {
     min-width: 140px;
-    justify-content: center; /* Center the icon+text */
+    justify-content: center;
 }
-
-/* Specific fix for the buttons inside the language toggle wrapper */
 .nav-actions div .tag-btn {
-    min-width: auto; /* Reset min-width for the hebrew/english toggle buttons */
+    min-width: auto; 
 }
 
 .recipe-hero {
@@ -247,7 +307,6 @@ body {
     text-align: center;
 }
 
-/* Fixed Height with Cover to prevent long portrait images */
 .recipe-hero-image {
     width: 100%;
     height: 400px;
@@ -265,16 +324,15 @@ body {
 .recipe-header-content h1 {
     font-size: 2.5rem;
     margin: 0.5rem 0;
-    color: #000;
+    color: var(--header-text);
     line-height: 1.1;
 }
 
 .recipe-header-content .author {
     font-size: 1rem;
-    color: #718096;
+    color: var(--text-muted);
 }
 
-/* Grid Layout */
 .recipe-body-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -283,8 +341,10 @@ body {
 }
 
 .ingredients-column {
-    background: #fcfcfc;
+    background: var(--column-bg);
     padding: 0;
+    transition: background 0.3s;
+    border-radius: 12px;
 }
 
 /* --- DESKTOP / TABLET LANDSCAPE --- */
@@ -297,7 +357,6 @@ body {
         position: sticky;
         top: 20px; 
     }
-    /* MOVED ENGLISH RULES HERE: Prevents 2-column crop on mobile/tablet */
     .english-content .recipe-body-grid { grid-template-columns: 1fr 320px; }
     .english-content .ingredients-column { order: 2; }
 }
@@ -307,19 +366,22 @@ body {
     display: flex;
     gap: 10px;
     align-items: center;
-    background: #f8f9fa;
+    background: var(--scaler-bg);
     padding: 10px;
     border-radius: 12px;
+    transition: background 0.3s;
 }
 
 .scale-btn {
-    background: white;
-    border: 1px solid #ddd;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
     padding: 5px 10px;
     border-radius: 6px;
     cursor: pointer;
     font-size: 0.9rem;
     min-width: 45px;
+    transition: 0.2s;
 }
 
 .scale-btn.active {
@@ -336,12 +398,12 @@ body {
 
 .ingredients-list li {
     padding: 12px 0; 
-    border-bottom: 1px solid #edf2f7;
+    border-bottom: 1px solid var(--border-color);
     display: flex;
     align-items: baseline;
     gap: 12px;
     cursor: pointer;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, border-color 0.3s;
 }
 .ingredients-list li:last-child { border-bottom: none; }
 
@@ -371,7 +433,7 @@ body {
 
 .ingredients-list li span {
     font-weight: 400; 
-    color: #2d3436; 
+    color: var(--text-main); 
     font-size: 1.05rem; 
 }
 .ingredients-list li strong {
@@ -391,7 +453,7 @@ body {
 .instructions h3 {
     margin-top: 0;
     font-size: 1.5rem;
-    color: #000;
+    color: var(--header-text);
     border-bottom: none;
     margin-bottom: 1rem;
     text-decoration: underline;
@@ -412,7 +474,6 @@ body {
 .instructions ol li::before { content: none; }
 
 .english-content { direction: ltr; text-align: left; }
-/* NOTE: English Grid/Order rules moved to @media query above */
 .english-content .ingredients-list li::before { margin-left: 0; margin-right: 8px; }
 .english-content .sort-select { background-position: right 12px center; padding: 8px 32px 8px 20px;}
 
@@ -431,13 +492,12 @@ body {
     background: transparent;
     color: white;
 }
-/* Updated summary style for higher visibility */
 .draft-details summary {
-    background: rgba(255, 255, 255, 0.1); /* Minimal button background */
+    background: rgba(255, 255, 255, 0.1); 
     color: #fff;
     justify-content: center;
     cursor: pointer;
-    font-size: 1rem; /* Uniform font size */
+    font-size: 1rem; 
     font-weight: 500;
     padding: 10px 20px;
     border-radius: 30px;
@@ -451,31 +511,26 @@ body {
     background: rgba(255, 255, 255, 0.2); 
     border-color: rgba(255,255,255,0.4);
 }
-.draft-details summary::marker {
-    display: none; /* Hide default triangle */
-}
-.draft-details summary::-webkit-details-marker {
-    display: none;
-}
+.draft-details summary::marker { display: none; }
+.draft-details summary::-webkit-details-marker { display: none; }
 
-/* Remove separate headers in footer to keep it minimal */
 .footer-section h3 { display: none; }
 
 .draft-form input, .draft-form textarea {
-    background: white;
+    background: var(--input-bg);
     border: none;
-    padding: 12px; /* Increased padding slightly */
+    padding: 12px; 
     width: 90%;
     margin: 10px 0;
     border-radius: 8px;
-    font-size: 1rem; /* Slightly larger text for inputs */
+    font-size: 1rem; 
+    color: var(--text-main);
 }
 .draft-form input::placeholder, .draft-form textarea::placeholder {
     color: #888;
     opacity: 1; 
 }
 
-/* Fix for draft tags */
 .draft-checkboxes { 
     display: flex; 
     flex-wrap: wrap; 
@@ -531,29 +586,47 @@ body {
 
 /* Modal styles */
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
-.modal-content { background: white; padding: 30px; border-radius: 16px; width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto; position: relative; color: #333; }
-.close-modal { position: absolute; top: 15px; left: 15px; font-size: 1.5rem; cursor: pointer; background: none; border: none; }
-.gen-input { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+.modal-content { 
+    background: var(--card-bg); 
+    padding: 30px; 
+    border-radius: 16px; 
+    width: 90%; 
+    max-width: 700px; 
+    max-height: 90vh; 
+    overflow-y: auto; 
+    position: relative; 
+    color: var(--text-main); 
+}
+.close-modal { position: absolute; top: 15px; left: 15px; font-size: 1.5rem; cursor: pointer; background: none; border: none; color: var(--text-main); }
+.gen-input { 
+    width: 100%; 
+    padding: 8px; 
+    margin-bottom: 10px; 
+    border: 1px solid var(--border-color); 
+    background: var(--input-bg);
+    color: var(--text-main);
+    border-radius: 4px; 
+    box-sizing: border-box; 
+}
 .ing-row { display: grid; grid-template-columns: 0.5fr 0.5fr 2fr auto; gap: 5px; margin-bottom: 5px; }
 
 /* --- MOBILE ADJUSTMENTS (< 600px) --- */
 @media (max-width: 600px) {
+    .theme-toggle { top: 10px; left: 10px; } /* Adjust toggle for mobile */
+    
     .recipe-body-grid { gap: 20px; padding-bottom: 2rem;}
-    /* On mobile, English also needs standard stacking, not forced columns */
     .english-content .recipe-body-grid { display: block; }
 
     .ingredients-column { order: -1; } 
     .site-header h1 { font-size: 1.75rem; }
     
-    /* 2. Fix Button Layout: STACKED LAYOUT */
     .recipe-nav {
-        flex-direction: column; /* Row 1: Back, Row 2: Actions */
-        align-items: stretch; /* Full width */
+        flex-direction: column; 
+        align-items: stretch;
         gap: 12px;
         margin-bottom: 15px;
     }
     
-    /* Back button sits naturally at start */
     .recipe-nav > .tag-btn {
         align-self: flex-start;
         margin-bottom: 0;
@@ -561,12 +634,11 @@ body {
     
     .nav-actions {
         width: 100%;
-        justify-content: center; /* Evenly spaced */
+        justify-content: center;
         gap: 8px;
-        flex-wrap: wrap; /* Force single line for actions */
+        flex-wrap: wrap; 
     }
 
-    /* Make items grow to fill the row (fixes 'odd' empty spaces when wrapping) */
     .nav-actions > * {
         flex: 1 0 auto; 
         display: flex;
@@ -575,10 +647,9 @@ body {
         text-align: center;
     }
 
-    /* Make buttons compact on mobile */
     .recipe-nav .tag-btn, 
     .nav-actions .tag-btn {
-        min-width: auto; /* Remove the fixed width */
+        min-width: auto; 
         padding: 8px 12px;
         font-size: 0.85rem; 
     }
@@ -588,7 +659,6 @@ body {
         height: 16px;
     }
 
-    /* 3. Fix Image: Reduce height on mobile */
     .recipe-hero-image {
         height: 220px; 
     }
@@ -599,6 +669,7 @@ body {
 }
 
 @media print {
+    .theme-toggle { display: none; }
     .recipe-nav, .scaler, .site-header, .footer-section { display: none; }
     .recipe-body-grid { display: block; }
     .ingredients-column { border: 1px solid #ddd; margin-bottom: 20px; page-break-inside: avoid; }
