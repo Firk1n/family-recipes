@@ -251,7 +251,10 @@
     }
 
     function toggleLang(lang) {
-        currentLang = lang;
+        // If specific language passed, use it, otherwise toggle
+        if (lang) currentLang = lang;
+        else currentLang = (currentLang === 'en') ? 'he' : 'en';
+        
         renderRecipeDetail();
     }
 
@@ -278,12 +281,14 @@
                 ${isEn ? 'Wake Lock' : 'מסך פעיל'}
             </button>`;
 
+        // MODIFIED: Click on the wrapper toggles language regardless of which part is clicked
         const langToggle = r.tags.includes('English') ? `
-            <div style="background:#eee; padding:3px; border-radius:20px; display:inline-flex;">
-                <button class="tag-btn ${!isEn ? 'active-tag' : ''}" style="border:none; padding:4px 12px; font-size:0.8rem;" onclick="toggleLang('he')">עברית</button>
-                <button class="tag-btn ${isEn ? 'active-tag' : ''}" style="border:none; padding:4px 12px; font-size:0.8rem;" onclick="toggleLang('en')">English</button>
+            <div style="background:#eee; padding:3px; border-radius:20px; display:inline-flex; cursor:pointer;" onclick="toggleLang()">
+                <button class="tag-btn ${!isEn ? 'active-tag' : ''}" style="border:none; padding:4px 12px; font-size:0.8rem; pointer-events:none;">עברית</button>
+                <button class="tag-btn ${isEn ? 'active-tag' : ''}" style="border:none; padding:4px 12px; font-size:0.8rem; pointer-events:none;">English</button>
             </div>` : '';
 
+        // Changed inner div to use "nav-actions" class instead of inline style
         app.innerHTML = `
             <div class="recipe-detail ${isEn ? 'english-content' : ''}">
                 <div class="recipe-nav">
@@ -292,7 +297,7 @@
                         ${isEn ? 'Back' : 'חזרה'}
                     </button>
                     
-                    <div style="display:flex; gap:10px; align-items:center;">
+                    <div class="nav-actions">
                         ${langToggle}
                         ${shareBtn}
                         ${wakeLockBtn}
