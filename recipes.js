@@ -1826,7 +1826,7 @@ const recipes = [
                 { amount: 0.5, unit: "", item: "לימון (סחוט למיץ)" },
                 { amount: null, unit: "", item: "פלפל שחור גרוס" },
                 { amount: 2, unit: "כפות", item: "סירופ מייפל" },
-                { amount: 0.5, unit: "", item: "צ'ילי טרי" }
+                { amount: 0.5, unit: "", item: "פלפל צ'ילי טרי" }
             ]
         }
     ],

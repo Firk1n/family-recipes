@@ -270,13 +270,14 @@
 
         // Restored Icons (with Text)
         const shareBtn = `
-            <button class="tag-btn" onclick="shareRecipe()">
+            <button class="tag-btn" onclick="shareRecipe()" title="${isEn ? 'Share recipe link' : 'שיתוף קישור למתכון'}">
                 <svg class="icon-svg" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
                 ${isEn ? 'Share' : 'שיתוף'}
             </button>`;
 
+        const wakeLockTitle = isEn ? "Prevent screen from turning off" : "מונע מהמסך לכבות בזמן הבישול";
         const wakeLockBtn = `
-            <button class="tag-btn" id="wakeLockBtn" onclick="toggleWakeLock()">
+            <button class="tag-btn" id="wakeLockBtn" onclick="toggleWakeLock()" title="${wakeLockTitle}">
                 <svg class="icon-svg" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                 ${isEn ? 'Wake Lock' : 'מסך פעיל'}
             </button>`;
@@ -483,7 +484,8 @@
         });
         const searchBox = document.querySelector('.search-box');
         if (activeTags.has('English')) {
-            searchBox.placeholder = "Search for a recipe, author, tag, or ingredient...";
+            // FIX: Shortened placeholder for mobile but still descriptive
+            searchBox.placeholder = "Search recipes, ingredients, authors...";
             searchBox.style.direction = "ltr";
         } else {
             searchBox.placeholder = "חיפוש מתכון, כותב, תגית, או מרכיב...";

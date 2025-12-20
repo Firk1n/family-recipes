@@ -279,6 +279,12 @@ body {
     padding-bottom: 4rem;
 }
 
+.ingredients-column {
+    background: #fcfcfc;
+    padding: 0;
+}
+
+/* --- DESKTOP / TABLET LANDSCAPE --- */
 @media (min-width: 850px) {
     .recipe-body-grid {
         grid-template-columns: 320px 1fr; 
@@ -288,11 +294,9 @@ body {
         position: sticky;
         top: 20px; 
     }
-}
-
-.ingredients-column {
-    background: #fcfcfc;
-    padding: 0;
+    /* MOVED ENGLISH RULES HERE: Prevents 2-column crop on mobile/tablet */
+    .english-content .recipe-body-grid { grid-template-columns: 1fr 320px; }
+    .english-content .ingredients-column { order: 2; }
 }
 
 .scaler {
@@ -405,8 +409,7 @@ body {
 .instructions ol li::before { content: none; }
 
 .english-content { direction: ltr; text-align: left; }
-.english-content .recipe-body-grid { grid-template-columns: 1fr 320px; }
-.english-content .ingredients-column { order: 2; }
+/* NOTE: English Grid/Order rules moved to @media query above */
 .english-content .ingredients-list li::before { margin-left: 0; margin-right: 8px; }
 .english-content .sort-select { background-position: right 12px center; padding: 8px 32px 8px 20px;}
 
@@ -530,19 +533,50 @@ body {
 .gen-input { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
 .ing-row { display: grid; grid-template-columns: 0.5fr 0.5fr 2fr auto; gap: 5px; margin-bottom: 5px; }
 
+/* --- MOBILE ADJUSTMENTS (< 600px) --- */
 @media (max-width: 600px) {
     .recipe-body-grid { gap: 20px; padding-bottom: 2rem;}
+    /* On mobile, English also needs standard stacking, not forced columns */
+    .english-content .recipe-body-grid { display: block; }
+
     .ingredients-column { order: -1; } 
-    .site-header h1 { font-size: 2rem; }
+    .site-header h1 { font-size: 1.75rem; }
     
-    /* Better stacking on mobile */
+    /* 2. Fix Button Layout: One row, compact */
     .recipe-nav {
-        flex-direction: column; 
-        align-items: stretch;
+        flex-direction: row; 
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
     }
+    
     .nav-actions {
-        width: 100%;
-        justify-content: space-between;
+        width: auto;
+        justify-content: flex-end;
+        gap: 8px;
+        flex-wrap: nowrap; /* Prevent stacking */
+    }
+
+    /* Make buttons compact on mobile */
+    .recipe-nav .tag-btn, 
+    .nav-actions .tag-btn {
+        min-width: auto; /* Remove the fixed width */
+        padding: 6px 10px;
+        font-size: 0.85rem;
+    }
+    
+    .nav-actions .tag-btn svg {
+        width: 16px; 
+        height: 16px;
+    }
+
+    /* 3. Fix Image: Reduce height on mobile */
+    .recipe-hero-image {
+        height: 220px; 
+    }
+    
+    .scaler {
+        justify-content: center;
     }
 }
 
