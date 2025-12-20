@@ -558,9 +558,18 @@ body {
     
     .nav-actions {
         width: 100%;
-        justify-content: space-between; /* Evenly spaced */
+        justify-content: center; /* Evenly spaced */
         gap: 8px;
-        flex-wrap: nowrap; /* Force single line for actions */
+        flex-wrap: wrap; /* Force single line for actions */
+    }
+
+    /* Make items grow to fill the row (fixes 'odd' empty spaces when wrapping) */
+    .nav-actions > * {
+        flex: 1 0 auto; 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
     }
 
     /* Make buttons compact on mobile */
