@@ -160,17 +160,17 @@
             showList(recipes, false);
         }
     });
-	
+    
     function navigateToRecipe(id) { showRecipe(id, true); }
-	
-	function navigateHome() { 
-    activeTags.clear();
-    updateFilterUI();
-    document.querySelector('.search-box').value = '';
-    history.pushState({}, '', window.location.pathname);
-    document.title = "מתכונים משפחתיים";
-    runFilterAndShow('');
-	}
+    
+    function navigateHome() { 
+        activeTags.clear();
+        updateFilterUI();
+        document.querySelector('.search-box').value = '';
+        history.pushState({}, '', window.location.pathname);
+        document.title = "מתכונים משפחתיים";
+        runFilterAndShow('');
+    }
 
     // --- SORTING LOGIC ---
     function changeSort(val) {
@@ -222,9 +222,13 @@
                          decoding="async"
                          onerror="this.onerror=null; this.src='${imgSrc}'">
                     <div class="card-content">
-                        <h2>${displayTitle}</h2>
-                        <p class="author">מאת: ${displayAuthor}</p>
-                        <div>${r.tags.map(t => `<span class="badge">${t}</span>`).join('')}</div>
+                        <div class="card-text-wrapper">
+                            <h2>${displayTitle}</h2>
+                            <p class="author">מאת: ${displayAuthor}</p>
+                        </div>
+                        <div class="card-tags-wrapper">
+                            ${r.tags.map(t => `<span class="badge">${t}</span>`).join('')}
+                        </div>
                     </div>
                 </div>`;
         });
@@ -267,15 +271,15 @@
         let linkHTML = r.sourceUrl ? `<div style="margin:10px 0;"><a href="${r.sourceUrl}" target="_blank" style="color:blue; font-weight:bold;">🔗 ${isEn ? 'Link to original' : 'למעבר למתכון המקורי'}</a></div>` : '';
 
         // Share & WakeLock Buttons
-		const shareBtn = `
-			<button class="action-btn" onclick="shareRecipe()">
-				<svg class="icon-svg" viewBox="0 0 24 24">
+        const shareBtn = `
+            <button class="action-btn" onclick="shareRecipe()">
+                <svg class="icon-svg" viewBox="0 0 24 24">
             <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
             <polyline points="16 6 12 2 8 6"></polyline>
             <line x1="12" y1="2" x2="12" y2="15"></line>
-				</svg>
-			${isEn ? 'Share' : 'שיתוף'}
-			</button>`;
+                </svg>
+            ${isEn ? 'Share' : 'שיתוף'}
+            </button>`;
 
         const wakeLockBtn = `
             <button class="action-btn" id="wakeLockBtn" onclick="toggleWakeLock()" data-tooltip="${isEn ? 'Prevent screen from sleeping' : 'מונע מהמסך להיכבות בזמן הבישול'}">
@@ -572,13 +576,13 @@ async function shareRecipe() {
             filtered.sort((a, b) => {
                 const titleA = (isEnglishMode && a.english) ? a.english.title : a.title;
                 const titleB = (isEnglishMode && b.english) ? b.english.title : b.title;
-                return titleA.localeCompare(titleB, isEnglishMode ? 'en' : 'he');
+                return titleA.trim().localeCompare(titleB.trim(), isEnglishMode ? 'en' : 'he');
             });
         } else if (currentSort === 'za') {
             filtered.sort((a, b) => {
                 const titleA = (isEnglishMode && a.english) ? a.english.title : a.title;
                 const titleB = (isEnglishMode && b.english) ? b.english.title : b.title;
-                return titleB.localeCompare(titleA, isEnglishMode ? 'en' : 'he');
+                return titleB.trim().localeCompare(titleA.trim(), isEnglishMode ? 'en' : 'he');
             });
         } else if (currentSort === 'newest') {
              // Reverse array to show newest (last in array) first
