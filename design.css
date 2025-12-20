@@ -119,7 +119,10 @@ body {
     white-space: nowrap; /* Prevent text wrapping inside buttons */
 }
 
-.tag-btn:hover { background: #eee; transform: translateY(-1px); }
+@media (hover: hover) {
+    .tag-btn:hover { background: #eee; transform: translateY(-1px); }
+}
+
 .tag-btn.active-tag {
     background: var(--primary);
     color: white;
