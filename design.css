@@ -542,29 +542,33 @@ body {
     .ingredients-column { order: -1; } 
     .site-header h1 { font-size: 1.75rem; }
     
-    /* 2. Fix Button Layout: One row, compact */
+    /* 2. Fix Button Layout: STACKED LAYOUT */
     .recipe-nav {
-        flex-direction: row; 
-        align-items: center;
-        gap: 10px;
+        flex-direction: column; /* Row 1: Back, Row 2: Actions */
+        align-items: stretch; /* Full width */
+        gap: 12px;
         margin-bottom: 15px;
     }
     
+    /* Back button sits naturally at start */
+    .recipe-nav > .tag-btn {
+        align-self: flex-start;
+        margin-bottom: 0;
+    }
+    
     .nav-actions {
-        width: auto;
-        justify-content: flex-end;
-        gap: 6px; /* Tighter gap */
-        flex-wrap: wrap; /* RE-ENABLED WRAPPING to fix "out of bounds" */
-        max-width: 100%;
+        width: 100%;
+        justify-content: space-between; /* Evenly spaced */
+        gap: 8px;
+        flex-wrap: nowrap; /* Force single line for actions */
     }
 
     /* Make buttons compact on mobile */
     .recipe-nav .tag-btn, 
     .nav-actions .tag-btn {
         min-width: auto; /* Remove the fixed width */
-        padding: 6px 10px;
-        font-size: 0.8rem; /* Slightly smaller text */
-        flex: 0 1 auto; /* Don't expand to full width */
+        padding: 8px 12px;
+        font-size: 0.85rem; 
     }
     
     .nav-actions .tag-btn svg {
