@@ -5,29 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>מתכונים משפחתיים</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="design.css">
 </head>
 <body>
 
 <div class="container">
     <header class="site-header">
-        <h1 style="cursor: pointer;" onclick="navigateHome()">
-    מתכונים משפחתיים 
-    </h1>
-        <input type="text" class="search-box" placeholder="חיפוש מתכון, כותב, תגית, או מרכיב..." onkeyup="searchRecipes(this.value)">
+        <h1 onclick="navigateHome()">
+            מתכונים משפחתיים 
+        </h1>
         
-        <div class="tools-bar">
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="חיפוש מתכון, כותב, תגית, או מרכיב..." onkeyup="searchRecipes(this.value)">
+        </div>
+        
+        <div class="controls-wrapper">
+            <!-- Tags Container -->
+            <div id="header-tags" class="tags-scroll-container"></div>
+
             <!-- Sort Dropdown -->
             <select id="sort-select" onchange="changeSort(this.value)" class="sort-select" aria-label="מיון מתכונים">
-                <option value="newest">הכי חדש</option>
-                <option value="original">הכי ישן</option>
                 <option value="az" selected>שם (א-ת)</option>
                 <option value="za">שם (ת-א)</option>
+                <option value="newest">הכי חדש</option>
+                <option value="original">הכי ישן</option>
             </select>
-            
-            <!-- Tags Container -->
-            <div id="header-tags" style="display:contents;"></div>
         </div>
 
     </header>
@@ -35,28 +38,38 @@
     <main id="app"></main>
 
     <div class="footer-section">
-        <h3>חסר מתכון?</h3>
-        <p>מלאו את הפרטים ושלחו אליי למייל</p>
-        <div class="draft-form">
-            <input type="text" id="draft-title" placeholder="שם המנה">
-            <div class="draft-checkboxes" id="draft-tags-container"></div>
-            <textarea id="draft-body" rows="3" placeholder="רשימת מצרכים והוראות..."></textarea>
+        <!-- Hiding <h3> via CSS for cleaner look -->
+        <!-- Collapsible Draft Form -->
+        <details class="draft-details" ontoggle="if(this.open) this.scrollIntoView({behavior: 'smooth', block: 'center'})">
+            <summary>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                חסר מתכון? לחצו כאן לשליחה
+            </summary>
+            <div class="draft-content">
+                <div class="draft-form">
+                    <input type="text" id="draft-title" placeholder="שם המנה">
+                    <div class="draft-checkboxes" id="draft-tags-container"></div>
+                    <textarea id="draft-body" rows="3" placeholder="רשימת מצרכים והוראות..."></textarea>
+                    
+                    <button class="tag-btn-action" onclick="sendDraft()">
+                        שליחה למייל
+                        <svg class="icon-svg" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </div>
+            </div>
+        </details>
+        
+        <div style="display:flex; justify-content:center; margin-top:20px;">
+            <a href="#" onclick="openGenerator(); return false;" class="admin-link">
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                מחולל מתכונים
+            </a>
             
-            <button class="tag-btn" style="background:var(--primary); color:white; border:none; width: 100%; justify-content: center;" onclick="sendDraft()">
-                שליחה למייל
-                <svg class="icon-svg" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-            </button>
+            <a href="#" onclick="loadRecipeToEdit(); return false;" class="admin-link" id="edit-json-link" style="display: none;">
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                עריכה
+            </a>
         </div>
-        
-        <a href="#" onclick="toggleModal(true); return false;" class="admin-link">
-            <svg class="icon-svg" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
-            מחולל מתכונים
-        </a>
-        
-        <a href="#" onclick="loadRecipeToEdit(); return false;" class="admin-link" id="edit-json-link" style="display: none;">
-            <svg class="icon-svg" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-            עריכה
-        </a>
     </div>
 </div>
 
@@ -69,43 +82,36 @@
         <input type="text" id="gen-title" class="gen-input" placeholder="שם המתכון">
         <input type="text" id="gen-author" class="gen-input" placeholder="יוצר">
         <label>תגיות:</label>
-        <div id="gen-tags-container" class="gen-tags-container"></div>
-        <input type="text" id="gen-image" class="gen-input" placeholder="שם קובץ תמונה (למשל cake.jpg) - להשאיר ריק אם אין">
+        <div id="gen-tags-container" class="gen-tags-container" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:10px;"></div>
+        <input type="text" id="gen-image" class="gen-input" placeholder="שם קובץ תמונה (למשל cake.jpg)">
         <input type="text" id="gen-url" class="gen-input" placeholder="קישור למקור (אופציונלי)">
+        
         <label>מצרכים:</label>
-        <div style="font-size: 0.8rem; color:#888; margin-bottom:5px; display:grid; grid-template-columns: 0.5fr 0.5fr 2fr auto; gap:5px; padding-right: 8px;">
-            <span>כמות</span><span>יחידה</span><span>מוצר</span><span></span>
-        </div>
         <div id="gen-ing-rows"></div>
         <div class="add-btn-group">
-            <button onclick="addIngRow()" class="add-row-btn" style="flex:2; background:#e4f0eb;">+ הוסף מצרך</button>
-            <button onclick="addSectionRow()" class="add-row-btn" style="flex:1; background:#e4f0eb;">+ הוסף כותרת</button>
+            <button onclick="addIngRow()" class="gen-input" style="background:#e4f0eb; border:none; width:auto; flex:2;">+ מצרך</button>
+            <button onclick="addSectionRow()" class="gen-input" style="background:#e4f0eb; border:none; width:auto; flex:1;">+ כותרת</button>
         </div>
+        
         <label>הוראות הכנה:</label>
         <div class="editor-toolbar">
-            <button class="toolbar-btn" onclick="wrapText('b')" title="הדגשה">B</button>
-            <button class="toolbar-btn" onclick="wrapText('u')" title="קו תחתון" style="text-decoration:underline;">U</button>
+            <button class="toolbar-btn" onclick="wrapText('b')">B</button>
+            <button class="toolbar-btn" onclick="wrapText('u')" style="text-decoration:underline;">U</button>
         </div>
         <textarea id="gen-inst" rows="5" class="gen-input"></textarea>
-        <button class="tag-btn" style="background:var(--primary); color:white; width:100%; justify-content:center;" onclick="generateCode()">צור קוד</button>
-        <textarea id="gen-output" class="code-output" placeholder=""></textarea>
+        
+        <button class="tag-btn-action" onclick="generateCode()">צור קוד</button>
+        <textarea id="gen-output" class="gen-input" style="background:#333; color:#0f0; font-family:monospace; margin-top:10px;" rows="5"></textarea>
 
         <!-- OPTIMIZER TOOL -->
         <div class="optimizer-box">
-            <h3>כלי לכיווץ תמונות (Optimizer)</h3>
-            <p style="font-size:0.9rem;">
-                בחר את קובץ התמונה הגדול מהמחשב שלך. הכלי יוריד מיידית גרסה מוקטנת (thumbnail).
-                <br>
-                העתק את הקובץ החדש לתיקיית <code>images</code> שלך.
-            </p>
-            
+            <h3>כלי לכיווץ תמונות</h3>
             <input type="file" id="opt-files" multiple accept="image/*" class="gen-input">
-            <button class="tag-btn" style="background:#2980b9; color:white; width:100%; justify-content:center;" onclick="processImages()">
+            <button class="tag-btn-action" style="background:#2980b9;" onclick="processImages()">
                 צור תמונה מוקטנת
             </button>
             <div id="opt-status" style="margin-top:10px; font-size:0.9rem;"></div>
         </div>
-
     </div>
 </div>
 
@@ -119,42 +125,38 @@
     let wakeLock = null; 
     let currentRecipe = null;
     let currentLang = 'he';
-    let activeTags = new Set(); // Changed from single string to Set for multi-select
-    let currentSort = 'az'; // Default sort order
+    let activeTags = new Set();
+    let currentSort = 'az';
 
     // --- INITIALIZATION ---
     const headerTags = document.getElementById('header-tags');
-    // Initialize "All" button
     let tagsHTML = `<button class="tag-btn active-tag" id="tag-all" onclick="filterByTag('')">הכל</button>`;
-    
-    // Initialize other tags
     tagsHTML += AVAILABLE_TAGS.map(t => `<button class="tag-btn" id="tag-${t}" onclick="filterByTag('${t}')">${t}</button>`).join('');
     headerTags.innerHTML = tagsHTML;
 
     const draftTags = document.getElementById('draft-tags-container');
-    draftTags.innerHTML = AVAILABLE_TAGS.filter(t=>t!=='English').map(t => `<label><input type="checkbox" value="${t}" class="draft-tag"> ${t}</label>`).join('');
+    draftTags.innerHTML = AVAILABLE_TAGS.filter(t=>t!=='English').map(t => `<label class="draft-tag-label"><input type="checkbox" value="${t}" class="draft-tag"> ${t}</label>`).join('');
 
     const genTags = document.getElementById('gen-tags-container');
     genTags.innerHTML = AVAILABLE_TAGS.map(t => `
-        <label class="gen-tag-check">
+        <label style="background:#f0f0f0; padding:2px 8px; border-radius:10px; display:flex; align-items:center;">
             <input type="checkbox" value="${t}" class="gen-tag-input"> ${t}
         </label>`).join('');
 
     const app = document.getElementById('app');
 
-    // --- HISTORY / NAVIGATION LOGIC ---
+    // --- NAVIGATION LOGIC ---
     window.addEventListener('load', () => {
         const urlParams = new URLSearchParams(window.location.search);
         const recipeId = urlParams.get('recipe');
         if (recipeId) showRecipe(recipeId, false);
-        else runFilterAndShow('', false); // Run filter to sort correctly on load
+        else runFilterAndShow('', false);
     });
 
     window.addEventListener('popstate', (event) => {
         if (event.state && event.state.recipeId) {
             showRecipe(event.state.recipeId, false);
         } else {
-            // Reset filters when going back to list
             activeTags.clear();
             updateFilterUI();
             showList(recipes, false);
@@ -172,20 +174,17 @@
         runFilterAndShow('');
     }
 
-    // --- SORTING LOGIC ---
     function changeSort(val) {
         currentSort = val;
-        // Re-run filter to apply new sort
         const searchVal = document.querySelector('.search-box').value;
         runFilterAndShow(searchVal);
     }
 
-    // --- MAIN LIST LOGIC ---
+    // --- SHOW LIST ---
     function showList(data, pushState = true) {
-        // HIDE Edit Button in list view
         document.getElementById('edit-json-link').style.display = 'none';
 
-        if (!data || !data.length) { app.innerHTML = '<p>לא נמצאו תוצאות</p>'; return; }
+        if (!data || !data.length) { app.innerHTML = '<p style="text-align:center; padding:20px;">לא נמצאו תוצאות</p>'; return; }
         
         if (pushState) {
             history.pushState({}, '', window.location.pathname);
@@ -197,7 +196,6 @@
         let html = '<div class="recipe-grid">';
         data.forEach(r => {
             const imgSrc = r.image ? r.image : DEFAULT_IMAGE;
-            // Generate thumb path: images/cake.jpg -> images/cake_thumb.jpg
             let thumbSrc = imgSrc;
             if (imgSrc !== DEFAULT_IMAGE && !imgSrc.startsWith('http')) {
                 const parts = imgSrc.split('.');
@@ -205,11 +203,9 @@
                 thumbSrc = parts.join('.') + '_thumb.' + ext;
             }
 
-            // If English tag is active, use English title if available
             const displayTitle = (isEnglishMode && r.english) ? r.english.title : r.title;
             const displayAuthor = (isEnglishMode && r.english) ? r.english.author : r.author;
 
-            // Accessibility: tabindex="0" and keyboard handler
             html += `
                 <div class="card" 
                      tabindex="0"
@@ -222,9 +218,9 @@
                          decoding="async"
                          onerror="this.onerror=null; this.src='${imgSrc}'">
                     <div class="card-content">
-                        <div class="card-text-wrapper">
+                        <div>
                             <h2>${displayTitle}</h2>
-                            <p class="author">מאת: ${displayAuthor}</p>
+                            <p class="author">${isEnglishMode ? 'By' : 'מאת'}: ${displayAuthor}</p>
                         </div>
                         <div class="card-tags-wrapper">
                             ${r.tags.map(t => `<span class="badge">${t}</span>`).join('')}
@@ -238,12 +234,12 @@
         releaseWakeLock();
     }
 
+    // --- SHOW RECIPE (Restored Layout) ---
     function showRecipe(id, pushState = true) {
         const r = recipes.find(x => x.id === id);
         if (!r) return;
         currentRecipe = r;
         
-        // Auto-switch to English if the English tag filter is active
         currentLang = activeTags.has('English') ? 'en' : 'he';
         
         if (pushState) {
@@ -260,7 +256,6 @@
     }
 
     function renderRecipeDetail() {
-        // SHOW Edit Button in recipe view
         document.getElementById('edit-json-link').style.display = 'inline-flex';
 
         const r = currentRecipe;
@@ -268,29 +263,25 @@
         const data = isEn && r.english ? r.english : r;
         
         const imgSrc = r.image ? r.image : DEFAULT_IMAGE;
-        let linkHTML = r.sourceUrl ? `<div style="margin:10px 0;"><a href="${r.sourceUrl}" target="_blank" style="color:blue; font-weight:bold;">🔗 ${isEn ? 'Link to original' : 'למעבר למתכון המקורי'}</a></div>` : '';
+        let linkHTML = r.sourceUrl ? `<div style="margin-top:10px;"><a href="${r.sourceUrl}" target="_blank" style="color:var(--primary); font-weight:600; text-decoration:underline;">🔗 ${isEn ? 'Link to original' : 'למעבר למתכון המקורי'}</a></div>` : '';
 
-        // Share & WakeLock Buttons
+        // Restored Icons (with Text)
         const shareBtn = `
-            <button class="action-btn" onclick="shareRecipe()">
-                <svg class="icon-svg" viewBox="0 0 24 24">
-            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
-            <polyline points="16 6 12 2 8 6"></polyline>
-            <line x1="12" y1="2" x2="12" y2="15"></line>
-                </svg>
-            ${isEn ? 'Share' : 'שיתוף'}
+            <button class="tag-btn" onclick="shareRecipe()">
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
+                ${isEn ? 'Share' : 'שיתוף'}
             </button>`;
 
         const wakeLockBtn = `
-            <button class="action-btn" id="wakeLockBtn" onclick="toggleWakeLock()" data-tooltip="${isEn ? 'Prevent screen from sleeping' : 'מונע מהמסך להיכבות בזמן הבישול'}">
+            <button class="tag-btn" id="wakeLockBtn" onclick="toggleWakeLock()">
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                 ${isEn ? 'Wake Lock' : 'מסך פעיל'}
             </button>`;
-        
-        // Language Toggle
+
         const langToggle = r.tags.includes('English') ? `
-            <div class="lang-toggle">
-                <button class="lang-btn ${!isEn ? 'active' : ''}" onclick="toggleLang('he')">עברית</button>
-                <button class="lang-btn ${isEn ? 'active' : ''}" onclick="toggleLang('en')">English</button>
+            <div style="background:#eee; padding:3px; border-radius:20px; display:inline-flex;">
+                <button class="tag-btn ${!isEn ? 'active-tag' : ''}" style="border:none; padding:4px 12px; font-size:0.8rem;" onclick="toggleLang('he')">עברית</button>
+                <button class="tag-btn ${isEn ? 'active-tag' : ''}" style="border:none; padding:4px 12px; font-size:0.8rem;" onclick="toggleLang('en')">English</button>
             </div>` : '';
 
         app.innerHTML = `
@@ -301,44 +292,54 @@
                         ${isEn ? 'Back' : 'חזרה'}
                     </button>
                     
-                    ${langToggle}
-
-                    <div class="action-bar">
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        ${langToggle}
                         ${shareBtn}
                         ${wakeLockBtn}
                     </div>
                 </div>
 
-                <img src="${imgSrc}" style="width:100%; height:300px; object-fit:cover; border-radius:12px; margin-top:10px;">
-                <h1 style="text-align:center">${data.title}</h1>
-                <p style="text-align:center">${isEn ? 'By' : 'מאת'}: ${data.author}</p>
-                ${linkHTML}
-                
-                ${data.ingredients && data.ingredients.length > 0 ? `
-                <div class="scaler">
-                    <b>${isEn ? 'Scale' : 'כמויות'}:</b>
-                    <button class="scale-btn" id="btn-0.5" onclick="renderIngredients(0.5)">0.5x</button>
-                    <button class="scale-btn active" id="btn-1" onclick="renderIngredients(1)">1x</button>
-                    <button class="scale-btn" id="btn-1.5" onclick="renderIngredients(1.5)">1.5x</button>
-                    <button class="scale-btn" id="btn-2" onclick="renderIngredients(2)">2x</button>
+                <div class="recipe-hero">
+                    <img src="${imgSrc}" class="recipe-hero-image" alt="${data.title}">
+                    <div class="recipe-header-content">
+                        <h1>${data.title}</h1>
+                        <p class="author">${isEn ? 'By' : 'מאת'}: ${data.author}</p>
+                        ${linkHTML}
+                    </div>
                 </div>
-                <div id="ing-list" class="ingredients-list"></div>
-                ` : ''}
-                
-                <h3>${isEn ? 'Instructions' : 'הוראות'}:</h3>
-                <div class="instructions">${formatInstructions(data.instructions)}</div>
+
+                <div class="recipe-body-grid">
+                    <aside class="ingredients-column">
+                        ${data.ingredients && data.ingredients.length > 0 ? `
+                        <div class="scaler">
+                            <span style="align-self:center; font-size:0.9rem; color:#666;">${isEn ? 'Scale' : 'כמויות'}:</span>
+                            <button class="scale-btn" id="btn-0.5" onclick="renderIngredients(0.5)">0.5x</button>
+                            <button class="scale-btn active" id="btn-1" onclick="renderIngredients(1)">1x</button>
+                            <button class="scale-btn" id="btn-1.5" onclick="renderIngredients(1.5)">1.5x</button>
+                            <button class="scale-btn" id="btn-2" onclick="renderIngredients(2)">2x</button>
+                        </div>
+                        <div id="ing-list" class="ingredients-list"></div>
+                        ` : '<p>No ingredients listed.</p>'}
+                    </aside>
+
+                    <section class="instructions">
+                        <h3>${isEn ? 'Instructions' : 'הוראות הכנה'}</h3>
+                        <div style="font-size:1.1rem; line-height:1.8;">
+                            ${formatInstructions(data.instructions)}
+                        </div>
+                    </section>
+                </div>
             </div>
         `;
         
-        // Re-attach wake lock active class if needed
         if(wakeLock && document.getElementById('wakeLockBtn')) {
-             document.getElementById('wakeLockBtn').classList.add('active');
+             document.getElementById('wakeLockBtn').classList.add('active-tag');
         }
 
         if(data.ingredients && data.ingredients.length > 0) renderIngredients(1);
     }
 
-    // --- WAKE LOCK LOGIC ---
+    // --- WAKE LOCK ---
     async function toggleWakeLock() {
         const btn = document.getElementById('wakeLockBtn');
         if (!wakeLock) {
@@ -346,64 +347,33 @@
                 wakeLock = await navigator.wakeLock.request('screen');
                 wakeLock.addEventListener('release', () => {
                     wakeLock = null;
-                    if(document.getElementById('wakeLockBtn')) {
-                        document.getElementById('wakeLockBtn').classList.remove('active');
-                    }
+                    if(btn) btn.classList.remove('active-tag');
                 });
-                if(btn) btn.classList.add('active');
+                if(btn) btn.classList.add('active-tag');
             } catch (err) {
-                console.error(`${err.name}, ${err.message}`);
-                alert("הדפדפן שלך לא תומך באפשרות זו");
+                console.error(err);
+                alert("הדפדפן לא תומך");
             }
         } else {
             await wakeLock.release();
-            wakeLock = null;
-            if(btn) btn.classList.remove('active');
         }
     }
-
-    function releaseWakeLock() {
-        if (wakeLock) {
-            wakeLock.release();
-            wakeLock = null;
-        }
-    }
-    
+    function releaseWakeLock() { if (wakeLock) { wakeLock.release(); wakeLock = null; } }
     document.addEventListener('visibilitychange', async () => {
-        if (wakeLock !== null && document.visibilityState === 'visible') {
-            await toggleWakeLock();
-        }
+        if (wakeLock !== null && document.visibilityState === 'visible') await toggleWakeLock();
     });
 
-// --- SHARE LOGIC ---
-async function shareRecipe() {
-    if (!currentRecipe) return;
-    
-    // 1. Try Native Share (Mobile/Chrome)
-    if (navigator.share) {
-        try {
-            await navigator.share({
-                title: currentRecipe.title,
-                text: `${currentRecipe.title} - ${currentRecipe.author}`,
-                url: window.location.href
-            });
-        } catch (err) {
-            console.log("Share canceled");
-        }
-    } 
-    // 2. Fallback for Firefox/Desktop: Copy URL
-    else {
-        try {
-            await navigator.clipboard.writeText(window.location.href);
-            // Optional: Simple alert or toast to notify user
-            alert("הקישור הועתק"); 
-        } catch (err) {
-            console.error("Failed to copy", err);
+    // --- SHARE ---
+    async function shareRecipe() {
+        if (!currentRecipe) return;
+        if (navigator.share) {
+            try { await navigator.share({ title: currentRecipe.title, text: `${currentRecipe.title}`, url: window.location.href }); } catch (err) {}
+        } else {
+            try { await navigator.clipboard.writeText(window.location.href); alert("הקישור הועתק"); } catch (err) {}
         }
     }
-}
 
-    // --- EXISTING HELPER FUNCTIONS ---
+    // --- FORMATTERS ---
     function formatInstructions(text) {
         if (!text) return '';
         const lines = text.split('\n').filter(line => line.trim() !== '');
@@ -459,9 +429,8 @@ async function shareRecipe() {
                 let displayVal = rawVal;
                 let conversionText = '';
                 if (typeof rawVal === 'number') {
-                    // Pass lang to conversion function
                     const conv = getConversion(rawVal, item.unit, item.item, isEn ? 'en' : 'he');
-                    if (conv) conversionText = `<span class="auto-conversion">(${conv})</span>`;
+                    if (conv) conversionText = `<span style="font-weight:normal; font-size:0.85em; color:#888;">(${conv})</span>`;
                     displayVal = formatAmount(rawVal);
                 }
                 const shouldShowBold = (displayVal !== '') || (item.unit && item.unit.trim().length > 0);
@@ -480,30 +449,22 @@ async function shareRecipe() {
             else if (entry.amount !== undefined) { html += processItems([entry]); }
         });
         html += '</ul>';
-        document.getElementById('ing-list').innerHTML = html;
+        const container = document.getElementById('ing-list');
+        if(container) container.innerHTML = html;
     }
 
-    // --- SEARCH & FILTER LOGIC (UPDATED FOR MULTI-TAG) ---
-
+    // --- SEARCH & FILTER ---
     function filterByTag(tag) {
-        if (tag === '') {
-            // "All" clicked - clear everything
-            activeTags.clear();
-        } else {
-            // Toggle specific tag
-            if (activeTags.has(tag)) {
-                activeTags.delete(tag);
-            } else {
-                activeTags.add(tag);
-            }
+        if (tag === '') activeTags.clear();
+        else {
+            if (activeTags.has(tag)) activeTags.delete(tag);
+            else activeTags.add(tag);
         }
-        
         updateFilterUI();
         runFilterAndShow();
     }
 
     function updateFilterUI() {
-        // Update visual button states
         document.querySelectorAll('.tag-btn').forEach(btn => {
             const btnId = btn.id;
             if (btnId === 'tag-all') {
@@ -515,8 +476,6 @@ async function shareRecipe() {
                 else btn.classList.remove('active-tag');
             }
         });
-
-        // Update search box style based on "English" tag
         const searchBox = document.querySelector('.search-box');
         if (activeTags.has('English')) {
             searchBox.placeholder = "Search for a recipe, author, tag, or ingredient...";
@@ -527,27 +486,17 @@ async function shareRecipe() {
         }
     }
 
-    function searchRecipes(q) {
-        // We pass the query to the main filter function
-        runFilterAndShow(q);
-    }
+    function searchRecipes(q) { runFilterAndShow(q); }
 
     function runFilterAndShow(searchTerm = '') {
-        // Combine Tag Filter + Search Term
         const term = searchTerm.toLowerCase();
         const isEnglishMode = activeTags.has('English');
 
         let filtered = recipes.filter(r => {
-            // 1. Tag Filtering (Intersection: MUST have ALL selected tags)
-            // If activeTags is empty, pass this check.
             if (activeTags.size > 0) {
-                for (let tag of activeTags) {
-                    if (!r.tags.includes(tag)) return false;
-                }
+                for (let tag of activeTags) { if (!r.tags.includes(tag)) return false; }
             }
-
-            // 2. Search Term Filtering
-            if (term === '') return true; // No search term, keep it.
+            if (term === '') return true;
 
             if (isEnglishMode) {
                 if (!r.english) return false;
@@ -559,7 +508,6 @@ async function shareRecipe() {
                 });
                 return title.includes(term) || author.includes(term) || ing;
             } else {
-                // Hebrew search
                 const inTitle = r.title.toLowerCase().includes(term);
                 const inTags = r.tags.some(t => t.includes(term));
                 const inAuthor = r.author && r.author.toLowerCase().includes(term);
@@ -571,7 +519,6 @@ async function shareRecipe() {
             }
         });
 
-        // 3. Sorting
         if (currentSort === 'az') {
             filtered.sort((a, b) => {
                 const titleA = (isEnglishMode && a.english) ? a.english.title : a.title;
@@ -585,10 +532,8 @@ async function shareRecipe() {
                 return titleB.trim().localeCompare(titleA.trim(), isEnglishMode ? 'en' : 'he');
             });
         } else if (currentSort === 'newest') {
-             // Reverse array to show newest (last in array) first
              filtered.reverse();
         }
-        // original is default array order, so do nothing
 
         showList(filtered, false);
     }
@@ -602,97 +547,64 @@ async function shareRecipe() {
         window.location.href = `mailto:shohamofek@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     }
 
-    // --- GENERATOR LOGIC ---
+    // --- GENERATOR LOGIC (SAME AS BEFORE) ---
     function toggleModal(show) {
         document.getElementById('adminModal').style.display = show ? 'flex' : 'none';
         if(show && document.getElementById('gen-ing-rows').children.length === 0) addIngRow(); 
     }
+    
+    // NEW: Open Generator and clear fields
+    function openGenerator() {
+        // Clear all fields
+        document.getElementById('gen-id').value = '';
+        document.getElementById('gen-title').value = '';
+        document.getElementById('gen-author').value = '';
+        document.getElementById('gen-image').value = '';
+        document.getElementById('gen-url').value = '';
+        document.getElementById('gen-inst').value = '';
+        document.getElementById('gen-output').value = '';
+        
+        // Reset tags
+        document.querySelectorAll('.gen-tag-input').forEach(cb => { cb.checked = false; });
+        
+        // Reset ingredients to one empty row
+        const rowsContainer = document.getElementById('gen-ing-rows');
+        rowsContainer.innerHTML = '';
+        addIngRow();
+        
+        toggleModal(true);
+    }
 
-    // UPDATED: Accepts optional item to pre-fill
     function addIngRow(itemData = null) {
         const div = document.createElement('div'); div.className = 'ing-row';
-        
         let valAmount = '', valUnit = '', valItem = '';
-        if (itemData) {
-            valAmount = itemData.amount !== null ? itemData.amount : '';
-            valUnit = itemData.unit || '';
-            valItem = itemData.item || '';
-        }
-
-        div.innerHTML = `
-            <input type="text" class="gen-input gen-amount" placeholder="1 או 1/2" value="${valAmount}">
-            <input type="text" class="gen-input gen-unit" placeholder="ק״ג" value="${valUnit}">
-            <input type="text" class="gen-input gen-item" placeholder="קמח" value="${valItem}">
-            <div class="row-controls">
-                <button onclick="moveRow(this, -1)" class="move-btn">↑</button>
-                <button onclick="moveRow(this, 1)" class="move-btn">↓</button>
-                <button onclick="removeRow(this)" class="remove-row-btn">X</button>
-            </div>`;
+        if (itemData) { valAmount = itemData.amount !== null ? itemData.amount : ''; valUnit = itemData.unit || ''; valItem = itemData.item || ''; }
+        div.innerHTML = `<input type="text" class="gen-input gen-amount" placeholder="כמות" value="${valAmount}"><input type="text" class="gen-input gen-unit" placeholder="יח'" value="${valUnit}"><input type="text" class="gen-input gen-item" placeholder="מוצר" value="${valItem}"><button onclick="this.parentElement.remove()" style="background:#ff7675;color:white;border:none;border-radius:4px;">X</button>`;
         document.getElementById('gen-ing-rows').appendChild(div);
     }
-
-    // UPDATED: Accepts optional name to pre-fill
     function addSectionRow(name = '') {
-        const div = document.createElement('div'); div.className = 'section-row'; 
-        div.innerHTML = `
-            <input type="text" class="gen-section-name" placeholder="שם הקבוצה (למשל: לרוטב)" value="${name}">
-            <div class="row-controls">
-                <button onclick="moveRow(this, -1)" class="move-btn">↑</button>
-                <button onclick="moveRow(this, 1)" class="move-btn">↓</button>
-                <button onclick="removeRow(this)" class="remove-row-btn">X</button>
-            </div>`;
+        const div = document.createElement('div'); div.className = 'ing-row'; div.style.display="flex"; 
+        div.innerHTML = `<input type="text" class="gen-section-name" style="flex:1;background:#e0ffe0;border:1px solid #ccc;padding:8px;" placeholder="כותרת משנה" value="${name}"><button onclick="this.parentElement.remove()" style="background:#ff7675;color:white;border:none;border-radius:4px;padding:0 10px;">X</button>`;
         document.getElementById('gen-ing-rows').appendChild(div);
     }
-
-    // NEW: Load existing recipe into generator
     function loadRecipeToEdit() {
         if(!currentRecipe) return;
         const r = currentRecipe;
-        
-        // 1. Fill basic text fields
         document.getElementById('gen-id').value = r.id;
         document.getElementById('gen-title').value = r.title;
         document.getElementById('gen-author').value = r.author;
         document.getElementById('gen-image').value = r.image;
         document.getElementById('gen-url').value = r.sourceUrl || '';
-        // Note: For instructions, we just dump the text. Bold/Underline tags remain as text tags <b>...</b>
         document.getElementById('gen-inst').value = r.instructions; 
-
-        // 2. Fill Tags
-        document.querySelectorAll('.gen-tag-input').forEach(cb => {
-            cb.checked = r.tags.includes(cb.value);
-        });
-
-        // 3. Fill Ingredients
+        document.querySelectorAll('.gen-tag-input').forEach(cb => { cb.checked = r.tags.includes(cb.value); });
         const rowsContainer = document.getElementById('gen-ing-rows');
-        rowsContainer.innerHTML = ''; // Clear existing rows
-        
+        rowsContainer.innerHTML = ''; 
         r.ingredients.forEach(entry => {
-            if(entry.sectionName) {
-                // It's a section
-                addSectionRow(entry.sectionName);
-                if(entry.items) {
-                    entry.items.forEach(subItem => addIngRow(subItem));
-                }
-            } else if (entry.items) {
-                // Rare structure (section without name?), treat as flat items
-                 entry.items.forEach(subItem => addIngRow(subItem));
-            } else {
-                 // Standard flat item
-                 addIngRow(entry);
-            }
+            if(entry.sectionName) { addSectionRow(entry.sectionName); if(entry.items) entry.items.forEach(subItem => addIngRow(subItem)); } 
+            else if (entry.items) { entry.items.forEach(subItem => addIngRow(subItem)); } else { addIngRow(entry); }
         });
-        
         toggleModal(true);
     }
-
-    function moveRow(btn, dir) {
-        const row = btn.closest('.ing-row') || btn.closest('.section-row');
-        const container = document.getElementById('gen-ing-rows');
-        if (dir === -1 && row.previousElementSibling) container.insertBefore(row, row.previousElementSibling);
-        else if (dir === 1 && row.nextElementSibling) container.insertBefore(row, row.nextElementSibling.nextElementSibling);
-    }
-    function removeRow(btn) { const row = btn.closest('.ing-row') || btn.closest('.section-row'); if(row) row.remove(); }
     function wrapText(tag) {
         const textarea = document.getElementById('gen-inst');
         const start = textarea.selectionStart; const end = textarea.selectionEnd; const text = textarea.value;
@@ -710,68 +622,33 @@ async function shareRecipe() {
         const rowsContainer = document.getElementById('gen-ing-rows');
         let finalIngredients = []; let currentSection = null;
         Array.from(rowsContainer.children).forEach(row => {
-            if (row.classList.contains('section-row')) { const name = row.querySelector('.gen-section-name').value; if (name) { currentSection = { sectionName: name, items: [] }; finalIngredients.push(currentSection); } } 
+            if (row.querySelector('.gen-section-name')) { const name = row.querySelector('.gen-section-name').value; if (name) { currentSection = { sectionName: name, items: [] }; finalIngredients.push(currentSection); } } 
             else if (row.classList.contains('ing-row')) { const amountStr = row.querySelector('.gen-amount').value; const unit = row.querySelector('.gen-unit').value; const item = row.querySelector('.gen-item').value; const amountVal = parseAmount(amountStr); if (item) { const ingObj = { amount: amountVal, unit: unit, item: item }; if (currentSection) { currentSection.items.push(ingObj); } else { finalIngredients.push(ingObj); } } }
         });
         const obj = { id: id || "new-id", title: title, author: author, tags: tags, image: image, sourceUrl: url, ingredients: finalIngredients, instructions: inst };
         const json = JSON.stringify(obj, null, 4); document.getElementById('gen-output').value = json.replace(/"([^"]+)":/g, '$1:') + ",";
     }
-
-    // --- CLIENT SIDE OPTIMIZER ---
     async function processImages() {
         const files = document.getElementById('opt-files').files;
         if (files.length === 0) { alert('נא לבחור קבצים'); return; }
-        
         const status = document.getElementById('opt-status');
-        
-        const maxWidth = 400; // Thumbnail width
-        let count = 0;
-
-        status.innerHTML = 'מעבד תמונות...';
-
+        const maxWidth = 400; let count = 0; status.innerHTML = 'מעבד תמונות...';
         for (let file of files) {
             try {
-                // Only process images
                 if (!file.type.startsWith('image/')) continue;
-
                 const bitmap = await createImageBitmap(file);
                 const scale = maxWidth / bitmap.width;
                 const newHeight = bitmap.height * scale;
-
                 const canvas = document.createElement('canvas');
-                canvas.width = maxWidth;
-                canvas.height = newHeight;
+                canvas.width = maxWidth; canvas.height = newHeight;
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(bitmap, 0, 0, maxWidth, newHeight);
-
                 const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.8));
-                
-                // Create filename: cake.jpg -> cake_thumb.jpg
-                const originalName = file.name;
-                const dotIndex = originalName.lastIndexOf('.');
-                const namePart = dotIndex !== -1 ? originalName.substring(0, dotIndex) : originalName;
-                const newName = `${namePart}_thumb.jpg`;
-
-                // Download directly
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = newName;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
-                count++;
-                status.innerHTML = `הורד: ${count}/${files.length}`;
-                
-                // Small delay to prevent browser choking on multiple downloads
-                await new Promise(r => setTimeout(r, 200));
-
-            } catch (e) {
-                console.error(e);
-                status.innerHTML += `<br>שגיאה בקובץ ${file.name}`;
-            }
+                const originalName = file.name; const dotIndex = originalName.lastIndexOf('.'); const namePart = dotIndex !== -1 ? originalName.substring(0, dotIndex) : originalName; const newName = `${namePart}_thumb.jpg`;
+                const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = newName; document.body.appendChild(link); link.click(); document.body.removeChild(link);
+                count++; status.innerHTML = `הורד: ${count}/${files.length}`; await new Promise(r => setTimeout(r, 200));
+            } catch (e) { console.error(e); status.innerHTML += `<br>שגיאה בקובץ ${file.name}`; }
         }
-        
         status.innerHTML = `סיום! ${count} תמונות הורדו.`;
     }
 </script>
