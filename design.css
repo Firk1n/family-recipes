@@ -553,8 +553,9 @@ body {
     .nav-actions {
         width: auto;
         justify-content: flex-end;
-        gap: 8px;
-        flex-wrap: nowrap; /* Prevent stacking */
+        gap: 6px; /* Tighter gap */
+        flex-wrap: wrap; /* RE-ENABLED WRAPPING to fix "out of bounds" */
+        max-width: 100%;
     }
 
     /* Make buttons compact on mobile */
@@ -562,7 +563,8 @@ body {
     .nav-actions .tag-btn {
         min-width: auto; /* Remove the fixed width */
         padding: 6px 10px;
-        font-size: 0.85rem;
+        font-size: 0.8rem; /* Slightly smaller text */
+        flex: 0 1 auto; /* Don't expand to full width */
     }
     
     .nav-actions .tag-btn svg {
