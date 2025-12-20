@@ -160,15 +160,17 @@
             showList(recipes, false);
         }
     });
-
+	
     function navigateToRecipe(id) { showRecipe(id, true); }
-    function navigateHome() { 
-        // Reset filters when clicking Home/Back
-        activeTags.clear();
-        updateFilterUI();
-        document.querySelector('.search-box').value = '';
-        runFilterAndShow('', true);
-    }
+	
+	function navigateHome() { 
+    activeTags.clear();
+    updateFilterUI();
+    document.querySelector('.search-box').value = '';
+    history.pushState({}, '', window.location.pathname);
+    document.title = "מתכונים משפחתיים";
+    runFilterAndShow('');
+	}
 
     // --- SORTING LOGIC ---
     function changeSort(val) {

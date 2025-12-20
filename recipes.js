@@ -1320,5 +1320,425 @@ const recipes = [
         ],
         instructions: "1. Prepare the Chicken: Fry the onion in a pot. Add the chicken and flip/sear it. Add a tiny drop of water.\n2. Season with spices (sweet paprika, hot paprika, and soup powder if desired) on every side of the chicken.\n3. Add water until the chicken is covered. Cook on low heat for an hour, flipping the chicken occasionally.\n4. Prepare the Nokedli: Mix the flour, eggs, and salt. Add water gradually until a dough forms.\n5. Cook the dumplings in boiling water (drop batter into water) and drain.\n6. Place the cooked Nokedli on a tray and coat with a little margarine or butter to prevent sticking."
     }
+},
+{
+    id: "simone_ensaladia",
+    title: "סלט תפוחי אדמה",
+    author: "סבתא סימון",
+    tags: ["סלטים", "English"],
+    image: "", 
+    sourceUrl: "",
+    ingredients: [
+        { amount: 3, unit: "", item: "תפוחי אדמה" },
+        { amount: 4, unit: "", item: "ביצים" },
+        { amount: 1, unit: "קופסת שימורים", item: "אפונה וגזר (או תירס)" },
+        { amount: 1, unit: "קופסת שימורים", item: "טונה (אופציונלי)" },
+        { amount: 1, unit: "קופסת שימורים", item: "זיתים" },
+        { amount: null, unit: "", item: "מיונז (לפי הטעם)" }
+    ],
+    instructions: "1. מבשלים את הביצים כ-10 דקות (ביצים קשות).\n2. מבשלים את תפוחי האדמה כ-20 דקות או עד שהם מתרככים.\n3. מקלפים וחותכים את הביצים ותפוחי האדמה לקוביות.\n4. מערבבים את כל המרכיבים בקערה.",
+    english: {
+        title: "Ensaladia (Potato Salad)",
+        author: "Grandma Simone",
+        ingredients: [
+            { amount: 3, unit: "", item: "Potatoes" },
+            { amount: 4, unit: "", item: "Eggs" },
+            { amount: 1, unit: "can", item: "Peas and carrots (or corn)" },
+            { amount: 1, unit: "can", item: "Tuna (optional)" },
+            { amount: 1, unit: "can", item: "Olives" },
+            { amount: null, unit: "", item: "Mayo (to taste)" }
+        ],
+        instructions: "1. Boil eggs for 10 minutes.\n2. Boil potatoes for 20 minutes or until soft.\n3. Peel and cut eggs and potatoes.\n4. Mix all the ingredients."
+    }
+},
+{
+    id: "flaminia_risotto",
+    title: "ריזוטו",
+    author: "פלמיניה",
+    tags: ["צמחוני", "חלבי", "English"],
+    image: "", 
+    sourceUrl: "",
+    ingredients: [
+        { amount: 2.5, unit: "כוסות", item: "אורז ארבוריו (לריזוטו)" },
+        { amount: 1, unit: "", item: "בצל פרוס" },
+        { amount: null, unit: "", item: "שמן זית" },
+        { amount: null, unit: "קורט", item: "זעפרן (או 1/4-1/2 כפית כורכום)" },
+        { amount: 1, unit: "קוביה", item: "אבקת מרק (Bouillon)" },
+        { amount: 5, unit: "כוסות", item: "מים (כמות כפולה מהאורז)" },
+        { amount: null, unit: "", item: "פרמזן (לפי הטעם)" },
+        { amount: null, unit: "", item: "חמאה (מעט)" },
+        { amount: null, unit: "", item: "פטריות פרוסות (אופציונלי)" }
+    ],
+    instructions: "1. מערבבים בקערה נפרדת מים חמים עם קוביית מרק וזעפרן.\n2. בסיר, מטגנים את הבצל עד לשקיפות. אם משתמשים בפטריות, מוסיפים אותן כעת וממשיכים לבשל. לאחר שהם מוכנים, מוציאים אותם לקערה בצד.\n3. מוסיפים את האורז לסיר ומטגנים קלות.\n4. מתחילים להוסיף את נוזל המרק בהדרגה (חצי כוס עד כוס בכל פעם) ומערבבים ללא הפסקה עד שהמים נספגים באורז.\n5. חוזרים על הפעולה עד שהאורז מוכן (אל דנטה).\n6. מחזירים לסיר את הבצל והפטריות.\n7. מוסיפים פרמזן.\n8. מוסיפים מעט חמאה, מערבבים היטב עד להמסה ולהסמכה, ומגישים.",
+    english: {
+        title: "Risotto",
+        author: "Flaminia",
+        ingredients: [
+            { amount: 2.5, unit: "cups", item: "Arborio rice" },
+            { amount: 1, unit: "", item: "Onion (sliced)" },
+            { amount: null, unit: "", item: "Olive oil" },
+            { amount: null, unit: "pinch", item: "Saffron (or 1/4 - 1/2 tsp turmeric)" },
+            { amount: 1, unit: "cube", item: "Bouillon" },
+            { amount: 5, unit: "cups", item: "Water (double the amount of rice)" },
+            { amount: null, unit: "", item: "Parmesan (to taste)" },
+            { amount: null, unit: "", item: "Butter" },
+            { amount: null, unit: "", item: "Mushrooms, sliced (optional)" }
+        ],
+        instructions: "1. Mix warm water with bouillon and saffron in a separate bowl.\n2. Fry onions, once transparent add mushrooms (if using). Remove from pot into a separate bowl when done.\n3. Add rice to the pot and cook (toast) a bit.\n4. Add a little bit of the prepared water (1/2 cup to 1 cup) and mix until water is absorbed.\n5. Repeat adding water and mixing until rice is al dente.\n6. Add the mushrooms and onions back in.\n7. Add Parmesan.\n8. Add butter and mix in before serving."
+    }
+},
+{
+    id: "simone_yellow_chicken",
+    title: "עוף ותפוחי אדמה ברוטב צהוב",
+    author: "סבתא סימון",
+    tags: ["בשרי", "English"],
+    image: "", 
+    sourceUrl: "",
+    ingredients: [
+        { amount: 5, unit: "", item: "ירכי עוף" },
+        { amount: 5, unit: "", item: "תפוחי אדמה צהובים (קלופים וחתוכים לקוביות גדולות)" },
+        { amount: 0.5, unit: "", item: "גמבה אדומה" },
+        { amount: 4, unit: "שיני", item: "שום (פרוסות)" },
+        { amount: 3, unit: "כפות", item: "שמן זית" },
+        { amount: 1, unit: "קוביה", item: "אבקת מרק (Bouillon)" },
+        { amount: 0.35, unit: "כפית", item: "כורכום" },
+        { amount: 0.35, unit: "כפית", item: "פלפל" },
+        { amount: null, unit: "", item: "מלח (לפי הטעם)" },
+        { amount: null, unit: "", item: "מים (עד לכיסוי כמעט מלא של העוף)" }
+    ],
+    instructions: "1. מכניסים את כל המרכיבים לסיר רחב. ממלאים מים עד שהעוף כמעט מכוסה.\n2. מביאים לרתיחה על אש גבוהה עם מכסה. לאחר הרתיחה, מנמיכים מעט את הלהבה.\n3. מבשלים כ-20-30 דקות.\n4. הערה: ניתן להתחיל לבשל את כל המרכיבים למעט תפוחי האדמה, ולהוסיף אותם בשלב מאוחר יותר כדי שלא יתבשלו יתר על המידה. יש לוודא שהעוף מבושל לחלוטין ואם צריך להוסיף עוד זמן או מים.",
+    english: {
+        title: "Yellow Chicken and Potatoes",
+        author: "Grandma Simone",
+        ingredients: [
+            { amount: 5, unit: "", item: "Chicken thighs" },
+            { amount: 5, unit: "", item: "Yellow potatoes (peeled and big cubed)" },
+            { amount: 0.5, unit: "", item: "Red bell pepper" },
+            { amount: 4, unit: "cloves", item: "Garlic (cut)" },
+            { amount: 3, unit: "tbsp", item: "Olive oil" },
+            { amount: 1, unit: "cube", item: "Bouillon" },
+            { amount: 0.35, unit: "tsp", item: "Turmeric" },
+            { amount: 0.35, unit: "tsp", item: "Pepper" },
+            { amount: null, unit: "", item: "Salt (to taste)" },
+            { amount: null, unit: "", item: "Water (until chicken is almost covered)" }
+        ],
+        instructions: "1. Put all the ingredients in a pan/pot. Add water until chicken is almost covered.\n2. Cover and put on high heat until boiling, then lower heat slightly.\n3. Cook for 20-30 minutes.\n4. Note: You can start with everything except the potatoes and add them in later. Check if chicken needs more time or water."
+    }
+},
+{
+    id: "flaminia_tofu_brown_sugar",
+    title: "טופו בסוכר חום",
+    author: "פלמיניה",
+    tags: ["צמחוני", "English"],
+    image: "", 
+    sourceUrl: "",
+    ingredients: [
+        { amount: 1, unit: "חבילה", item: "טופו קשה (סחוט מנוזלים וחתוך לקוביות)" },
+        { amount: null, unit: "", item: "סוכר חום" },
+        { amount: null, unit: "", item: "דבש" },
+        { amount: null, unit: "", item: "שמן זית" },
+        { amount: 1, unit: "כפית", item: "כורכום" },
+        { amount: null, unit: "", item: "רוטב מוקפץ מתוק-חריף" }
+    ],
+    instructions: "1. מחממים שמן זית במחבת על חום בינוני.\n2. מקפיצים את קוביות הטופו עד שהן הופכות לפריכות (קראנצ'יות).\n3. מוסיפים את הכורכום.\n4. מוסיפים את הרוטב המתוק-חריף.\n5. לסיום, מוסיפים את הדבש והסוכר החום, מערבבים ומגישים.",
+    english: {
+        title: "Brown Sugar Tofu",
+        author: "Flaminia",
+        ingredients: [
+            { amount: 1, unit: "package", item: "Firm tofu (pressed dry and cubed)" },
+            { amount: null, unit: "", item: "Brown sugar" },
+            { amount: null, unit: "", item: "Honey" },
+            { amount: null, unit: "", item: "Olive oil" },
+            { amount: 1, unit: "tsp", item: "Turmeric" },
+            { amount: null, unit: "", item: "Sweet and spicy stir fry sauce" }
+        ],
+        instructions: "1. Put olive oil in a pan on medium heat.\n2. Toss tofu until crunchy.\n3. Add turmeric.\n4. Add stir fry sauce.\n5. Then add honey and brown sugar."
+    }
+},
+{
+    id: "flaminia_cherry_tomato_meatballs",
+    title: "קציצות סויה ברוטב עגבניות",
+    author: "פלמיניה",
+    tags: ["צמחוני", "English"],
+    image: "", 
+    sourceUrl: "",
+    ingredients: [
+        { amount: 1, unit: "חבילה", item: "קציצות סויה (קפואות)" },
+        { amount: 0.35, unit: "כוס", item: "חומץ בלסמי" },
+        { amount: 3, unit: "", item: "בצלים ירוקים (חתוכים לפרוסות בעובי 2.5 ס\"מ)" },
+        { amount: 1, unit: "כף", item: "סוכר חום" },
+        { amount: 1, unit: "קופסה", item: "עגבניות שרי" },
+        { amount: 1, unit: "", item: "בצל פרוס" },
+        { amount: null, unit: "", item: "שמן זית" },
+        { amount: null, unit: "", item: "מלח" },
+        { amount: null, unit: "", item: "פלפל" },
+        { amount: 1, unit: "קוביה", item: "אבקת מרק עוף (או משחה)" }
+    ],
+    instructions: "1. מחממים שמן זית במחבת על אש בינונית-גבוהה ומטגנים את הבצל הפרוס.\n2. מוסיפים את עגבניות השרי והחומץ הבלסמי.\n3. מנמיכים את האש לבעבוע עדין (Simmer).\n4. מוסיפים את הבצל הירוק.\n5. מוסיפים את הסוכר החום.\n6. מתבלים במלח ופלפל לפי הטעם ומוסיפים את אבקת המרק.\n7. מכסים את המחבת ומבשלים עד שהעגבניות מתקמטות ומתרככות.\n8. מוסיפים את קציצות הסויה ומבשלים עד שהן מוכנות (כשהן כבר לא קפואות, כ-3-5 דקות).",
+    english: {
+        title: "Cherry Tomato Soy Meatballs",
+        author: "Flaminia",
+        ingredients: [
+            { amount: 1, unit: "pack", item: "Soy meatballs (frozen)" },
+            { amount: 0.35, unit: "cup", item: "Balsamic vinegar" },
+            { amount: 3, unit: "", item: "Green onions (sliced into 1 inch lengths)" },
+            { amount: 1, unit: "spoon", item: "Brown sugar" },
+            { amount: 1, unit: "pack", item: "Cherry tomatoes" },
+            { amount: 1, unit: "", item: "Onion (sliced)" },
+            { amount: null, unit: "", item: "Olive oil" },
+            { amount: null, unit: "", item: "Salt" },
+            { amount: null, unit: "", item: "Pepper" },
+            { amount: 1, unit: "cube", item: "Chicken bouillon (or paste)" }
+        ],
+        instructions: "1. Put olive oil and sliced onion to heat in a pan on medium-high heat.\n2. Add tomatoes and balsamic vinegar.\n3. Lower heat to a simmer.\n4. Add green onion.\n5. Add brown sugar.\n6. Add salt and pepper to taste and add the bouillon.\n7. Cover pan and wait until tomatoes are wrinkly.\n8. Add meatballs and cook until ready (when meatballs are not frozen anymore, 3-5 minutes)."
+    }
+},
+{
+    id: "simone_savta_meatballs",
+    title: "קציצות בשר",
+    author: "סבתא סימון",
+    tags: ["בשרי", "עיקרית", "English"],
+    image: "", 
+    sourceUrl: "",
+    ingredients: [
+        {
+            sectionName: "לקציצות",
+            items: [
+                { amount: 0.5, unit: "ק\"ג", item: "בשר טחון" },
+                { amount: 1, unit: "", item: "בצל קצוץ דק (מטוגן ומקורר)" },
+                { amount: 1, unit: "צרור גדול", item: "פטרוזיליה או כוסברה (קצוצה דק)" },
+                { amount: 2, unit: "שיני", item: "שום כתוש" },
+                { amount: 1, unit: "", item: "ביצה" },
+                { amount: 1, unit: "", item: "עגבניה מגורדת" },
+                { amount: 0.25, unit: "כוס", item: "פירורי לחם או פנקו" },
+                { amount: 0.25, unit: "כפית", item: "כמון" },
+                { amount: 0.5, unit: "כפית", item: "ראס אל חנות (כורכום, פלפל שחור, פפריקה, אגוז מוסקט, קינמון)" }
+            ]
+        },
+        {
+            sectionName: "לרוטב",
+            items: [
+                { amount: 2, unit: "", item: "עגבניות מגורדות" },
+                { amount: 1, unit: "", item: "גמבה אדומה (חתוכה לרצועות)" },
+                { amount: 1, unit: "כף", item: "שום כתוש" },
+                { amount: 2.5, unit: "כפות", item: "חומץ בלסמי" },
+                { amount: 1, unit: "קוביה", item: "אבקת מרק (Bouillon)" },
+                { amount: null, unit: "", item: "מלח" },
+                { amount: null, unit: "", item: "פלפל שחור" },
+                { amount: null, unit: "", item: "כורכום" },
+                { amount: null, unit: "", item: "מים (לפי הצורך)" }
+            ]
+        }
+    ],
+    instructions: "1. הכנת הקציצות: מערבבים את כל מרכיבי הקציצות בקערה (בזהירות, לא ללוש יותר מדי). יוצרים כדורים ומניחים על תבנית מרופדת בנייר אפייה.\n2. אופים בתנור שחומם מראש ל-200 מעלות למשך 15 דקות. מוציאים ומניחים לקירור.\n3. הכנת הרוטב: בסיר רחב, מטגנים את רצועות הגמבה. מוסיפים את העגבניות המגורדות והשום. מוסיפים את החומץ הבלסמי ואת שאר התבלינים.\n4. מבשלים על אש קטנה כ-20-30 דקות. אם הרוטב מתייבש במהלך הבישול, מוסיפים מעט מים.\n5. מוסיפים את הקציצות לרוטב ומבשלים ברתיחה עדינה (בעבוע קל) כ-15-20 דקות נוספות.",
+    english: {
+        title: "Savta Meatballs",
+        author: "Grandma Simone",
+        ingredients: [
+            {
+                sectionName: "For the Meatballs",
+                items: [
+                    { amount: 1, unit: "lb", item: "Ground beef" },
+                    { amount: 1, unit: "", item: "Onion, diced small (fried and cooled)" },
+                    { amount: 1, unit: "big bunch", item: "Parsley or Cilantro (cut small)" },
+                    { amount: 2, unit: "cloves", item: "Garlic (minced)" },
+                    { amount: 1, unit: "", item: "Egg" },
+                    { amount: 1, unit: "", item: "Grated tomato" },
+                    { amount: 0.25, unit: "cup", item: "Bread crumbs or Panko" },
+                    { amount: 0.25, unit: "tsp", item: "Cumin" },
+                    { amount: 0.5, unit: "tsp", item: "Ras el Hanout (turmeric, black pepper, paprika, nutmeg, cinnamon)" }
+                ]
+            },
+            {
+                sectionName: "For the Sauce",
+                items: [
+                    { amount: 2, unit: "", item: "Grated tomatoes" },
+                    { amount: 1, unit: "", item: "Red pepper (strips)" },
+                    { amount: 1, unit: "tbsp", item: "Minced garlic" },
+                    { amount: 2.5, unit: "tbsp", item: "Balsamic vinegar" },
+                    { amount: 1, unit: "cube", item: "Bouillon" },
+                    { amount: null, unit: "", item: "Salt" },
+                    { amount: null, unit: "", item: "Black pepper" },
+                    { amount: null, unit: "", item: "Turmeric" },
+                    { amount: null, unit: "", item: "Water (as needed)" }
+                ]
+            },
+        ],
+        instructions: "1. Prepare the Meatballs: Mix all the meatball ingredients together (don't over mix). Form into balls and place onto parchment paper.\n2. Bake in an oven at 400°F (200°C) for 15 minutes. Let them cool afterwards.\n3. Prepare the Sauce: Fry the red pepper strips, then add the grated tomatoes and garlic. Add 2-3 tablespoons of balsamic vinegar and the rest of the spices.\n4. Cook for about 20-30 minutes on low heat. Add water if it gets dry while cooking.\n5. Add the meatballs to the sauce and let it simmer on low (bubbling) for 15-20 minutes."
+    }
+},
+{
+    id: "flaminia_sabich",
+    title: "סביח",
+    author: "פלמיניה",
+    tags: ["צמחוני", "English"],
+    image: "", 
+    sourceUrl: "",
+    ingredients: [
+        {
+            sectionName: "לחצילים",
+            items: [
+                { amount: 1.5, unit: "", item: "חצילים" },
+                { amount: null, unit: "", item: "מלח (להגרת נוזלים)" },
+                { amount: null, unit: "", item: "שמן (לטיגון עמוק/חצי עמוק)" }
+            ]
+        },
+        {
+            sectionName: "לתיבול",
+            items: [
+                { amount: 1, unit: "", item: "לימון (סחוט)" },
+                { amount: 2, unit: "שיני", item: "שום כתוש" },
+                { amount: 1, unit: "חופן", item: "פטרוזיליה או כוסברה (קצוצה)" },
+                { amount: null, unit: "", item: "צנוברים" }
+            ]
+        },
+        {
+            sectionName: "להגשה (תוספות סביח)",
+            items: [
+                { amount: null, unit: "", item: "פיתות" },
+                { amount: null, unit: "", item: "חומוס" },
+                { amount: null, unit: "", item: "טחינה" },
+                { amount: null, unit: "", item: "סלט ירקות (עגבניה ומלפפון)" },
+                { amount: null, unit: "", item: "ביצים קשות" }
+            ]
+        }
+    ],
+    instructions: "1. כ-4-5 שעות לפני הבישול: מקלפים את החצילים חלקית (פסים/זברה) ופורסים אותם לרוחב.\n2. שמים את הפרוסות במסננת, מפזרים מלח ומניחים צלחת מלמעלה (כמשקולת) כדי להגיר נוזלים. מניחים בצד.\n3. פורסים מגבת עם נייר סופג ולוחצים על החצילים כדי לייבש אותם היטב מהנוזלים.\n4. מטגנים במחבת עם הרבה שמן (החציל לא צריך לגעת בתחתית המחבת). הופכים באמצע הטיגון עד להזהבה. מוציאים לנייר סופג.\n5. מערבבים את הפטרוזיליה (או כוסברה), השום הכתוש והלימון, ומזלפים מעל החצילים המוכנים.\n6. מפזרים מעל צנוברים ומגישים לצד התוספות (פיתה, חומוס, טחינה, סלט וביצים).",
+    english: {
+        title: "Sabich",
+        author: "Flaminia",
+        ingredients: [
+            {
+                sectionName: "For the Eggplant",
+                items: [
+                    { amount: 1.5, unit: "", item: "Eggplants" },
+                    { amount: null, unit: "", item: "Salt (for sweating)" },
+                    { amount: null, unit: "", item: "Oil (for frying)" }
+                ]
+            },
+            {
+                sectionName: "Dressing & Garnish",
+                items: [
+                    { amount: 1, unit: "", item: "Lemon (juiced)" },
+                    { amount: 2, unit: "cloves", item: "Minced garlic" },
+                    { amount: 1, unit: "handful", item: "Parsley or Cilantro" },
+                    { amount: null, unit: "", item: "Pine nuts" }
+                ]
+            },
+            {
+                sectionName: "Toppings",
+                items: [
+                    { amount: null, unit: "", item: "Pita bread" },
+                    { amount: null, unit: "", item: "Hummus" },
+                    { amount: null, unit: "", item: "Tahini" },
+                    { amount: null, unit: "", item: "Tomato/Cucumber salad" },
+                    { amount: null, unit: "", item: "Hard boiled eggs" }
+                ]
+            }
+        ],
+        instructions: "1. 4-5 hours before cooking: Partly peel the eggplant (stripes), slice the short way.\n2. Put slices in a strainer, add salt, and cover with a plate on top to press it down so it releases juices. Let sit.\n3. Lay out a towel with paper towel and then press the slices to get the liquid out.\n4. Fry in a pan with lots of oil (eggplant should not touch the bottom of the pan). Flip halfway. Remove from pan onto paper towels.\n5. Mix parsley (or cilantro), minced garlic, and lemon, then drizzle on top of the fried eggplant.\n6. Top with pine nuts and serve with the toppings."
+    }
+},
+{
+    id: "flaminia_tortilla",
+    title: "טורטייה ספרדית",
+    author: "פלמיניה",
+    tags: ["צמחוני", "English"],
+    image: "", 
+    sourceUrl: "",
+    ingredients: [
+        { amount: 4, unit: "", item: "תפוחי אדמה צהובים" },
+        { amount: 1, unit: "קטן", item: "בצל" },
+        { amount: 4, unit: "", item: "ביצים" },
+        { amount: null, unit: "", item: "שמן זית" },
+        { amount: null, unit: "", item: "מלח" }
+    ],
+    instructions: "1. מקלפים ופורסים את תפוחי האדמה והבצל.\n2. שמים אותם יחד בקערת זכוכית ומערבבים עם מעט שמן זית. מכסים (משאירים פתח קטן לאוורור) ומפעילים במיקרוגל ל-5 דקות.\n3. מערבבים ומפעילים ל-4 דקות נוספות. אם צריך, מוסיפים עוד 3-4 דקות עד שתפוחי האדמה רכים.\n4. מניחים לתערובת להתקרר מעט. מערבבים פנימה את הביצים והמלח.\n5. מחממים מעט שמן במחבת (המחבת צריכה להיות לוהטת). מנמיכים לחום בינוני ושופכים את כל התערובת פנימה. מנענעים את המחבת בתנועות מעגליות כדי שהחביתה לא תידבק, אך לא מערבבים. כשהחביתה מתייצבת, הופכים אותה על צלחת ומחליקים אותה חזרה למחבת לצד השני למספר דקות נוספות.",
+    english: {
+        title: "Spanish Tortilla",
+        author: "Flaminia",
+        ingredients: [
+            { amount: 4, unit: "", item: "Yellow potatoes" },
+            { amount: 1, unit: "small", item: "Onion" },
+            { amount: 4, unit: "", item: "Eggs" },
+            { amount: null, unit: "", item: "Olive oil" },
+            { amount: null, unit: "", item: "Salt" }
+        ],
+        instructions: "1. Peel and slice potatoes and onions.\n2. Put together in a glass bowl, mix with olive oil. Microwave for 5 minutes covered (leave a slit for steam).\n3. Mix again, microwave for 4 more minutes. Add another 3-4 minutes if needed until soft.\n4. Let it cool a bit, then mix in the eggs and salt.\n5. Heat a tiny bit of oil in a pan (needs to be super hot). Lower to medium heat and pour the whole mixture in. Shake in a round motion so it doesn't stick, but don't mix. Flip onto a plate once it's set, then slide it back into the pan for a few more minutes."
+    }
+},
+{
+    id: "simone_challah",
+    title: "חלה",
+    author: "סבתא סימון",
+    tags: ["צמחוני", "English"],
+    image: "", 
+    sourceUrl: "",
+    ingredients: [
+        {
+            sectionName: "לבצק",
+            items: [
+                { amount: 3.5, unit: "כוסות", item: "קמח רגיל (מנופה)" },
+                { amount: 0.25, unit: "כוס", item: "סוכר (1/3 כוס לחלה עגולה)" },
+                { amount: 1, unit: "כף", item: "שמרים יבשים" },
+                { amount: 0.5, unit: "כף", item: "מלח" },
+                { amount: 0.25, unit: "כוס", item: "שמן צמחי" },
+                { amount: 1, unit: "", item: "ביצה" },
+                { amount: 1, unit: "כוס", item: "מים חמימים (בין 3/4 ל-1 כוס)" }
+            ]
+        },
+        {
+            sectionName: "לציפוי",
+            items: [
+                { amount: 1, unit: "", item: "ביצה (להברשה, מעורבבת עם מים ומלח)" },
+                { amount: null, unit: "", item: "שומשום" }
+            ]
+        },
+        {
+            sectionName: "לזיגוג (אופציונלי לחלה עגולה)",
+            items: [
+                { amount: 0.5, unit: "כוס", item: "סוכר" },
+                { amount: 0.5, unit: "כוס", item: "מים" },
+                { amount: 1, unit: "כף", item: "דבש" },
+                { amount: 0.5, unit: "כף", item: "מיץ לימון" }
+            ]
+        }
+    ],
+    instructions: "1. מערבבים את החומרים היבשים (יש לנפות את הקמח).\n2. מוסיפים למיקסר ומוסיפים את החומרים הרטובים אחד אחד. את המים מוסיפים בהדרגה.\n3. להשאיר את הבצק ללישה במיקסר במשך 7-10 דקות.\n4. משמנים תחתית קערה, מניחים את הבצק בפנים ומשמנים גם את חלקו העליון של הבצק.\n5. מכסים במגבת ומתפיחים למשך שעה-שעה וחצי.\n6. אם מכינים חלה עגולה ורוצים להוסיף זיגוג: מבשלים את חומרי הזיגוג על אש גבוהה במשך 10-15 דקות ומצננים.\n7. קולעים את החלה (מומלץ להיעזר בסרטון הדרכה).\n8. מכסים במגבת ומתפיחים שנית למשך שעה לפחות.\n9. מורחים בביצה (בלילה עם מעט מים ומלח) ומפזרים שומשום.\n10. אופים ב-180 מעלות למשך 20-30 דקות.\n11. מוציאים מהתנור ומכסים במגבת. אם זו חלה עגולה עם זיגוג - מורחים את הזיגוג ולא מכסים במגבת.",
+    english: {
+        title: "Challah",
+        author: "Grandma Simone",
+        ingredients: [
+            {
+                sectionName: "For the Dough",
+                items: [
+                    { amount: 3.5, unit: "cups", item: "All purpose flour (sifted)" },
+                    { amount: 0.25, unit: "cup", item: "Sugar (1/3 cup for round challah)" },
+                    { amount: 1, unit: "tbsp", item: "Dried yeast" },
+                    { amount: 0.5, unit: "tbsp", item: "Salt" },
+                    { amount: 0.25, unit: "cup", item: "Vegetable oil" },
+                    { amount: 1, unit: "", item: "Egg" },
+                    { amount: 1, unit: "cup", item: "Water, slightly warm (3/4 to 1 cup)" }
+                ]
+            },
+            {
+                sectionName: "For Topping",
+                items: [
+                    { amount: 1, unit: "", item: "Egg (for wash, mixed with water/salt)" },
+                    { amount: null, unit: "", item: "Sesame seeds" }
+                ]
+            },
+            {
+                sectionName: "Glaze (Optional for round challah)",
+                items: [
+                    { amount: 0.5, unit: "cup", item: "Sugar" },
+                    { amount: 0.5, unit: "cup", item: "Water" },
+                    { amount: 1, unit: "tbsp", item: "Honey" },
+                    { amount: 0.5, unit: "tbsp", item: "Lemon juice" }
+                ]
+            }
+        ],
+        instructions: "1. Mix dry ingredients (only sift flour).\n2. Add wet ingredients one at a time while mixer is going, add the water slowly.\n3. Let dough knead for 7-10 minutes.\n4. Put oil on bottom of bowl and place dough in bowl and place oil on top.\n5. Let rise for 1-1.5 hours covered with a towel.\n6. If making round challah, make glaze by putting ingredients over high heat for ~10-15 minutes and then let cool.\n7. Braid it (watch video).\n8. Let it rise 1 hour at least covered with a towel.\n9. Put egg wash (add water and salt) and sesame seeds on dough.\n10. Bake at 355°F (180°C) for 20-30 minutes.\n11. Take it out and cover with towel OR for round challah put glaze on and do not cover with towel."
+    }
 }
 ];
