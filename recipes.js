@@ -1740,5 +1740,195 @@ const recipes = [
         ],
         instructions: "1. Mix dry ingredients (only sift flour).\n2. Add wet ingredients one at a time while mixer is going, add the water slowly.\n3. Let dough knead for 7-10 minutes.\n4. Put oil on bottom of bowl and place dough in bowl and place oil on top.\n5. Let rise for 1-1.5 hours covered with a towel.\n6. If making round challah, make glaze by putting ingredients over high heat for ~10-15 minutes and then let cool.\n7. Braid it (watch video).\n8. Let it rise 1 hour at least covered with a towel.\n9. Put egg wash (add water and salt) and sesame seeds on dough.\n10. Bake at 355°F (180°C) for 20-30 minutes.\n11. Take it out and cover with towel OR for round challah put glaze on and do not cover with towel."
     }
+},
+{
+    id: "flaminia_sushi",
+    title: "אורז לסושי",
+    author: "פלמיניה",
+    tags: ["צמחוני", "English"],
+    image: "", 
+    sourceUrl: "",
+    ingredients: [
+        {
+            sectionName: "לאורז",
+            items: [
+                { amount: 2, unit: "כוסות", item: "אורז עגול" },
+                { amount: 3, unit: "כוסות", item: "מים" }
+            ]
+        },
+        {
+            sectionName: "לתחמיץ (רוטב לאורז)",
+            items: [
+                { amount: 4, unit: "כפות", item: "חומץ אורז" },
+                { amount: 1, unit: "כף", item: "מירין" },
+                { amount: 2, unit: "כפות", item: "סוכר" },
+                { amount: 2, unit: "כפיות", item: "מלח" }
+            ]
+        }
+    ],
+    instructions: "1. הכנת האורז: מבשלים את 2 כוסות האורז עם 3 כוסות המים (מביאים לרתיחה, מנמיכים אש ומבשלים עד שהמים נספגים). לאחר הבישול, מכסים את הסיר במגבת וממתינים 30 דקות.\n2. הכנת התחמיץ: מערבבים בקערה את החומץ, המירין, הסוכר והמלח. מחממים במיקרוגל עד שהסוכר והמלח נמסים לחלוטין. מניחים לצינון.\n3. ערבוב: שופכים את התחמיץ לאט לתוך האורז ומערבבים בעדינות (בתנועות קיפול). מכסים שוב במגבת ומניחים למשך שעה לספיגת טעמים וצינון.\n4. כשהאורז התקרר, מתחילים לגלגל סושי (עם אצות ותוספות לבחירה).",
+    english: {
+        title: "Sushi Rice",
+        author: "Flaminia",
+        ingredients: [
+            {
+                sectionName: "Rice Base",
+                items: [
+                    { amount: 2, unit: "cups", item: "Rice (Sushi/Short grain)" },
+                    { amount: 3, unit: "cups", item: "Water" }
+                ]
+            },
+            {
+                sectionName: "Vinegar Mixture",
+                items: [
+                    { amount: 4, unit: "tbsp", item: "Rice vinegar" },
+                    { amount: 1, unit: "tbsp", item: "Mirin" },
+                    { amount: 2, unit: "tbsp", item: "Sugar" },
+                    { amount: 2, unit: "tsp", item: "Salt" }
+                ]
+            }
+        ],
+        instructions: "1. Make the rice: Cook the 2 cups of rice with the 3 cups of water. Once cooked, turn off heat and wait 30 minutes with a towel covering the rice pot.\n2. Make vinegar mixture: Mix the vinegar, mirin, sugar, and salt. Microwave until sugar and salt are dissolved. Let cool.\n3. Mix the vinegar mixture slowly into the rice and let sit with a towel covering it for an hour.\n4. When rice is cool, begin rolling!"
+    }
+},
+{
+    id: "inbal_roasted_cauliflower",
+    title: "סלט כרוביות צלויות",
+    author: "ענבל",
+    tags: ["סלטים", "חלבי", "English"],
+    image: "images/caul_salad.jpeg", 
+    sourceUrl: "",
+    ingredients: [
+        {
+            sectionName: "לסלט",
+            items: [
+                { amount: 1, unit: "", item: "כרובית לבנה וטרייה" },
+                { amount: 4, unit: "כפות", item: "שמן זית (לתיבול הכרובית)" },
+                { amount: 0.5, unit: "כפית", item: "מלח" },
+                { amount: 5, unit: "", item: "צנוניות" },
+                { amount: 0.5, unit: "", item: "בצל סגול (קלוף)" },
+                { amount: 1, unit: "חופן", item: "עלי זעתר טריים (או כוסברה/עירית)" },
+                { amount: 0.5, unit: "כוס", item: "גרגירי חומוס מבושלים" },
+                { amount: 20, unit: "", item: "זיתי קלמטה (ללא גלעין)" }
+            ]
+        },
+        {
+            sectionName: "לקרם היוגורט",
+            items: [
+                { amount: 1, unit: "גביע", item: "שמנת חמוצה (\"של פעם\")" },
+                { amount: 1, unit: "גביע", item: "יוגורט BIO 3%" }
+            ]
+        },
+        {
+            sectionName: "לרוטב",
+            items: [
+                { amount: 4, unit: "כפות", item: "שמן זית" },
+                { amount: 0.5, unit: "", item: "לימון (סחוט למיץ)" },
+                { amount: null, unit: "", item: "פלפל שחור גרוס" },
+                { amount: 2, unit: "כפות", item: "סירופ מייפל" },
+                { amount: 0.5, unit: "", item: "צ'ילי טרי" }
+            ]
+        }
+    ],
+    instructions: "1. מפרקים את הכרובית לפרחים בגודל 4-5 ס”מ ושוטפים היטב. מבשלים במים רותחים במשך 10 דקות ומסננים (זה בסדר אם הכרוביות עדיין לא רכות לגמרי).\n2. מעבירים לתבנית עם נייר אפייה, מזלפים שמן זית בנדיבות, ממליחים ואופים בתנור שחומם מראש ל-180 מעלות עד להזהבה יפה.\n3. פורסים את הצנוניות והבצל לפרוסות דקות מאוד.\n4. הכנת קרם היוגורט: מערבבים את השמנת והיוגורט ומורחים על צלחת הגשה (כמו שמצלחתים חומוס).\n5. בקערה נפרדת מערבבים את כל מרכיבי הסלט (כרובית אפויה, צנוניות, בצל, עשבי תיבול, חומוס וזיתים).\n6. מניחים את הסלט מעל קרם היוגורט שבצלחת.\n7. מערבבים את כל מרכיבי הרוטב, מזלפים בנדיבות מעל הסלט ומגישים בטמפרטורת החדר.",
+    english: {
+        title: "Roasted Cauliflower Salad",
+        author: "Inbal",
+        ingredients: [
+            {
+                sectionName: "For the Salad",
+                items: [
+                    { amount: 1, unit: "", item: "Fresh white cauliflower" },
+                    { amount: 4, unit: "tbsp", item: "Olive oil (for roasting)" },
+                    { amount: 0.5, unit: "tsp", item: "Salt" },
+                    { amount: 5, unit: "", item: "Radishes" },
+                    { amount: 0.5, unit: "", item: "Red onion (peeled)" },
+                    { amount: 1, unit: "handful", item: "Fresh Za'atar leaves (or cilantro/chives)" },
+                    { amount: 0.5, unit: "cup", item: "Cooked chickpeas" },
+                    { amount: 20, unit: "", item: "Kalamata olives (pitted)" }
+                ]
+            },
+            {
+                sectionName: "For the Yogurt Cream",
+                items: [
+                    { amount: 1, unit: "container", item: "Sour cream (Rich/Old fashioned style)" },
+                    { amount: 1, unit: "container", item: "Bio Yogurt 3%" }
+                ]
+            },
+            {
+                sectionName: "For the Sauce",
+                items: [
+                    { amount: 4, unit: "tbsp", item: "Olive oil" },
+                    { amount: 0.5, unit: "", item: "Lemon (juiced)" },
+                    { amount: null, unit: "", item: "Ground black pepper" },
+                    { amount: 2, unit: "tbsp", item: "Maple syrup" },
+                    { amount: 0.5, unit: "", item: "Fresh chili" }
+                ]
+            }
+        ],
+        instructions: "1. Break the cauliflower into 4-5 cm florets and wash well. Boil in water for 10 minutes and drain (it's okay if not completely soft).\n2. Transfer to a baking sheet lined with parchment paper, drizzle generously with olive oil, add salt, and bake in a preheated oven at 180°C (355°F) until beautifully golden.\n3. Slice the radishes and onion into very thin slices.\n4. Prepare the yogurt cream: Mix the sour cream and yogurt and spread on a serving plate (plating it like Hummus).\n5. In a separate bowl, mix all the salad ingredients (roasted cauliflower, radishes, onion, herbs, chickpeas, and olives).\n6. Place the salad on top of the yogurt cream.\n7. Mix all the sauce ingredients, drizzle generously over the salad, and serve at room temperature."
+    }
+},
+{
+    id: "inbal_pulled_meat_veggies",
+    title: "בשר מפורק וירקות בתנור",
+    author: "ענבל",
+    tags: ["בשרי", "English"],
+    image: "images/oven_meat_veg.jpeg", 
+    sourceUrl: "",
+    ingredients: [
+        {
+            sectionName: "לבשר ולירקות",
+            items: [
+                { amount: 1.5, unit: "ק\"ג", item: "בשר צלי ברשת (כתף/צלעות/צוואר)" },
+                { amount: 3, unit: "", item: "בצלים (פרוסים גס)" },
+                { amount: 3, unit: "", item: "כרישה (חתוכה למקטעים של 10 ס\"מ)" },
+                { amount: 10, unit: "", item: "תפוחי אדמה (או כמה שנכנס)" },
+                { amount: 10, unit: "", item: "בצלצלי שאלוט (שלמים)" },
+                { amount: 3, unit: "", item: "מיני בטטה" },
+                { amount: 15, unit: "", item: "שזיפים יבשים (מגולענים)" }
+            ]
+        },
+        {
+            sectionName: "לתיבול ונוזלים",
+            items: [
+                { amount: 0.33, unit: "כוס", item: "שמן זית" },
+                { amount: 1, unit: "כפית", item: "פלפל שחור גרוס" },
+                { amount: 1, unit: "כפית", item: "מלח ים אטלנטי" },
+                { amount: 5.5, unit: "כפות", item: "מייפל אמיתי" },
+                { amount: 1, unit: "כוס", item: "מים" }
+            ]
+        }
+    ],
+    instructions: "1. מחממים תנור ל-150 מעלות.\n2. מניחים את הבשר בסיר (מומלץ סיר ברזל יצוק). מוזגים עליו חלק משמן הזית, המלח והפלפל ומעסים היטב בידיים.\n3. מסדרים את הירקות: מניחים את הבצלים הפרוסים (חלקם מתחת לבשר עצמו), מוסיפים את הכרישה, בצלי השאלוט, הבטטות, תפוחי האדמה והשזיפים.\n4. מוזגים את שארית שמן הזית, מתבלים בעוד מלח ופלפל, מזלפים מעל את המייפל ומוזגים את כוס המים.\n5. מכסים ומכניסים לתנור למשך כשעתיים. לאחר שעתיים, פותחים, מרטיבים את הבשר והירקות בנוזלים שהצטברו וטועמים כדי לתקן תיבול.\n6. ממשיכים לבשל עוד כ-3 שעות (סך הכל כ-5 שעות) או עד שהבשר רך לחלוטין (סכין ננעצת בו בצורה חלקה).\n7. סמוך להגשה: מוציאים מהסיר, גוזרים את הרשת ומפרקים את הבשר בעזרת שני מזלגות ('פול ד ביף'). מגישים לצד הירקות מהסיר ואורז לבן.",
+    english: {
+        title: "Slow Roasted Pulled Meat & Vegetables",
+        author: "Inbal",
+        ingredients: [
+            {
+                sectionName: "Meat & Vegetables",
+                items: [
+                    { amount: 1.5, unit: "kg", item: "Roast beef in netting (Chuck/Ribs/Neck/Brisket)" },
+                    { amount: 3, unit: "", item: "Onions (roughly sliced)" },
+                    { amount: 3, unit: "", item: "Leeks (cut into 10cm segments)" },
+                    { amount: 10, unit: "", item: "Potatoes (As many as fit!)" },
+                    { amount: 10, unit: "", item: "Shallots (whole)" },
+                    { amount: 3, unit: "", item: "Mini sweet potatoes" },
+                    { amount: 15, unit: "", item: "Prunes (pitted)" }
+                ]
+            },
+            {
+                sectionName: "Seasoning & Liquids",
+                items: [
+                    { amount: 0.33, unit: "cup", item: "Olive oil" },
+                    { amount: 1, unit: "tsp", item: "Coarse black pepper" },
+                    { amount: 1, unit: "tsp", item: "Atlantic sea salt" },
+                    { amount: 5.5, unit: "tbsp", item: "Pure maple syrup" },
+                    { amount: 1, unit: "cup", item: "Water" }
+                ]
+            }
+        ],
+        instructions: "1. Preheat oven to 150°C (300°F).\n2. Place the meat in a pot (cast iron recommended). Pour some of the olive oil, salt, and pepper over it and rub well with your hands.\n3. Arrange the vegetables: Place the sliced onions (some underneath the meat), add the leeks, shallots, sweet potatoes, potatoes, and prunes.\n4. Pour the remaining olive oil, season with more salt and pepper, drizzle the maple syrup over everything, and pour in the water.\n5. Cover and bake for about 2 hours. After 2 hours, open the pot, baste the meat and veggies with the juices, and taste to adjust seasoning.\n6. Continue cooking for another 3 hours (Total ~5 hours) or until the meat is completely soft (a knife should slide in smoothly).\n7. Close to serving time: Remove from pot, cut the net, and pull the meat apart using two forks. Serve alongside the roasted vegetables and white rice."
+    }
 }
 ];
