@@ -2413,5 +2413,979 @@ const recipes = [
             }
         ],
         instructions: "1. מנקים את הכרובית, מסירים עלים ירוקים, ומבשלים את הפרחים בסיר עם מי מלח כ-25 דקות (הכרובית צריכה להיות פריכה במידת מה). מסננים את המים.\n2. הכנת הרוטב: ממיסים את החמאה (100 גרם) בסיר בינוני על אש נמוכה. בוזקים פנימה את הקמח ובוחשים כ-3 דקות. מסירים מהאש.\n3. מוסיפים את החלב ובוחשים היטב. מחזירים לאש ומבשלים תוך ערבוב עד שהרוטב מסמיך (כ-5 דקות).\n4. מוסיפים את המלח והגבינה המגוררת, ומערבבים עד שהגבינה נמסה.\n5. משמנים תבנית אפייה ומסדרים עליה את פרחי הכרובית. יוצקים מעל את רוטב הגבינה.\n6. מפזרים את פירורי הלחם לכיסוי אחיד, ומפוררים מעל את שארית החמאה (25 גרם).\n7. אופים בחום בינוני במשך 35 דקות, או עד שפני המאפה משחימים יפה. מגישים חם."
+    },
+	{
+    id: "kumara_bean_chili",
+    title: "צ'ילי שעועית ובטטה",
+    author: "פלמיניה",
+    tags: [
+        "צמחוני",
+        "English"
+    ],
+    image: "",
+    sourceUrl: "",
+    ingredients: [
+        {
+            amount: 4,
+            unit: "כפות",
+            item: "שמן זית"
+        },
+        {
+            amount: 1,
+            unit: "קופסת שימורים",
+            item: "עגבניות חתוכות עם צ'ילי"
+        },
+        {
+            amount: 1,
+            unit: "",
+            item: "בצל לבן"
+        },
+        {
+            amount: 3,
+            unit: "שיני",
+            item: "שום"
+        },
+        {
+            amount: 2,
+            unit: "",
+            item: "בטטות גדולות"
+        },
+        {
+            amount: 2.5,
+            unit: "קופסאות שימורים",
+            item: "שעועית (שעועית שחורה או מיקס קטניות)"
+        },
+        {
+            amount: 1,
+            unit: "כוס",
+            item: "ציר ירקות או מים"
+        },
+        {
+            amount: null,
+            unit: "חבילת",
+            item: "טחון מן הצומח (אופציונלי)"
+        },
+        {
+            sectionName: "תבלינים",
+            items: [
+                {
+                    amount: null,
+                    unit: "",
+                    item: "פפריקה"
+                },
+                {
+                    amount: null,
+                    unit: "",
+                    item: "טחון צ'ילי"
+                },
+                {
+                    amount: null,
+                    unit: "",
+                    item: "כמון"
+                },
+                {
+                    amount: null,
+                    unit: "",
+                    item: "פלפל קאיין"
+                },
+                {
+                    amount: null,
+                    unit: "",
+                    item: "מלח"
+                },
+				{
+                    amount: null,
+                    unit: "",
+                    item: "פלפל"
+                }
+            ]
+        }
+    ],
+    instructions: "1. מחממים 2-3 כפות שמן זית במחבת או סיר.\n2. מוסיפים את השום הכתוש והבצל הקצוץ לשמן ומטגנים עד שעולה ריח.\n3. מוסיפים עוד 1-2 כפות שמן ומוסיפים את הבטטה (חתוכה לקוביות). משחימים אותן מעט (כ-5 דקות תוך כדי ערבוב).\n4. מוסיפים את השעועית (יש לסנן את הנוזלים מהקופסה, אך אין צורך לשטוף את השעועית), העגבניות, ציר הירקות (או המים) ואת כל התבלינים. מערבבים ומכסים.\n5. כ-5 דקות לפני שהתבשיל מוכן, מוסיפים את הטחון מן הצומח (או שמבשלים אותו בנפרד לפי הוראות היצרן ומוסיפים).\n6. משאירים מכוסה על אש בינונית, תוך ערבוב מדי פעם. כדי לבדוק אם זה מוכן, בודקים חתיכת בטטה. אם היא עדיין קשה, צריך עוד זמן. אם היא נמעכת בקלות - זה מוכן!",
+    english: {
+        title: "Kumara and Bean Chili",
+        author: "Flaminia",
+        ingredients: [
+            {
+                amount: 4,
+                unit: "tbsp",
+                item: "Olive oil (3-5 TBSP)"
+            },
+            {
+                amount: 1,
+                unit: "can",
+                item: "Diced tomatoes with chilis"
+            },
+            {
+                amount: 1,
+                unit: "",
+                item: "Yellow onion"
+            },
+            {
+                amount: 3,
+                unit: "cloves",
+                item: "Garlic (3+)"
+            },
+            {
+                amount: 2,
+                unit: "",
+                item: "Large kumara (sweet potato) or 3 medium"
+            },
+            {
+                amount: 2.5,
+                unit: "cans",
+                item: "Beans (Black beans or 4 bean mix)"
+            },
+            {
+                amount: 1,
+                unit: "cup",
+                item: "Veggie stock or water"
+            },
+            {
+                amount: null,
+                unit: "",
+                item: "Vegetarian ground beef (optional)"
+            },
+            {
+                sectionName: "Spices",
+                items: [
+                    {
+                        amount: null,
+                        unit: "",
+                        item: "Paprika"
+                    },
+                    {
+                        amount: null,
+                        unit: "",
+                        item: "Chili powder"
+                    },
+                    {
+                        amount: null,
+                        unit: "",
+                        item: "Cumin"
+                    },
+                    {
+                        amount: null,
+                        unit: "",
+                        item: "Cayenne pepper"
+                    },
+                    {
+                        amount: null,
+                        unit: "",
+                        item: "Salt & pepper"
+                    }
+                ]
+            }
+        ],
+        instructions: "1. Add about 2-3 TBSP Olive oil to pan and heat.\n2. Add the minced garlic and diced onion to the oil and cook until fragrant.\n3. Add 1-2 more TBSP of oil and add in the cubed kumara. Brown them a little (5 minutes while stirring a little).\n4. Add the beans (drain the cans before adding, but no need to rinse the beans), the tomatoes, veggie stock or water and all of the spices. Stir it up and cover.\n5. About 5 minutes before it’s done, add the ground beef (or cook according to package instructions).\n6. Leave covered on medium heat, stirring regularly. To see if it's done, test a piece of kumara. If it is still hard, it needs longer. If it squishes, it's ready!"
+    }
+	},
+    {
+        id: "flaminia_salsa",
+        title: "סלסה",
+        author: "פלמיניה",
+        tags: [
+            "סלטים",
+            "צמחוני",
+            "English"
+        ],
+        image: "",
+        sourceUrl: "",
+        ingredients: [
+            {
+                amount: 2,
+                unit: "קופסאות שימורים",
+                item: "עגבניות חתוכות עם צ'ילי"
+            },
+            {
+                amount: 1,
+                unit: "",
+                item: "בצל צהוב (קצוץ)"
+            },
+            {
+                amount: 3,
+                unit: "שיני",
+                item: "שום (או 2, קצוצות דק מאוד)"
+            },
+            {
+                amount: 3,
+                unit: "",
+                item: "פלפלי סראנו גדולים (או 2-4, פרוסים דק ככל האפשר)"
+            },
+            {
+                amount: null,
+                unit: "",
+                item: "מלח ופלפל (לפי הטעם)"
+            },
+            {
+                amount: null,
+                unit: "",
+                item: "כמון"
+            },
+            {
+                amount: null,
+                unit: "",
+                item: "פפריקה"
+            },
+            {
+                amount: null,
+                unit: "",
+                item: "פלפל קאיין"
+            }
+        ],
+        instructions: "פשוט זורקים הכל לקערה, מערבבים וטועמים!",
+        english: {
+            title: "Salsa",
+            author: "Flaminia",
+            ingredients: [
+                {
+                    amount: 2,
+                    unit: "cans",
+                    item: "Diced tomatoes with chili"
+                },
+                {
+                    amount: 1,
+                    unit: "",
+                    item: "Yellow onion (diced)"
+                },
+                {
+                    amount: 3,
+                    unit: "cloves",
+                    item: "Garlic (2-3, chopped real small)"
+                },
+                {
+                    amount: 3,
+                    unit: "",
+                    item: "Big Serrano peppers (2-4, sliced as SMALL as you can)"
+                },
+                {
+                    amount: null,
+                    unit: "",
+                    item: "Salt and pepper to taste"
+                },
+                {
+                    amount: null,
+                    unit: "",
+                    item: "Cumin, paprika, and Cayenne pepper"
+                }
+            ],
+            instructions: "1. Just throw it all together and taste!"
+        }
+    },
+    {
+        id: "flaminia_shakshuka",
+        title: "שקשוקה",
+        author: "פלמיניה",
+        tags: [
+            "צמחוני",
+            "English"
+        ],
+        image: "",
+        sourceUrl: "",
+        ingredients: [
+            {
+                amount: 0.25,
+                unit: "כוס",
+                item: "שמן"
+            },
+            {
+                amount: 1,
+                unit: "",
+                item: "גמבה אדומה קצוצה"
+            },
+            {
+                amount: 2,
+                unit: "",
+                item: "פלפלי חלפיניו קצוצים"
+            },
+            {
+                amount: 4,
+                unit: "שיני",
+                item: "שום כתוש"
+            },
+            {
+                amount: 1,
+                unit: "כף",
+                item: "פפריקה"
+            },
+            {
+                amount: null,
+                unit: "",
+                item: "קימל טחון"
+            },
+            {
+                amount: null,
+                unit: "",
+                item: "כמון"
+            },
+            {
+                amount: null,
+                unit: "",
+                item: "מלח ופלפל"
+            },
+            {
+                amount: 0.5,
+                unit: "כף",
+                item: "רסק עגבניות"
+            },
+            {
+                amount: 8,
+                unit: "",
+                item: "עגבניות קלופות (חתוכות דק)"
+            },
+            {
+                amount: 1,
+                unit: "כף",
+                item: "סוכר"
+            },
+            {
+                amount: 7,
+                unit: "",
+                item: "ביצים בטמפרטורת החדר (6-8 ביצים)"
+            }
+        ],
+        instructions: "1. מחממים את השמן ומטגנים את הגמבה והחלפיניו.\n2. מוסיפים את השום מס' דקות לפני שהירקות מוכנים.\n3. מוסיפים את התבלינים ורסק העגבניות.\n4. מוסיפים את העגבניות והסוכר.\n5. מבשלים על אש בינונית ללא מכסה עד שכמעט ואין נוזלים (10-20 דקות).\n6. מוסיפים את הביצים, מכסים את המחבת ומבשלים על אש בינונית-גבוהה עד למידת העשייה הרצויה.",
+        english: {
+            title: "Shakshuka",
+            author: "Flaminia",
+            ingredients: [
+                {
+                    amount: 0.25,
+                    unit: "cup",
+                    item: "Oil"
+                },
+                {
+                    amount: 1,
+                    unit: "",
+                    item: "Diced red bell pepper"
+                },
+                {
+                    amount: 2,
+                    unit: "",
+                    item: "Jalapeños diced"
+                },
+                {
+                    amount: 4,
+                    unit: "cloves",
+                    item: "Garlic minced"
+                },
+                {
+                    amount: 1,
+                    unit: "Tbsp",
+                    item: "Paprika"
+                },
+                {
+                    amount: null,
+                    unit: "",
+                    item: "Ground Caraway"
+                },
+                {
+                    amount: null,
+                    unit: "",
+                    item: "Cumin"
+                },
+                {
+                    amount: null,
+                    unit: "",
+                    item: "Salt and pepper"
+                },
+                {
+                    amount: 0.5,
+                    unit: "tbsp",
+                    item: "Tomato paste"
+                },
+                {
+                    amount: 8,
+                    unit: "",
+                    item: "Tomatoes peeled, diced small"
+                },
+                {
+                    amount: 1,
+                    unit: "tbsp",
+                    item: "Sugar"
+                },
+                {
+                    amount: 7,
+                    unit: "",
+                    item: "Eggs room temp (6-8)"
+                }
+            ],
+            instructions: "1. Sauté oil, pepper, jalapeno.\n2. Add garlic a few minutes before step 1 is done.\n3. Add spices, tomato paste.\n4. Add tomatoes and sugar.\n5. Cook on medium heat without a lid until approximately no liquid 10-20 minute.\n6. Cover after adding eggs and put medium high heat."
+        }
+    },
+    {
+        id: "flaminia_sweet_potato_pie",
+        title: "פאי בטטה",
+        author: "פלמיניה",
+        tags: [
+            "עוגות",
+            "חלבי",
+            "English"
+        ],
+        image: "",
+        sourceUrl: "",
+        ingredients: [
+            {
+                amount: 1.3,
+                unit: "ק\"ג",
+                item: "בטטות מבושלות וקלופות (עדיף מאודות)"
+            },
+            {
+                amount: 2,
+                unit: "",
+                item: "ביצים"
+            },
+            {
+                amount: 0.75,
+                unit: "כוס",
+                item: "סוכר חום (בין 2/3 ל-3/4 כוס)"
+            },
+            {
+                amount: 0.5,
+                unit: "כוס",
+                item: "חמאה מומסת"
+            },
+            {
+                amount: 1,
+                unit: "כפית",
+                item: "מלח"
+            },
+            {
+                amount: 1,
+                unit: "כפית",
+                item: "קינמון"
+            },
+            {
+                amount: 1,
+                unit: "כוס",
+                item: "פקאנים"
+            },
+            {
+                amount: 0.5,
+                unit: "כוס",
+                item: "מיץ תפוזים (עד כוס, לפי הצורך) או שרי לטעם"
+            }
+        ],
+        instructions: "1. מועכים את הבטטות (צריך כ-6 כוסות מחית).\n2. טורפים פנימה את הביצים, רבע כוס סוכר, רבע כוס חמאה, מלח וקינמון.\n3. אם הבטטות נראות יבשות, מוסיפים עוד קצת מיץ תפוזים עד שהתערובת לחה ואוורירית.\n4. מעבירים לתבנית אפייה (קסרול).\n5. מסדרים את האגוזים מלמעלה, מפזרים את יתרת הסוכר ומזלפים את שארית החמאה.\n6. אופים ללא כיסוי ב-190 מעלות למשך 10-15 דקות או עד שהפאי חם כולו.",
+        english: {
+            title: "Sweet Potato Pie",
+            author: "Flaminia",
+            ingredients: [
+                {
+                    amount: 2.75,
+                    unit: "lbs",
+                    item: "Sweet potatoes (2.5-3 lbs cooked/peeled)"
+                },
+                {
+                    amount: 2,
+                    unit: "",
+                    item: "Eggs"
+                },
+                {
+                    amount: 0.75,
+                    unit: "cup",
+                    item: "Brown sugar (2/3 to 3/4 cup)"
+                },
+                {
+                    amount: 0.5,
+                    unit: "cup",
+                    item: "Melted butter"
+                },
+                {
+                    amount: 1,
+                    unit: "tsp",
+                    item: "Salt"
+                },
+                {
+                    amount: 1,
+                    unit: "tsp",
+                    item: "Cinnamon"
+                },
+                {
+                    amount: 1,
+                    unit: "cup",
+                    item: "Pecans"
+                },
+                {
+                    amount: 1,
+                    unit: "cup",
+                    item: "OJ (up to a cup, or can add sherry)"
+                }
+            ],
+            instructions: "1. Mash Sweet potatoes (need about 6 cups when done).\n2. Beat in eggs, 1/4 cup sugar, 1/4 cup butter, salt & cinnamon.\n3. If potatoes seem dry, add some more OJ until moist and fluffy.\n4. Put in casserole dish.\n5. Arrange nuts on top and sprinkle with remaining sugar and drizzle with remaining butter.\n6. Bake uncovered @ 375°F for 15-10 minutes or until heated thru."
+        }
+    },
+    {
+        id: "simone_apples_honey",
+        title: "תפוחים בדבש ויין",
+        author: "סבתא סימון",
+        tags: [
+            "קינוחים",
+            "צמחוני",
+            "English"
+        ],
+        image: "",
+        sourceUrl: "",
+        ingredients: [
+            {
+                amount: 3,
+                unit: "",
+                item: "תפוחים (2-4, קלופים וחתוכים לשמיניות)"
+            },
+            {
+                amount: 0.3,
+                unit: "",
+                item: "לימון (רבע עד חצי לימון)"
+            },
+            {
+                amount: 1,
+                unit: "כף",
+                item: "סוכר חום"
+            },
+            {
+                amount: 0.5,
+                unit: "כפית",
+                item: "קינמון"
+            },
+            {
+                amount: null,
+                unit: "",
+                item: "דבש (לפי הטעם)"
+            },
+            {
+                amount: 0.5,
+                unit: "כוס",
+                item: "יין לבן או מים"
+            }
+        ],
+        instructions: "1. שמים את המים או היין בסיר.\n2. סוחטים את הלימון לתוך הנוזל.\n3. מוסיפים לנוזל את הסוכר החום והקינמון.\n4. מביאים לרתיחה ואז מנמיכים לאש בינונית.\n5. מוסיפים את התפוחים ומבשלים מספר דקות (התפוחים צריכים להיות רכים אך לא רכים מדי/מתפרקים).\n6. מוזגים את התפוחים לצלחת (זה בסדר אם נשאר קצת נוזל) ומזלפים דבש מלמעלה.",
+        english: {
+            title: "Apples and Honey",
+            author: "Grandma Simone",
+            ingredients: [
+                {
+                    amount: 3,
+                    unit: "",
+                    item: "Apples (2-4, peeled and cut into eights)"
+                },
+                {
+                    amount: 0.3,
+                    unit: "",
+                    item: "Lemon (1/4 - 1/2)"
+                },
+                {
+                    amount: 1,
+                    unit: "tbsp",
+                    item: "Brown sugar"
+                },
+                {
+                    amount: 0.5,
+                    unit: "tsp",
+                    item: "Cinnamon"
+                },
+                {
+                    amount: null,
+                    unit: "",
+                    item: "Honey (to taste)"
+                },
+                {
+                    amount: 0.5,
+                    unit: "glass",
+                    item: "White wine OR water"
+                }
+            ],
+            instructions: "1. Put water or white wine into pot/pan.\n2. Squeeze lemon into water/wine.\n3. Add brown sugar and cinnamon to water.\n4. Bring water/wine to boil and then lower to medium.\n5. Add apples and cook for a couple minutes (apples should be soft but not too soft, shouldn’t fall apart or squish).\n6. Pour out apples (a little liquid left is fine) and drizzle honey on top."
+        }
+    },
+    {
+        id: "simone_cookies",
+        title: "עוגיות שושנים",
+        author: "סבתא סימון",
+        tags: [
+            "קינוחים",
+            "חלבי",
+            "English"
+        ],
+        image: "",
+        sourceUrl: "",
+        ingredients: [
+            {
+                sectionName: "לבצק",
+                items: [
+                    {
+                        amount: 5,
+                        unit: "כוסות",
+                        item: "קמח רגיל"
+                    },
+                    {
+                        amount: 5,
+                        unit: "",
+                        item: "חלמונים"
+                    },
+                    {
+                        amount: 1,
+                        unit: "שקית",
+                        item: "שמרים יבשים"
+                    },
+                    {
+                        amount: 1,
+                        unit: "קורט",
+                        item: "מלח"
+                    },
+                    {
+                        amount: 1.5,
+                        unit: "כוסות",
+                        item: "סוכר"
+                    },
+                    {
+                        amount: 400,
+                        unit: "גרם",
+                        item: "חמאה (מומסת או רכה מאוד)"
+                    }
+                ]
+            },
+            {
+                sectionName: "למילוי",
+                items: [
+                    {
+                        amount: 5,
+                        unit: "",
+                        item: "חלבונים"
+                    },
+                    {
+                        amount: 0.5,
+                        unit: "חבילת",
+                        item: "אינסטנט פודינג וניל"
+                    },
+                    {
+                        amount: 1,
+                        unit: "כוס",
+                        item: "סוכר"
+                    },
+                    {
+                        amount: 1,
+                        unit: "קורט",
+                        item: "מלח"
+                    }
+                ]
+            }
+        ],
+        instructions: "1. מערבבים את השמרים עם 2 כפות מים חמימים ומניחים בצד ל-10 דקות.\n2. מערבבים את כל החומרים היבשים (למעט השמרים).\n3. מוסיפים את החלמונים, תערובת השמרים והחמאה.\n4. מעבדים את הבצק עד לאיחוד.\n5. אם הבצק מרגיש יבש, מוסיפים מעט מים חמימים.\n6. מחלקים ל-4 כדורים.\n7. מכניסים למקרר ל-4 שעות לפחות.\n8. מקציפים את החלבונים והסוכר לקצף תפוח.\n9. מוסיפים בהדרגה את הפודינג.\n10. מעצבים את העוגיות (ממלאים).\n11. אופים בחום של 175 מעלות (350 פרנהייט) כ-20 דקות לכל נגלה.",
+        english: {
+            title: "Savta's Cookies",
+            author: "Grandma Simone",
+            ingredients: [
+                {
+                    sectionName: "Dough",
+                    items: [
+                        {
+                            amount: 5,
+                            unit: "cups",
+                            item: "All purpose flour"
+                        },
+                        {
+                            amount: 5,
+                            unit: "",
+                            item: "Egg yolks"
+                        },
+                        {
+                            amount: 1,
+                            unit: "packet",
+                            item: "Dried yeast"
+                        },
+                        {
+                            amount: 1,
+                            unit: "pinch",
+                            item: "Salt"
+                        },
+                        {
+                            amount: 1.5,
+                            unit: "cups",
+                            item: "Sugar"
+                        },
+                        {
+                            amount: 3.5,
+                            unit: "sticks",
+                            item: "Butter, melted or very soft (~400g)"
+                        }
+                    ]
+                },
+                {
+                    sectionName: "Filling",
+                    items: [
+                        {
+                            amount: 5,
+                            unit: "",
+                            item: "Egg whites"
+                        },
+                        {
+                            amount: 0.5,
+                            unit: "packet",
+                            item: "Instant vanilla pudding"
+                        },
+                        {
+                            amount: 1,
+                            unit: "cup",
+                            item: "Sugar"
+                        },
+                        {
+                            amount: 1,
+                            unit: "pinch",
+                            item: "Salt"
+                        }
+                    ]
+                }
+            ],
+            instructions: "1. Put yeast in 2 tbsp of warm water, set aside for 10 minutes.\n2. Mix all the dry, except yeast.\n3. Add eggs, yeast, and butter.\n4. Mix the dough until combined.\n5. If dough seems dry, add a little bit of warm water.\n6. Separate into 4 balls.\n7. Refrigerate for 4 hours at least.\n8. Beat egg whites and sugar until fluffy.\n9. Slowly add instant pudding.\n10. Form the cookies.\n11. Oven at 350°F, put in oven for approximately 20 minutes each batch."
+        }
+    },
+    {
+        id: "flaminia_flourless_chocolate_cake",
+        title: "עוגת שוקולד ללא קמח",
+        author: "פלמיניה",
+        tags: [
+            "עוגות",
+            "חלבי",
+            "English"
+        ],
+        image: "",
+        sourceUrl: "",
+        ingredients: [
+            {
+                amount: 7,
+                unit: "",
+                item: "ביצים (מופרדות)"
+            },
+            {
+                amount: 1,
+                unit: "כוס",
+                item: "סוכר"
+            },
+            {
+                amount: 1,
+                unit: "כוס",
+                item: "קמח שקדים"
+            },
+            {
+                amount: 200,
+                unit: "גרם",
+                item: "שוקולד מריר"
+            },
+            {
+                amount: 100,
+                unit: "גרם",
+                item: "חמאה"
+            },
+            {
+                amount: 1,
+                unit: "חבילה",
+                item: "שמנת מתוקה (להקצפה - אופציונלי)"
+            }
+        ],
+        instructions: "1. מפרידים את הביצים לחלמונים וחלבונים.\n2. ממיסים במיקרוגל את החמאה והשוקולד ומערבבים לאיחוד.\n3. לאחר שהשוקולד המומס התקרר מעט, מוסיפים את החלמונים אחד אחרי השני ומערבבים.\n4. מוסיפים את קמח השקדים ומערבבים.\n5. מקציפים את החלבונים עם הסוכר עד לקבלת קצף יציב.\n6. מקפלים את תערובת השוקולד לתוך קצף החלבונים.\n7. משמנים ומקמחים תבנית אפייה.\n8. שופכים את התערובת לתבנית.\n9. אופים ב-180 מעלות  למשך כ-40 דקות.\n10. לאחר שהעוגה הצטננה, ניתן להוסיף קצפת מלמעלה.",
+        english: {
+            title: "Flourless Chocolate Cake",
+            author: "Flaminia",
+            ingredients: [
+                {
+                    amount: 7,
+                    unit: "",
+                    item: "Eggs (separated)"
+                },
+                {
+                    amount: 1,
+                    unit: "cup",
+                    item: "Sugar"
+                },
+                {
+                    amount: 1,
+                    unit: "cup",
+                    item: "Almond flour"
+                },
+                {
+                    amount: 200,
+                    unit: "grams",
+                    item: "Semi sweet chocolate"
+                },
+                {
+                    amount: 100,
+                    unit: "gram",
+                    item: "Butter"
+                },
+                {
+                    amount: null,
+                    unit: "",
+                    item: "Whipping cream (Optional)"
+                }
+            ],
+            instructions: "1. Separate egg yolks and egg whites.\n2. Microwave butter and chocolate together for a bit and then mix it.\n3. Once melted chocolate has cooled down a little bit add egg yolks one by one and mix.\n4. Add almond flour and mix.\n5. Beat egg whites with sugar until peaks form.\n6. Fold chocolate mixture into egg white mixture.\n7. Grease and flour pan.\n8. Pour mixture in.\n9. Bake 355 degree F for ~40 minutes.\n10. Once cool, put whipped cream on top."
+        }
+    },
+    {
+        id: "flaminia_majadera",
+        title: "מג'דרה",
+        author: "פלמיניה",
+        tags: [
+            "צמחוני",
+            "English"
+        ],
+        image: "",
+        sourceUrl: "",
+        ingredients: [
+            {
+                amount: 2,
+                unit: "כוסות",
+                item: "אורז יסמין (או כל אורז לבן ארוך)"
+            },
+            {
+                amount: 1,
+                unit: "כוס",
+                item: "עדשים (ירוקות), מושרות לשעה ומסוננות"
+            },
+            {
+                amount: 1,
+                unit: "",
+                item: "בצל גדול (חתוך לרצועות)"
+            },
+            {
+                amount: 4,
+                unit: "שיני",
+                item: "שום כתוש"
+            },
+            {
+                amount: null,
+                unit: "",
+                item: "כמון, מלח, מעט כורכום (אופציונלי)"
+            },
+            {
+                amount: null,
+                unit: "",
+                item: "שמן"
+            },
+            {
+                amount: 4,
+                unit: "כוסות",
+                item: "מים"
+            }
+        ],
+        instructions: "1. שמים בסיר את העדשים עם 3 כוסות מים ומלח. מביאים לרתיחה.\n2. ברגע שרותח, מוסיפים את האורז ועוד כוס מים.\n3. מבשלים על אש קטנה (Simmer) במשך 15-20 דקות.\n4. בינתיים, במחבת על אש בינונית, מטגנים את הבצל בהרבה שמן זית, הרבה כמון, מלח וכורכום (אופציונלי). מוסיפים את השום בסוף ומטגנים כ-30 שניות או עד שעולה ריח.\n5. מוסיפים את תערובת הבצל (עם השמן והכל) לסיר האורז.\n6. ממשיכים לבשל על אש קטנה עד שהאורז מוכן והנוזלים התאדו.",
+        english: {
+            title: "Majadera",
+            author: "Flaminia",
+            ingredients: [
+                {
+                    amount: 2,
+                    unit: "cups",
+                    item: "Jasmine rice (or any long grain white rice)"
+                },
+                {
+                    amount: 1,
+                    unit: "cup",
+                    item: "Lentils, soaked for 1 hour and drained (Green)"
+                },
+                {
+                    amount: 1,
+                    unit: "",
+                    item: "Big onion, julienned"
+                },
+                {
+                    amount: 4,
+                    unit: "cloves",
+                    item: "Minced garlic"
+                },
+                {
+                    amount: null,
+                    unit: "",
+                    item: "Cumin, salt, little bit of turmeric (optional)"
+                },
+                {
+                    amount: null,
+                    unit: "",
+                    item: "Oil"
+                },
+                {
+                    amount: 4,
+                    unit: "cups",
+                    item: "Water"
+                }
+            ],
+            instructions: "1. Put lentils in pot with 3 cups water and salt. Boil.\n2. When boiling, add rice and 1 cup water.\n3. Simmer for 15-20.\n4. Meanwhile, sauté onion in skillet on medium heat with lots of olive oil, lots of cumin, salt, and turmeric (optional). Add garlic at the end and cook for ~30 seconds or until fragrant.\n5. Add onion mix to the rice (with oil and all).\n6. Simmer until rice cooked and liquid gone."
+        }
+    },
+    {
+        id: "flaminia_peas_eggs",
+        title: "אפונה וביצים",
+        author: "פלמיניה",
+        tags: [
+            "צמחוני",
+            "English"
+        ],
+        image: "",
+        sourceUrl: "",
+        ingredients: [
+            {
+                amount: null,
+                unit: "",
+                item: "אפונה קפואה"
+            },
+            {
+                amount: 1,
+                unit: "",
+                item: "בצל"
+            },
+            {
+                amount: null,
+                unit: "",
+                item: "ביצים"
+            },
+            {
+                amount: null,
+                unit: "",
+                item: "מלח, פלפל, כורכום"
+            },
+            {
+                amount: null,
+                unit: "",
+                item: "אבקת מרק (Bouillon)"
+            },
+            {
+                amount: null,
+                unit: "",
+                item: "מים"
+            }
+        ],
+        instructions: "1. מטגנים את הבצל.\n2. מוסיפים את האפונה הקפואה ומים.\n3. מוסיפים כורכום, אבקת מרק, מלח ופלפל.\n4. מבשלים על אש קטנה (Simmer) כ-30 דקות (עד שנשארים מעט נוזלים).\n5. שוברים פנימה את הביצים (ומבשלים עד מידת עשייה רצויה).",
+        english: {
+            title: "Peas and Eggs",
+            author: "Flaminia",
+            ingredients: [
+                {
+                    amount: null,
+                    unit: "",
+                    item: "Frozen peas"
+                },
+                {
+                    amount: 1,
+                    unit: "",
+                    item: "Onion"
+                },
+                {
+                    amount: null,
+                    unit: "",
+                    item: "Eggs"
+                },
+                {
+                    amount: null,
+                    unit: "",
+                    item: "Salt, pepper, turmeric"
+                },
+                {
+                    amount: null,
+                    unit: "",
+                    item: "Bouillon"
+                }
+            ],
+            instructions: "1. Saute onion.\n2. Add frozen peas and water.\n3. Add turmeric, bouillon, salt, pepper.\n4. Simmer for 30 minutes (until a little bit of water).\n5. Crack eggs into it."
+        }
     }
 ];
