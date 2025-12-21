@@ -45,7 +45,7 @@ const GRAMS_PER_CUP = {
     'קורנפלור': 140, 'cornstarch': 140, 'cornflower': 140,
     'קמח': 140, 'קמח לבן': 140, 'קמח תופח': 140, 'flour': 140, 'white flour': 140, 'self-rising flour': 140, 'all-purpose flour': 140,
     'קמח מלא': 125, 'whole wheat flour': 125,
-    'קקאו': 100, 'cocoa': 100, 'cocoa powder': 100,
+    'קקאו': 140, 'cocoa': 140, 'cocoa powder': 140,
     'שמרים': 160, 'yeast': 160,
     'סולת': 200, 'semolina': 200,
     'אגוזים קצוצים': 125, 'chopped nuts': 125,
@@ -67,7 +67,13 @@ const GRAMS_PER_CUP = {
     'פפריקה': 102, 'paprika': 102,
     'צימוקים': 150, 'raisins': 150,
     'שומשום': 140, 'sesame': 140, 'sesame seeds': 140,
-    'שיבולת שועל': 125, 'oats': 125, 'oatmeal': 125
+    'שיבולת שועל': 125, 'oats': 125, 'oatmeal': 125,
+    'קמח מצה': 140, 'קמח מצה דק': 140, 'קמח מצה דק לעוגות': 140, 'matzah flour': 140, 'matzah cake flour': 140,
+    'קמח תפוחי אדמה': 140, 'potato flour': 140, 'potato starch': 140,
+    'סוכר דמררה': 180, 'סוכר חום דמררה': 180, 'demerara sugar': 180,
+    'סוכר חום דחוס': 240, 'packed brown sugar': 240,
+    'שוקולית': 120, 'chocolate drink powder': 120,
+    'שוקולד צ\'יפס': 200, 'chocolate chips': 200, 'נטיפי שוקולד': 200,
 };
 
 // 3. Specific Unit Overrides (Data Definitions)
@@ -78,7 +84,7 @@ const DATA_TBS = { // Tablespoon weights
     'סוכר': 12, 'סוכר לבן': 12, 'sugar': 12, 
     'סוכר חום': 15, 'brown sugar': 15,
     'אבקת סוכר': 8, 'powdered sugar': 8,
-    'קקאו': 7, 'cocoa': 7,
+    'קקאו': 10, 'cocoa': 10,
     'מלח': 20, 'salt': 20,
     'אבקת אפייה': 8, 'baking powder': 8,
     'סודה לשתייה': 8, 'baking soda': 8,
@@ -117,7 +123,10 @@ const DATA_TBS = { // Tablespoon weights
     'ריבה': 30, 'jam': 30,
     'שומשום': 12, 'sesame': 12,
     'שיבולת שועל': 11, 'oats': 11,
-    'שקדים': 15, 'almonds': 15
+    'שקדים': 15, 'almonds': 15,
+
+    // --- NEW ADDITIONS ---
+    'סוכר חום קלאסי': 15, 'classic brown sugar': 15
 };
 
 const DATA_TSP = { // Teaspoon weights
@@ -160,7 +169,10 @@ const DATA_TSP = { // Teaspoon weights
     'ריבה': 14, 'jam': 14,
     'שומשום': 6, 'sesame': 6,
     'שיבולת שועל': 5, 'oats': 5,
-    'שקדים': 8, 'almonds': 8
+    'שקדים': 8, 'almonds': 8,
+    
+    // --- NEW ADDITIONS ---
+    'קקאו': 3, 'cocoa': 3
 };
 
 const DATA_BAG = { // Sachets
