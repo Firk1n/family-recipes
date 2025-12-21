@@ -97,7 +97,7 @@
     <div class="modal-content">
         <button class="close-modal" onclick="toggleModal(false)">✖</button>
         
-        <h2>מחולל מתכונים</h2>
+        <h2 style="margin-top:0;">מחולל מתכונים</h2>
         <input type="text" id="gen-id" class="gen-input" placeholder="ID (אנגלית, בלי רווחים)">
         <input type="text" id="gen-title" class="gen-input" placeholder="שם המתכון">
         <input type="text" id="gen-author" class="gen-input" placeholder="יוצר">
@@ -109,22 +109,22 @@
         <label>מצרכים:</label>
         <div id="gen-ing-rows"></div>
         <div class="add-btn-group">
-            <button onclick="addIngRow()" class="gen-input" style="background: var(--tag-bg); border:none; width:auto; flex:2;">+ מצרך</button>
-            <button onclick="addSectionRow()" class="gen-input" style="background: var(--tag-bg); border:none; width:auto; flex:1;">+ כותרת</button>
+            <button onclick="addIngRow()" style="flex:2;">+ מצרך</button>
+            <button onclick="addSectionRow()" style="flex:1;">+ כותרת</button>
         </div>
         
         <label>הוראות הכנה:</label>
-        <div class="editor-toolbar">
-            <button class="toolbar-btn" onclick="wrapText('b')">B</button>
-            <button class="toolbar-btn" onclick="wrapText('u')" style="text-decoration:underline;">U</button>
+        <div class="editor-toolbar" style="margin-bottom:5px;">
+            <button class="gen-icon-btn" onclick="wrapText('b')" style="border:1px solid var(--border-color); display:inline-block; width:30px;">B</button>
+            <button class="gen-icon-btn" onclick="wrapText('u')" style="text-decoration:underline; border:1px solid var(--border-color); display:inline-block; width:30px;">U</button>
         </div>
         <textarea id="gen-inst" rows="5" class="gen-input"></textarea>
         
         <button class="tag-btn-action" onclick="generateCode()">צור קוד</button>
-        <textarea id="gen-output" class="gen-input" style="background:#333; color:#0f0; font-family:monospace; margin-top:10px;" rows="5"></textarea>
+        <textarea id="gen-output" class="gen-input" style="background:var(--input-bg); color:var(--text-main); font-family:monospace; margin-top:10px;" rows="5" dir="ltr"></textarea>
 
         <!-- OPTIMIZER TOOL -->
-        <div class="optimizer-box">
+        <div class="optimizer-box" style="margin-top:20px; border-top:1px solid var(--border-color); padding-top:20px;">
             <h3>כלי לכיווץ תמונות</h3>
             <input type="file" id="opt-files" multiple accept="image/*" class="gen-input">
             <button class="tag-btn-action" style="background:#2980b9;" onclick="processImages()">
@@ -200,6 +200,12 @@
 
     // --- NAVIGATION LOGIC ---
     window.addEventListener('load', () => {
+        // Init sorting from localStorage
+        const savedSort = localStorage.getItem('sortOrder') || 'az';
+        currentSort = savedSort;
+        const sortSelect = document.getElementById('sort-select');
+        if (sortSelect) sortSelect.value = savedSort;
+
         const urlParams = new URLSearchParams(window.location.search);
         const recipeId = urlParams.get('recipe');
         if (recipeId) showRecipe(recipeId, false);
@@ -229,6 +235,7 @@
 
     function changeSort(val) {
         currentSort = val;
+        localStorage.setItem('sortOrder', val);
         const searchVal = document.querySelector('.search-box').value;
         runFilterAndShow(searchVal);
     }
@@ -651,7 +658,7 @@
         window.location.href = `mailto:shohamofek@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     }
 
-    // --- GENERATOR LOGIC (SAME AS BEFORE) ---
+    // --- GENERATOR LOGIC (UPDATED) ---
     function toggleModal(show) {
         document.getElementById('adminModal').style.display = show ? 'flex' : 'none';
         if(show && document.getElementById('gen-ing-rows').children.length === 0) addIngRow(); 
@@ -679,18 +686,63 @@
         toggleModal(true);
     }
 
+    // UPDATED: Controls for rows
+    function getRowControlsHTML() {
+        return `
+            <div class="gen-row-controls">
+                <button class="gen-icon-btn" onclick="moveRow(this, -1)" title="למעלה">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                </button>
+                <button class="gen-icon-btn" onclick="moveRow(this, 1)" title="למטה">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <button class="gen-icon-btn delete-btn" onclick="this.closest('.ing-row').remove()" title="מחיקה">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                </button>
+            </div>
+        `;
+    }
+
     function addIngRow(itemData = null) {
         const div = document.createElement('div'); div.className = 'ing-row';
         let valAmount = '', valUnit = '', valItem = '';
         if (itemData) { valAmount = itemData.amount !== null ? itemData.amount : ''; valUnit = itemData.unit || ''; valItem = itemData.item || ''; }
-        div.innerHTML = `<input type="text" class="gen-input gen-amount" placeholder="כמות" value="${valAmount}"><input type="text" class="gen-input gen-unit" placeholder="יח'" value="${valUnit}"><input type="text" class="gen-input gen-item" placeholder="מוצר" value="${valItem}"><button onclick="this.parentElement.remove()" style="background:#ff7675;color:white;border:none;border-radius:4px;">X</button>`;
+        
+        div.innerHTML = `
+            <input type="text" class="gen-input gen-amount" placeholder="כמות" value="${valAmount}" style="margin:0;">
+            <input type="text" class="gen-input gen-unit" placeholder="יח'" value="${valUnit}" style="margin:0;">
+            <input type="text" class="gen-input gen-item" placeholder="מוצר" value="${valItem}" style="margin:0;">
+            ${getRowControlsHTML()}
+        `;
         document.getElementById('gen-ing-rows').appendChild(div);
     }
+
     function addSectionRow(name = '') {
-        const div = document.createElement('div'); div.className = 'ing-row'; div.style.display="flex"; 
-        div.innerHTML = `<input type="text" class="gen-section-name" style="flex:1;background:#e0ffe0;border:1px solid #ccc;padding:8px;" placeholder="כותרת משנה" value="${name}"><button onclick="this.parentElement.remove()" style="background:#ff7675;color:white;border:none;border-radius:4px;padding:0 10px;">X</button>`;
+        const div = document.createElement('div'); 
+        div.className = 'ing-row'; 
+        // Force flex for section rows to span correctly in grid container
+        div.style.display = "flex"; 
+        
+        div.innerHTML = `
+            <input type="text" class="gen-section-name gen-input" style="flex:1; background:#e0ffe0; border-color:#81e6d9; margin:0;" placeholder="כותרת משנה" value="${name}">
+            ${getRowControlsHTML()}
+        `;
         document.getElementById('gen-ing-rows').appendChild(div);
     }
+
+    function moveRow(btn, direction) {
+        const row = btn.closest('.ing-row');
+        const container = document.getElementById('gen-ing-rows');
+        
+        if (direction === -1) { // Up
+            const prev = row.previousElementSibling;
+            if (prev) container.insertBefore(row, prev);
+        } else { // Down
+            const next = row.nextElementSibling;
+            if (next) container.insertBefore(next, row);
+        }
+    }
+
     function loadRecipeToEdit() {
         if(!currentRecipe) return;
         const r = currentRecipe;
