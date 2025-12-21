@@ -12,7 +12,7 @@
 
 <div class="container">
     <header class="site-header">
-        <!-- New Theme Toggle Button -->
+        <!-- Dark/Light Toggle Button -->
         <button class="theme-toggle" onclick="toggleTheme()" title="מצב לילה/יום" aria-label="Toggle Dark Mode">
             <!-- Sun Icon (Visible in Light Mode) -->
             <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -135,6 +135,7 @@
     </div>
 </div>
 
+<script src="plurals.js"></script>
 <script src="recipes.js"></script>
 <script src="conversions.js"></script>
 
@@ -252,7 +253,7 @@
             if (imgSrc !== DEFAULT_IMAGE && !imgSrc.startsWith('http')) {
                 const parts = imgSrc.split('.');
                 const ext = parts.pop();
-                thumbSrc = parts.join('.') + '_thumb.' + ext;
+                thumbSrc = parts.join('.') + '_thumb.jpg';
             }
 
             const displayTitle = (isEnglishMode && r.english) ? r.english.title : r.title;
@@ -486,18 +487,30 @@
                 let rawVal = item.amount ? (item.amount * mult) : '';
                 let displayVal = rawVal;
                 let conversionText = '';
+                
+                // Determine Singular or Plural form
+                let displayUnit = item.unit || '';
+                let displayItem = item.item || '';
+
                 if (typeof rawVal === 'number') {
                     const conv = getConversion(rawVal, item.unit, item.item, isEn ? 'en' : 'he');
                     if (conv) conversionText = `<span style="font-weight:normal; font-size:0.85em; color:var(--text-muted);">(${conv})</span>`;
                     displayVal = formatAmount(rawVal);
+                    
+                    // Pluralization Logic
+                    if (typeof getPlural === 'function') {
+                        displayUnit = getPlural(item.unit, rawVal);
+                        displayItem = getPlural(item.item, rawVal);
+                    }
                 }
-                const shouldShowBold = (displayVal !== '') || (item.unit && item.unit.trim().length > 0);
+
+                const shouldShowBold = (displayVal !== '') || (displayUnit && displayUnit.trim().length > 0);
                 const amountHTML = shouldShowBold 
-                    ? `<strong><span style="direction:ltr; unicode-bidi:embed;">${displayVal}</span> ${item.unit || ''}</strong> `
+                    ? `<strong><span style="direction:ltr; unicode-bidi:embed;">${displayVal}</span> ${displayUnit}</strong> `
                     : '';
                 return `<li onclick="this.classList.toggle('checked')">
                     <span class="ing-content">
-                        ${amountHTML}<span>${item.item} ${conversionText}</span>
+                        ${amountHTML}<span>${displayItem} ${conversionText}</span>
                     </span>
                 </li>`;
             }).join('');
@@ -547,36 +560,69 @@
     function searchRecipes(q) { runFilterAndShow(q); }
 
     function runFilterAndShow(searchTerm = '') {
-        const term = searchTerm.toLowerCase();
+        const rawTerm = searchTerm.toLowerCase().trim();
         const isEnglishMode = activeTags.has('English');
+        
+        // --- SEARCH TERMS ---
+        // Start with exactly what the user typed
+        let searchVariations = [rawTerm];
+        
+        // If the word exists in our dictionary, add its partner (Singular/Plural)
+        // We check if plurals.js is loaded and the word exists
+        if (rawTerm && typeof WORD_FORMS !== 'undefined' && WORD_FORMS[rawTerm]) {
+            const entry = WORD_FORMS[rawTerm];
+            // Add both Singular and Plural forms to the search list if not already there
+            if (!searchVariations.includes(entry.s)) searchVariations.push(entry.s);
+            if (!searchVariations.includes(entry.p)) searchVariations.push(entry.p);
+        }
+
+        // Helper: Returns true if ANY of the variations exist in the text
+        const hasMatch = (text) => {
+            if (!text) return false;
+            const lowerText = text.toLowerCase();
+            return searchVariations.some(v => lowerText.includes(v));
+        };
+        // -------------------------------
 
         let filtered = recipes.filter(r => {
+            // 1. Tag Filter
             if (activeTags.size > 0) {
                 for (let tag of activeTags) { if (!r.tags.includes(tag)) return false; }
             }
-            if (term === '') return true;
+            
+            // 2. Search Filter (if empty, show all)
+            if (rawTerm === '') return true;
 
             if (isEnglishMode) {
                 if (!r.english) return false;
-                const title = r.english.title ? r.english.title.toLowerCase() : '';
-                const author = r.english.author ? r.english.author.toLowerCase() : '';
+                const title = r.english.title || '';
+                const author = r.english.author || '';
+                
+                // Check Ingredients using the new helper
                 const ing = r.english.ingredients.some(entry => {
-                    if (entry.items) return entry.items.some(sub => sub.item.toLowerCase().includes(term));
-                    return entry.item && entry.item.toLowerCase().includes(term);
+                    if (entry.items) return entry.items.some(sub => hasMatch(sub.item));
+                    return entry.item && hasMatch(entry.item);
                 });
-                return title.includes(term) || author.includes(term) || ing;
+                
+                return hasMatch(title) || hasMatch(author) || ing;
+
             } else {
-                const inTitle = r.title.toLowerCase().includes(term);
-                const inTags = r.tags.some(t => t.includes(term));
-                const inAuthor = r.author && r.author.toLowerCase().includes(term);
+                // Hebrew Logic
+                const inTitle = hasMatch(r.title);
+                // Check tags too (so searching "חלבי" works)
+                const inTags = r.tags.some(t => hasMatch(t));
+                const inAuthor = r.author && hasMatch(r.author);
+                
                 const inIngredients = r.ingredients.some(entry => {
-                    if (entry.items) return entry.items.some(sub => sub.item.includes(term));
-                    return entry.item && entry.item.includes(term);
+                    if (entry.items) return entry.items.some(sub => hasMatch(sub.item));
+                    return entry.item && hasMatch(entry.item);
                 });
+
                 return inTitle || inTags || inIngredients || inAuthor;
             }
         });
 
+        // --- SORTING ---
         if (currentSort === 'az') {
             filtered.sort((a, b) => {
                 const titleA = (isEnglishMode && a.english) ? a.english.title : a.title;

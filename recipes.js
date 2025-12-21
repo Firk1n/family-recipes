@@ -80,7 +80,7 @@ const recipes = [
                 },
                 {
                     amount: 5,
-                    unit: "יח'",
+                    unit: "",
                     item: "חלמונים"
                 }
             ]
@@ -115,7 +115,7 @@ const recipes = [
             items: [
                 {
                     amount: 3,
-                    unit: "יח'",
+                    unit: "",
                     item: "ביצה (טמפ' החדר)"
                 },
                 {
@@ -179,12 +179,12 @@ const recipes = [
                 },
                 {
                     amount: 2,
-                    unit: "יח'",
+                    unit: "",
                     item: "מקל קינמון"
                 },
                 {
                     amount: 2,
-                    unit: "יח'",
+                    unit: "",
                     item: "קליפת לימון מקולפת (לא מגוררת)"
                 }
             ]
@@ -204,7 +204,7 @@ const recipes = [
                 },
                 {
                     amount: 6,
-                    unit: "יח'",
+                    unit: "",
                     item: "חלמונים (L)"
                 },
                 {
@@ -251,7 +251,7 @@ const recipes = [
     ingredients: [
         {
             amount: 10,
-            unit: "יח'",
+            unit: "",
             item: "תפוחי אדמה (עדיף אדומים לטיגון)"
         },
         {
@@ -266,7 +266,7 @@ const recipes = [
         },
         {
             amount: 5,
-            unit: "יח'",
+            unit: "",
             item: "ביצים קשות"
         },
         {
@@ -308,7 +308,7 @@ const recipes = [
             items: [
                 {
                     amount: 6,
-                    unit: "יח'",
+                    unit: "",
                     item: "חלמונים (L)"
                 },
                 {
@@ -394,12 +394,12 @@ const recipes = [
         },
         {
             amount: 2,
-            unit: "יח'",
+            unit: "",
             item: "ביצים (L)"
         },
         {
             amount: 0.5,
-            unit: "יח'",
+            unit: "",
             item: "גרידה מלימון\\תפוז"
         },
         {
@@ -480,7 +480,7 @@ const recipes = [
                 },
                 {
                     amount: 3,
-                    unit: "יח'",
+                    unit: "",
                     item: "ביצים"
                 },
                 {
@@ -593,7 +593,7 @@ const recipes = [
         },
         {
             amount: 5,
-            unit: "יח'",
+            unit: "",
             item: "שיני שום קצוצות"
         },
         {
