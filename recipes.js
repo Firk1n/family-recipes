@@ -1995,9 +1995,9 @@ const recipes = [
                     item: "שמן (1/3 כוס)"
                 },
                 {
-                    amount: 180,
-                    unit: "מ",
-                    item: "מים חמימים (3/4 כוס)"
+                    amount: 3/4,
+                    unit: "כוס",
+                    item: "מים חמימים"
                 },
                 {
                     amount: 1,
@@ -2912,7 +2912,7 @@ const recipes = [
                     item: "OJ (up to a cup, or can add sherry)"
                 }
             ],
-            instructions: "1. Mash Sweet potatoes (need about 6 cups when done).\n2. Beat in eggs, 1/4 cup sugar, 1/4 cup butter, salt & cinnamon.\n3. If potatoes seem dry, add some more OJ until moist and fluffy.\n4. Put in casserole dish.\n5. Arrange nuts on top and sprinkle with remaining sugar and drizzle with remaining butter.\n6. Bake uncovered @ 375°F for 15-10 minutes or until heated thru."
+            instructions: "1. Mash Sweet potatoes (need about 6 cups when done).\n2. Beat in eggs, 1/4 cup sugar, 1/4 cup butter, salt & cinnamon.\n3. If potatoes seem dry, add some more OJ until moist and fluffy.\n4. Put in casserole dish.\n5. Arrange nuts on top and sprinkle with remaining sugar and drizzle with remaining butter.\n6. Bake uncovered @ 375°F for 10-15 minutes or until heated thru."
         }
     },
     {
