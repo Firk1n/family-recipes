@@ -989,7 +989,7 @@ const recipes = [
 {
     id: "creamed_mushroom_soup",
     title: "מרק פטריות בשמנת",
-    author: "יאיר",
+    author: "סבא יאיר",
     tags: [
         "חלבי",
         "צמחוני"
@@ -3820,8 +3820,7 @@ const recipes = [
         title: "עוגת תפוחים של יורם",
         author: "סבא יורם",
         tags: [
-            "עוגות",
-            "צמחוני"
+            "עוגות"
         ],
         image: "",
         sourceUrl: "",
