@@ -1392,7 +1392,7 @@ const recipes = [
     title: "עוף ותפוחי אדמה ברוטב צהוב",
     author: "סבתא סימון",
     tags: ["בשרי", "English"],
-    image: "", 
+    image: "images/simone_yellow_chicken.jpeg", 
     sourceUrl: "",
     ingredients: [
         { amount: 5, unit: "", item: "ירכי עוף" },
@@ -3736,7 +3736,7 @@ const recipes = [
         "חלבי",
         "קינוחים"
     ],
-    image: "",
+    image: "images/pancrepe.jpeg",
     sourceUrl: "",
     ingredients: [
         {
