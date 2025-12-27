@@ -302,12 +302,19 @@ const DATA_UNIT_ITEM = {
     'תפוח אדמה בינוני': 169, 'medium potato': 169,
     'תפוח אדמה גדול': 322, 'large potato': 322,
 
-    // Eggs
-    'ביצה': 58, 'egg': 58,
-    'ביצה s': 48, 'egg s': 48, 'small egg': 48,
-    'ביצה m': 58, 'egg m': 58, 'medium egg': 58,
-    'ביצה l': 68, 'egg l': 68, 'large egg': 68,
-    'ביצה xl': 78, 'egg xl': 78, 'extra large egg': 78,
+    // Eggs (Corrected: Liquid weight only)
+    'ביצה': 51, 'egg': 51, 
+    'ביצים': 51, 'eggs': 51,
+    'ביצה s': 42, 'egg s': 42, 'small egg': 42,
+    'ביצה m': 46, 'egg m': 46, 'medium egg': 46,
+    'ביצה l': 51, 'egg l': 51, 'large egg': 51,
+    'ביצה xl': 56, 'egg xl': 56, 'extra large egg': 56,
+    
+    // Covering the Recipe specific strings (Singular/Plural/Case variations)
+    'ביצה (l)': 51, 'egg (l)': 51, 
+    'ביצים (l)': 51, 'eggs (l)': 51, 
+    
+    // Components (Sum = 51g)
     'חלבון': 33, 'חלבון ביצה': 33, 'egg white': 33,
     'חלמון': 18, 'חלמון ביצה': 18, 'egg yolk': 18,
 
@@ -351,22 +358,40 @@ const UNIT_OVERRIDES = {
 
 // --- CONVERSION LOGIC ---
 function getConversion(amount, unit, item, lang = 'he') {
-    if (!amount || !unit || !item) return null;
+    if (!amount || !item) return null;
     
-    // Define output labels based on language
     const weightLabel = lang === 'en' ? 'g' : 'גרם';
     const kgLabel = lang === 'en' ? 'kg' : 'ק"ג';
-    const mlLabel = lang === 'en' ? 'ml' : 'מ"ל';
 
-    const unitLower = unit.toLowerCase();
-    const itemLower = item.toLowerCase();
+    // 1. Normalize Input using plurals.js (if loaded)
+    // This looks up "כפות" and turns it into "כף" automatically.
+    let unitLower = (unit || '').toLowerCase().trim();
+    let itemLower = item.toLowerCase().trim();
 
-    // 1. Check for Specific Unit Overrides
+    if (typeof WORD_FORMS !== 'undefined') {
+        if (WORD_FORMS[unitLower]) unitLower = WORD_FORMS[unitLower].s;
+        if (WORD_FORMS[itemLower]) itemLower = WORD_FORMS[itemLower].s;
+    }
+
+    // 2. Handle Empty Units (Treat as "Units"/"Pieces" directly)
+    if (unitLower === '') {
+         const specificItemKey = Object.keys(DATA_UNIT_ITEM).find(k => itemLower.includes(k.toLowerCase()));
+         if (specificItemKey) {
+            const weightPerUnit = DATA_UNIT_ITEM[specificItemKey];
+            const totalWeight = Math.round(amount * weightPerUnit);
+            
+            if (totalWeight >= 1000) return (totalWeight / 1000).toFixed(2) + ' ' + kgLabel;
+            return totalWeight + ' ' + weightLabel;
+         }
+         return null;
+    }
+
+    // 3. Check for Specific Unit Overrides (Tablespoons, Teaspoons, etc.)
     const specificUnitKey = Object.keys(UNIT_OVERRIDES).find(k => unitLower.includes(k));
     if (specificUnitKey) {
         const specificMap = UNIT_OVERRIDES[specificUnitKey];
-        // We look for the item key within the map
-        const specificItemKey = Object.keys(specificMap).find(k => itemLower.includes(k));
+        const specificItemKey = Object.keys(specificMap).find(k => itemLower.includes(k.toLowerCase()));
+        
         if (specificItemKey) {
             const data = specificMap[specificItemKey];
             
@@ -386,9 +411,9 @@ function getConversion(amount, unit, item, lang = 'he') {
         }
     }
 
-    // 2. Standard Cup-based Logic (Fallback)
+    // 4. Standard Cup-based Logic (Fallback)
     const unitKey = Object.keys(UNIT_TO_CUP).find(k => unitLower.includes(k));
-    const itemKey = Object.keys(GRAMS_PER_CUP).find(k => itemLower.includes(k));
+    const itemKey = Object.keys(GRAMS_PER_CUP).find(k => itemLower.includes(k.toLowerCase()));
     
     if (unitKey && itemKey) {
         const cupRatio = UNIT_TO_CUP[unitKey];
