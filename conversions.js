@@ -302,21 +302,38 @@ const DATA_UNIT_ITEM = {
     'תפוח אדמה בינוני': 169, 'medium potato': 169,
     'תפוח אדמה גדול': 322, 'large potato': 322,
 
-    // Eggs (Corrected: Liquid weight only)
-    'ביצה': 51, 'egg': 51, 
-    'ביצים': 51, 'eggs': 51,
-    'ביצה s': 42, 'egg s': 42, 'small egg': 42,
-    'ביצה m': 46, 'egg m': 46, 'medium egg': 46,
-    'ביצה l': 51, 'egg l': 51, 'large egg': 51,
-    'ביצה xl': 56, 'egg xl': 56, 'extra large egg': 56,
-    
-    // Covering the Recipe specific strings (Singular/Plural/Case variations)
-    'ביצה (l)': 51, 'egg (l)': 51, 
-    'ביצים (l)': 51, 'eggs (l)': 51, 
-    
+    // EGGS!
+    // Standard & Plurals
+    'ביצה': 51, 'ביצים': 51, 'egg': 51, 'eggs': 51,
+    'ביצה טרופה': 51, 'ביצים טרופות': 51, 'beaten egg': 51, 'beaten eggs': 51,
+    'ביצה קשה': 51, 'ביצים קשות': 51, 'hard boiled egg': 51, 'hard boiled eggs': 51,
+
+    // Sized
+    'ביצה s': 42, 'ביצה קטנה': 42, 'small egg': 42, 'egg (s)': 42,
+    'ביצה m': 46, 'ביצה בינונית': 46, 'medium egg': 46, 'egg (m)': 46,
+    'ביצה l': 51, 'ביצה גדולה': 51, 'large egg': 51, 'egg (l)': 51,
+    'ביצה (l)': 51, 'ביצים (l)': 51, 'eggs (l)': 51,
+    'ביצה xl': 56, 'ביצה ענקית': 56, 'extra large egg': 56, 'egg (xl)': 56,
+
+    // Recipe-Specific Variants (Hebrew)
+    'ביצה (טמפ\' החדר)': 51, 'ביצים (טמפ\' החדר)': 51,
+    'ביצה (l) בטמפרטורת החדר': 51, 'ביצים (l) בטמפרטורת החדר': 51,
+    'ביצה (להברשה, מעורבבת עם מים ומלח)': 51,
+    'ביצה טרופה (להברשה)': 51,
+    'ביצים בטמפרטורת החדר (6-8 ביצים)': 51, // Per unit
+    'ביצים (מופרדות)': 51, 'ביצה (מופרדת)': 51,
+    'ביצה (או בננה מרוסקת)': 51,
+
+    // Recipe-Specific Variants (English)
+    'egg (for wash, mixed with water/salt)': 51,
+    'eggs room temp (6-8)': 51,
+    'eggs (separated)': 51, 'egg (separated)': 51,
+
     // Components (Sum = 51g)
-    'חלבון': 33, 'חלבון ביצה': 33, 'egg white': 33,
-    'חלמון': 18, 'חלמון ביצה': 18, 'egg yolk': 18,
+    'חלבון': 33, 'חלבון ביצה': 33, 'egg white': 33, 'white': 33,
+    'חלבונים': 33, 'חלבונים (l)': 33, 'egg whites': 33,
+    'חלמון': 18, 'חלמון ביצה': 18, 'egg yolk': 18, 'yolk': 18,
+    'חלמונים': 18, 'חלמונים (l)': 18, 'egg yolks': 18,
 
     // Meat/Chicken
     'אנטרקוט': 300, 'entrecote': 300, 'steak': 300,
