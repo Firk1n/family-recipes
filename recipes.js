@@ -4437,7 +4437,7 @@ const recipes = [
     },
 {
     id: "einav_orange_cake_leah",
-    title: "עוגת תפוזים של לאה",
+    title: "עוגת תפוזים של עינב",
     author: "עינב",
     tags: [
         "עוגות"
