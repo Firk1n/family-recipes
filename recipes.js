@@ -746,7 +746,7 @@ const recipes = [
     title: "סלט סימון (סלט מרוקאי)",
     author: "סבתא סימון",
     tags: ["סלטים", "צמחוני", "English"],
-    image: "", 
+    image: "images/simone_salad.jpeg", 
     sourceUrl: "",
     ingredients: [
         { amount: 3, unit: "", item: "עגבניות קלופות וחתוכות לקוביות" },
@@ -846,7 +846,7 @@ const recipes = [
     title: "דג וחומוס",
     author: "סבתא סימון",
     tags: ["דגים", "English"],
-    image: "", 
+    image: "images/simone_fish_hummus.jpeg", 
     sourceUrl: "",
     ingredients: [
         {
@@ -1572,7 +1572,7 @@ const recipes = [
     title: "סביח",
     author: "פלמיניה",
     tags: ["צמחוני", "English"],
-    image: "", 
+    image: "images/flaminia_sabich.jpeg", 
     sourceUrl: "",
     ingredients: [
         {
