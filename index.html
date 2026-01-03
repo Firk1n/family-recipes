@@ -578,29 +578,26 @@ function formatAmount(amount) {
 
     function searchRecipes(q) { runFilterAndShow(q); }
 
-    function runFilterAndShow(searchTerm = '') {
-        const rawTerm = searchTerm.toLowerCase().trim();
+function runFilterAndShow(searchTerm = '') {
+        const rawTerms = searchTerm.toLowerCase().trim().split(/\s+/).filter(t => t.length > 0);
         const isEnglishMode = activeTags.has('English');
         
-        // --- SEARCH TERMS ---
-        // Start with exactly what the user typed
-        let searchVariations = [rawTerm];
-        
-        // If the word exists in our dictionary, add its partner (Singular/Plural)
-        // We check if plurals.js is loaded and the word exists
-        if (rawTerm && typeof WORD_FORMS !== 'undefined' && WORD_FORMS[rawTerm]) {
-            const entry = WORD_FORMS[rawTerm];
-            // Add both Singular and Plural forms to the search list if not already there
-            if (!searchVariations.includes(entry.s)) searchVariations.push(entry.s);
-            if (!searchVariations.includes(entry.p)) searchVariations.push(entry.p);
-        }
-
-        // Helper: Returns true if ANY of the variations exist in the text
+        // Helper: Returns true if ALL search tokens are found in the text
         const hasMatch = (text) => {
             if (!text) return false;
             const lowerText = text.toLowerCase();
-            return searchVariations.some(v => lowerText.includes(v));
+            // Every token typed by the user must exist in the text
+            return rawTerms.every(term => {
+                // Check the term itself OR its plural/singular forms from dictionary
+                let variations = [term];
+                if (typeof WORD_FORMS !== 'undefined' && WORD_FORMS[term]) {
+                    const entry = WORD_FORMS[term];
+                    variations.push(entry.s, entry.p);
+                }
+                return variations.some(v => lowerText.includes(v));
+            });
         };
+
         // -------------------------------
 
         let filtered = recipes.filter(r => {
@@ -610,7 +607,7 @@ function formatAmount(amount) {
             }
             
             // 2. Search Filter (if empty, show all)
-            if (rawTerm === '') return true;
+            if (rawTerms.length === 0) return true;
 
             if (isEnglishMode) {
                 if (!r.english) return false;
