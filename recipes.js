@@ -4620,9 +4620,9 @@ const recipes = [
                     item: "שוקולד מריר קצוץ"
                 },
                 {
-                    amount: 60,
-                    unit: "מ",
-                    item: "שמן קנולה (4 כפות)"
+                    amount: 4,
+                    unit: "כפות",
+                    item: "שמן קנולה"
                 },
                 {
                     amount: 4,
@@ -4647,7 +4647,7 @@ const recipes = [
                 {
                     amount: 1,
                     unit: "שקית",
-                    item: "אבקת אפייה (10 גרם)"
+                    item: "אבקת אפייה"
                 },
                 {
                     amount: 3,
