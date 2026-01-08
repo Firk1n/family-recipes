@@ -1498,7 +1498,7 @@ const recipes = [
     title: "קציצות בשר",
     author: "סבתא סימון",
     tags: ["בשרי", "עיקרית", "English"],
-    image: "", 
+    image: "images/simone_meatballs.jpeg", 
     sourceUrl: "",
     ingredients: [
         {
