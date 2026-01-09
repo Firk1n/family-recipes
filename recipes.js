@@ -3557,7 +3557,7 @@ const recipes = [
     },
     {
         id: "silvi_date_rolled_cookies",
-        title: "עוגיות מגולגלות תמרים",
+        title: "מגולגלות תמרים",
         author: "(סבתא סילוי) חן מזרחי",
         tags: [
             "קינוחים",
@@ -3572,7 +3572,7 @@ const recipes = [
                     {
                         amount: 3.5,
                         unit: "כוסות",
-                        item: "קמח (חצי קילו)"
+                        item: "קמח"
                     },
                     {
                         amount: 2,
@@ -3622,7 +3622,7 @@ const recipes = [
                     {
                         amount: 450,
                         unit: "גרם",
-                        item: "ממרח תמרים (חבילה אחת)"
+                        item: "ממרח תמרים"
                     },
                     {
                         amount: 1,
