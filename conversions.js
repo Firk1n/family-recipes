@@ -1,5 +1,6 @@
 // --- CONVERSION DATA ---
-
+/* global: WORD_FORMS */
+/* exported: getConversion */
 // 1. Volume ratio: how many cups are in the given unit
 const UNIT_TO_CUP = {
     'כוס': 1, 'כוסות': 1, 'cup': 1, 'cups': 1,
@@ -23,6 +24,7 @@ const GRAMS_PER_CUP = {
     'חמאה': 240, 'מחמאה': 240, 'butter': 240,
     'מים': 240, 'מים חמימים': 240, 'מיץ לימון': 240, 'מיץ תפוזים': 240, 'חומץ': 240, 'water': 240, 'lemon juice': 240, 'orange juice': 240, 'vinegar': 240,
     'ריבה': 330, 'jam': 330,
+	'מי ורדים': 238, 'rose water': 238,
     'שמן': 200, 'שמן זית': 200, 'שמן קנולה': 200, 'שמן צמחי': 200, 'שמן חמניות': 200, 'oil': 200, 'olive oil': 200, 'canola oil': 200,
     'חלב קוקוס': 240, 'coconut milk': 240,
     'ריבת חלב': 300, 'dulce de leche': 300,
