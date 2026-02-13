@@ -1,4 +1,4 @@
-// recipes.js
+﻿// recipes.js
 const recipes = [
 {
     id: "solet",
@@ -5749,8 +5749,7 @@ const recipes = [
     author: "סבתא הני",
     tags: [
         "חלבי",
-        "קינוחים",
-        "English"
+        "קינוחים"
     ],
     image: "",
     sourceUrl: "",

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -39,7 +39,8 @@
         <div class="search-container">
             <input type="text" class="search-box" placeholder="חיפוש מתכון, כותב, תגית, או מרכיב..." onkeyup="searchRecipes(this.value)">
         </div>
-        
+            <div id="recipe-count" style="text-align: center; margin: 2px 0 10px 0; color: var(--text-muted); font-size: 0.9rem;"></div>
+
         <div class="controls-wrapper">
             <!-- Tags Container -->
             <div id="header-tags" class="tags-scroll-container"></div>
@@ -172,6 +173,144 @@
         }
     }
 
+    // --- BOOKMARKS SYSTEM ---
+    function getBookmarks() {
+        const saved = localStorage.getItem('bookmarked-recipes');
+        return saved ? JSON.parse(saved) : [];
+    }
+    
+    function saveBookmarks(bookmarks) {
+        localStorage.setItem('bookmarked-recipes', JSON.stringify(bookmarks));
+    }
+    
+    function isBookmarked(recipeId) {
+        const bookmarks = getBookmarks();
+        return bookmarks.includes(recipeId);
+    }
+    
+    function toggleBookmark(recipeId, event) {
+        if (event) event.stopPropagation();
+        let bookmarks = getBookmarks();
+        const index = bookmarks.indexOf(recipeId);
+        if (index > -1) bookmarks.splice(index, 1);
+        else bookmarks.push(recipeId);
+        saveBookmarks(bookmarks);
+        if (currentRecipe && currentRecipe.id === recipeId) renderRecipeDetail();
+        else applyFiltersAndSort();
+    }
+    
+    let showingOnlyBookmarks = false;
+    function filterBookmarks() {
+        showingOnlyBookmarks = !showingOnlyBookmarks;
+        
+        
+        const btn = document.getElementById('bookmarks-filter-btn');
+        if (btn) {
+            if (showingOnlyBookmarks) btn.classList.add('active-tag');
+            else btn.classList.remove('active-tag');
+        }
+        applyFiltersAndSort();
+    }
+
+
+    // --- RECIPE NOTES ---
+    function getRecipeNotes(recipeId) {
+        const notes = localStorage.getItem(`recipe-notes-${recipeId}`);
+        return notes || '';
+    }
+    
+    function saveRecipeNotes(recipeId, notes) {
+        if (notes.trim()) {
+            localStorage.setItem(`recipe-notes-${recipeId}`, notes);
+        } else {
+            localStorage.removeItem(`recipe-notes-${recipeId}`);
+        }
+    }
+    
+    function toggleNotesEditor() {
+        const editor = document.getElementById('notes-editor');
+        const display = document.getElementById('notes-display');
+        const editBtn = document.getElementById('notes-edit-btn');
+        const deleteBtn = document.getElementById('notes-delete-btn');
+        const notesFull = document.getElementById('notes-section-full');
+        const notesEmpty = document.getElementById('notes-section-empty');
+        const isEditing = editor.style.display !== 'none';
+        
+        if (isEditing) {
+            // Save and close
+            const notes = document.getElementById('notes-textarea').value;
+            saveRecipeNotes(currentRecipe.id, notes);
+            
+            editor.style.display = 'none';
+            editBtn.style.display = 'inline-flex';
+            if (notes.trim()) {
+                display.innerHTML = `<p style="white-space: pre-wrap; margin: 0;">${notes}</p>`;
+                display.style.display = 'block';
+                deleteBtn.style.display = 'inline-flex';
+                notesFull.style.display = 'block';
+                notesEmpty.style.display = 'none';
+            } else {
+                display.style.display = 'none';
+                deleteBtn.style.display = 'none';
+                notesFull.style.display = 'none';
+                notesEmpty.style.display = 'block';
+            }
+        } else {
+            // Open editor — hide edit & delete buttons
+            editBtn.style.display = 'none';
+            deleteBtn.style.display = 'none';
+            const currentNotes = getRecipeNotes(currentRecipe.id);
+            document.getElementById('notes-textarea').value = currentNotes;
+            editor.style.display = 'block';
+            display.style.display = 'none';
+            document.getElementById('notes-textarea').focus();
+        }
+    }
+
+    function cancelNotesEditor() {
+        const editor = document.getElementById('notes-editor');
+        const display = document.getElementById('notes-display');
+        const editBtn = document.getElementById('notes-edit-btn');
+        const deleteBtn = document.getElementById('notes-delete-btn');
+        const notesFull = document.getElementById('notes-section-full');
+        const notesEmpty = document.getElementById('notes-section-empty');
+        const savedNotes = getRecipeNotes(currentRecipe.id);
+        
+        editor.style.display = 'none';
+        editBtn.style.display = 'inline-flex';
+        if (savedNotes) {
+            display.innerHTML = `<p style="white-space: pre-wrap; margin: 0;">${savedNotes}</p>`;
+            display.style.display = 'block';
+            deleteBtn.style.display = 'inline-flex';
+        } else {
+            notesFull.style.display = 'none';
+            notesEmpty.style.display = 'block';
+        }
+    }
+
+    function openNotesFromEmpty() {
+        const notesFull = document.getElementById('notes-section-full');
+        const notesEmpty = document.getElementById('notes-section-empty');
+        notesFull.style.display = 'block';
+        notesEmpty.style.display = 'none';
+        document.getElementById('notes-edit-btn').style.display = 'none';
+        document.getElementById('notes-textarea').value = '';
+        document.getElementById('notes-editor').style.display = 'block';
+        document.getElementById('notes-display').style.display = 'none';
+        document.getElementById('notes-delete-btn').style.display = 'none';
+        document.getElementById('notes-textarea').focus();
+    }
+
+    function deleteRecipeNotes() {
+        if (!confirm('למחוק את ההערות?')) return;
+        saveRecipeNotes(currentRecipe.id, '');
+        document.getElementById('notes-display').style.display = 'none';
+        document.getElementById('notes-editor').style.display = 'none';
+        document.getElementById('notes-delete-btn').style.display = 'none';
+        document.getElementById('notes-section-full').style.display = 'none';
+        document.getElementById('notes-section-empty').style.display = 'block';
+    }
+
     // --- CONFIGURATION ---
     const DEFAULT_IMAGE = "images/no_image.jpg";
     const AVAILABLE_TAGS = ["חלבי", "צמחוני", "בשרי", "דגים", "קינוחים", "עוגות", "סלטים", "English"];
@@ -184,6 +323,11 @@
     // --- INITIALIZATION ---
     const headerTags = document.getElementById('header-tags');
     let tagsHTML = `<button class="tag-btn active-tag" id="tag-all" onclick="filterByTag('')">הכל</button>`;
+    tagsHTML += `<button class="tag-btn" id="bookmarks-filter-btn" onclick="filterBookmarks()" title="מועדפים">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+    </button>`;
     tagsHTML += AVAILABLE_TAGS.map(t => `<button class="tag-btn" id="tag-${t}" onclick="filterByTag('${t}')">${t}</button>`).join('');
     headerTags.innerHTML = tagsHTML;
 
@@ -231,6 +375,7 @@
         history.pushState({}, '', window.location.pathname);
         document.title = "מתכונים משפחתיים";
         runFilterAndShow('');
+        window.scrollTo(0,0);
     }
 
     function changeSort(val) {
@@ -242,9 +387,24 @@
 
     // --- SHOW LIST ---
     function showList(data, pushState = true) {
+        const countEl = document.getElementById('recipe-count');
+        if (countEl) countEl.textContent = `${data ? data.length : 0} מתכונים`;
+
         document.getElementById('edit-json-link').style.display = 'none';
 
-        if (!data || !data.length) { app.innerHTML = '<p style="text-align:center; padding:20px;">לא נמצאו תוצאות</p>'; return; }
+        if (!data || !data.length) { 
+            app.innerHTML = `
+                <div style="text-align: center; padding: 60px 20px; color: var(--text-muted);">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom: 20px; opacity: 0.5;">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <h2 style="color: var(--header-text); margin-bottom: 10px;">לא נמצאו מתכונים</h2>
+                    <p>נסו לחפש משהו אחר או לבטל את הסינון</p>
+                </div>
+            `;
+            return; 
+        }
         
         if (pushState) {
             history.pushState({}, '', window.location.pathname);
@@ -271,12 +431,16 @@
                      tabindex="0"
                      onclick="navigateToRecipe('${r.id}')"
                      onkeypress="if(event.key === 'Enter') navigateToRecipe('${r.id}')">
-                     
                     <img src="${thumbSrc}" 
                          alt="${displayTitle}" 
                          loading="lazy" 
                          decoding="async"
                          onerror="this.onerror=null; this.src='${imgSrc}'">
+                    <button class="bookmark-btn" onclick="toggleBookmark('${r.id}', event); event.stopPropagation();" title="${isBookmarked(r.id) ? 'הסרה מהמועדפים' : 'הוספה למועדפים'}">
+                        <svg viewBox="0 0 24 24" fill="${isBookmarked(r.id) ? '#dc2626' : 'none'}" stroke="${isBookmarked(r.id) ? '#dc2626' : 'currentColor'}" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                        </svg>
+                    </button>
                     <div class="card-content">
                         <div>
                             <h2>${displayTitle}</h2>
@@ -290,7 +454,6 @@
         });
         html += '</div>';
         app.innerHTML = html;
-        window.scrollTo(0,0);
         releaseWakeLock();
     }
 
@@ -329,6 +492,13 @@
         let linkHTML = r.sourceUrl ? `<div style="margin-top:10px;"><a href="${r.sourceUrl}" target="_blank" style="color:var(--primary); font-weight:600; text-decoration:underline;">🔗 ${isEn ? 'Link to original' : 'למעבר למתכון המקורי'}</a></div>` : '';
 
         // Restored Icons (with Text)
+        const bookmarkBtn = `
+            <button class="heart-btn ${isBookmarked(r.id) ? 'hearted' : ''}" onclick="toggleBookmark('${r.id}')" title="${isBookmarked(r.id) ? (isEn ? 'Remove from favorites' : 'הסרה מהמועדפים') : (isEn ? 'Add to favorites' : 'הוספה למועדפים')}">
+                <svg viewBox="0 0 24 24">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+            </button>`;
+
         const shareBtn = `
             <button class="tag-btn" onclick="shareRecipe()" title="${isEn ? 'Share recipe link' : 'שיתוף קישור למתכון'}">
                 <svg class="icon-svg" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
@@ -360,6 +530,7 @@
                     
                     <div class="nav-actions">
                         ${langToggle}
+                        ${bookmarkBtn}
                         ${shareBtn}
                         ${wakeLockBtn}
                     </div>
@@ -395,12 +566,81 @@
                         </div>
                     </section>
                 </div>
+                
+                <!-- Recipe Notes Section -->
+                <div id="notes-section-full" style="display: none; margin: 20px 20px 16px 20px; padding: 14px 16px; background: var(--column-bg); border-radius: 10px; border: 1px solid var(--border-color);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <h3 style="margin: 0; color: var(--header-text); font-size: 1.05rem;">הערות אישיות</h3>
+                        <div style="display: flex; gap: 6px; align-items: center;">
+                            <button class="notes-edit-btn" onclick="toggleNotesEditor()" id="notes-edit-btn">
+                                <svg class="icon-svg" viewBox="0 0 24 24">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg>
+                                עריכה
+                            </button>
+                            <button class="notes-edit-btn" onclick="deleteRecipeNotes()" id="notes-delete-btn" style="display: none; color: #dc2626;">
+                                <svg class="icon-svg" viewBox="0 0 24 24">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                                מחיקה
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="notes-display" style="display: none; color: var(--text-main); padding: 10px; background: var(--input-bg); border-radius: 8px;"></div>
+                    
+                    <div id="notes-editor" style="display: none;">
+                        <textarea id="notes-textarea" 
+                                  style="width: 100%; min-height: 120px; padding: 12px; 
+                                         border: 1px solid var(--border-color); border-radius: 8px;
+                                         background: var(--input-bg); color: var(--text-main);
+                                         font-family: inherit; font-size: 1rem; resize: vertical;"
+                                  placeholder="ניתן לכתוב  בחלון  זה הערות שיוצגו לך בלבד (טיפים, שינויי כמויות וכו')"></textarea>
+                        <div style="margin-top: 10px; display: flex; gap: 10px;">
+                            <button class="tag-btn" onclick="toggleNotesEditor()" style="background: var(--primary); color: white; border: none;">
+                                שמירה
+                            </button>
+                            <button class="tag-btn" onclick="cancelNotesEditor()">
+                                ביטול
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="notes-section-empty" style="display: none; margin: 16px 20px; text-align: center;">
+                    <button class="notes-add-btn" onclick="openNotesFromEmpty()" title="הוספת הערות למתכון זה שיוצגו רק לך">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        הוספת הערות אישיות
+                    </button>
+                </div>
             </div>
         `;
         
         if(wakeLock && document.getElementById('wakeLockBtn')) {
              document.getElementById('wakeLockBtn').classList.add('active-tag');
         }
+        
+        // Load recipe notes
+        const savedNotes = getRecipeNotes(currentRecipe.id);
+        const notesFull = document.getElementById('notes-section-full');
+        const notesEmpty = document.getElementById('notes-section-empty');
+        const notesDisplay = document.getElementById('notes-display');
+        const notesEditor = document.getElementById('notes-editor');
+        const notesDeleteBtn = document.getElementById('notes-delete-btn');
+        
+        if (savedNotes) {
+            notesDisplay.innerHTML = `<p style="white-space: pre-wrap; margin: 0;">${savedNotes}</p>`;
+            notesDisplay.style.display = 'block';
+            notesDeleteBtn.style.display = 'inline-flex';
+            notesFull.style.display = 'block';
+            notesEmpty.style.display = 'none';
+        } else {
+            notesFull.style.display = 'none';
+            notesEmpty.style.display = 'block';
+            notesDisplay.style.display = 'none';
+        }
+        notesEditor.style.display = 'none';
 
         if(data.ingredients && data.ingredients.length > 0) renderIngredients(1);
     }
@@ -545,11 +785,20 @@ function formatAmount(amount) {
 
     // --- SEARCH & FILTER ---
     function filterByTag(tag) {
-        if (tag === '') activeTags.clear();
+        if (tag === '') {
+            activeTags.clear();
+            // Also clear bookmarks when clicking "הכל"
+            if (showingOnlyBookmarks) {
+                showingOnlyBookmarks = false;
+                const bookmarkBtn = document.getElementById('bookmarks-filter-btn');
+                if (bookmarkBtn) bookmarkBtn.classList.remove('active-tag');
+            }
+        }
         else {
             if (activeTags.has(tag)) activeTags.delete(tag);
             else activeTags.add(tag);
         }
+        
         updateFilterUI();
         runFilterAndShow();
     }
@@ -558,14 +807,24 @@ function formatAmount(amount) {
         document.querySelectorAll('.tag-btn').forEach(btn => {
             const btnId = btn.id;
             if (btnId === 'tag-all') {
-                if (activeTags.size === 0) btn.classList.add('active-tag');
+                if (activeTags.size === 0 && !showingOnlyBookmarks) btn.classList.add('active-tag');
                 else btn.classList.remove('active-tag');
+            } else if (btnId === 'bookmarks-filter-btn') {
+                // Bookmark button handled below
             } else {
                 const tagName = btnId.replace('tag-', '');
                 if (activeTags.has(tagName)) btn.classList.add('active-tag');
                 else btn.classList.remove('active-tag');
             }
         });
+        
+        // Update bookmark button state
+        const bookmarkBtn = document.getElementById('bookmarks-filter-btn');
+        if (bookmarkBtn) {
+            if (showingOnlyBookmarks) bookmarkBtn.classList.add('active-tag');
+            else bookmarkBtn.classList.remove('active-tag');
+        }
+        
         const searchBox = document.querySelector('.search-box');
         if (activeTags.has('English')) {
             searchBox.placeholder = "Search recipes, ingredients, authors...";
@@ -576,6 +835,11 @@ function formatAmount(amount) {
         }
     }
 
+
+    function applyFiltersAndSort() {
+        const searchVal = document.querySelector('.search-box').value;
+        runFilterAndShow(searchVal);
+    }
     function searchRecipes(q) { runFilterAndShow(q); }
 
 function runFilterAndShow(searchTerm = '') {
@@ -601,12 +865,17 @@ function runFilterAndShow(searchTerm = '') {
         // -------------------------------
 
         let filtered = recipes.filter(r => {
-            // 1. Tag Filter
+            // 1. Bookmark Filter
+            if (showingOnlyBookmarks) {
+                if (!isBookmarked(r.id)) return false;
+            }
+
+            // 2. Tag Filter
             if (activeTags.size > 0) {
                 for (let tag of activeTags) { if (!r.tags.includes(tag)) return false; }
             }
             
-            // 2. Search Filter (if empty, show all)
+            // 3. Search Filter (if empty, show all)
             if (rawTerms.length === 0) return true;
 
             if (isEnglishMode) {
