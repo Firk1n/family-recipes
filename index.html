@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="design.css">
+    <link href="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.snow.css" rel="stylesheet">
 </head>
 <body>
 
@@ -81,12 +82,12 @@
         </details>
         
         <div style="display:flex; justify-content:center; margin-top:20px;">
-            <a href="#" onclick="openGenerator(); return false;" class="admin-link">
-                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
-                מחולל מתכונים
+            <a href="#" onclick="startNewRecipe(); return false;" class="admin-link">
+                <svg class="icon-svg" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                מתכון חדש
             </a>
             
-            <a href="#" onclick="loadRecipeToEdit(); return false;" class="admin-link" id="edit-json-link" style="display: none;">
+            <a href="#" onclick="enterEditMode(); return false;" class="admin-link" id="edit-json-link" style="display: none;">
                 <svg class="icon-svg" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                 עריכה
             </a>
@@ -110,7 +111,7 @@
         <label>מצרכים:</label>
         <div id="gen-ing-rows"></div>
         <div class="add-btn-group">
-            <button onclick="addIngRow()" style="flex:2;">+ מצרך</button>
+            <button onclick="addIngRow()" style="flex:2;">+ מרכיב</button>
             <button onclick="addSectionRow()" style="flex:1;">+ כותרת</button>
         </div>
         
@@ -569,9 +570,9 @@
                 
                 <!-- Recipe Notes Section -->
                 <div id="notes-section-full" style="display: none; margin: 20px 20px 16px 20px; padding: 14px 16px; background: var(--column-bg); border-radius: 10px; border: 1px solid var(--border-color);">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <h3 style="margin: 0; color: var(--header-text); font-size: 1.05rem;">הערות אישיות</h3>
-                        <div style="display: flex; gap: 6px; align-items: center;">
+                    <div class="notes-header">
+                        <h3 style="margin: 0; color: var(--header-text); font-size: 1.05rem; white-space: nowrap;">הערות אישיות</h3>
+                        <div class="notes-header-actions">
                             <button class="notes-edit-btn" onclick="toggleNotesEditor()" id="notes-edit-btn">
                                 <svg class="icon-svg" viewBox="0 0 24 24">
                                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
@@ -1010,7 +1011,7 @@ function runFilterAndShow(searchTerm = '') {
 
     function moveRow(btn, direction) {
         const row = btn.closest('.ing-row');
-        const container = document.getElementById('gen-ing-rows');
+        const container = row.parentElement;
         
         if (direction === -1) { // Up
             const prev = row.previousElementSibling;
@@ -1085,7 +1086,489 @@ function runFilterAndShow(searchTerm = '') {
         }
         status.innerHTML = `סיום! ${count} תמונות הורדו.`;
     }
+
+    // =============================================
+    // --- INLINE EDIT MODE ---
+    // =============================================
+    let isEditMode = false;
+    let editQuill = null;
+    let editTags = new Set();
+    let isNewRecipe = false;
+
+    function startNewRecipe() {
+        const newRecipe = {
+            id: '',
+            title: '',
+            author: '',
+            tags: [],
+            image: '',
+            sourceUrl: '',
+            ingredients: [{ sectionName: '', items: [{ amount: null, unit: '', item: '' }] }],
+            instructions: ''
+        };
+        currentRecipe = newRecipe;
+        isNewRecipe = true;
+        history.pushState({ recipeId: 'new' }, '', '?recipe=new');
+        document.title = 'מתכון חדש | מתכונים משפחתיים';
+        enterEditMode();
+    }
+
+    function enterEditMode() {
+        if (!currentRecipe) return;
+        isEditMode = true;
+        editTags = new Set(currentRecipe.tags || []);
+        renderEditMode();
+        window.scrollTo(0, 0);
+    }
+
+    function exitEditMode() {
+        isEditMode = false;
+        if (editQuill) { editQuill = null; }
+        if (isNewRecipe) {
+            isNewRecipe = false;
+            navigateHome();
+        } else {
+            renderRecipeDetail();
+        }
+    }
+
+    function renderEditMode() {
+        document.getElementById('edit-json-link').style.display = 'none';
+        const r = currentRecipe;
+        const imgSrc = r.image || '';
+
+        // Build tag chips
+        const tagChips = AVAILABLE_TAGS.filter(t => t !== 'English').map(t => {
+            const sel = editTags.has(t) ? 'selected' : '';
+            return `<button type="button" class="edit-tag-chip ${sel}" onclick="toggleEditTag('${t}', this)">${t}</button>`;
+        }).join('');
+
+        // Build ingredient sections
+        let ingHTML = '';
+        if (r.ingredients && r.ingredients.length > 0) {
+            r.ingredients.forEach((entry, si) => {
+                if (entry.sectionName !== undefined) {
+                    ingHTML += buildEditSection(entry.sectionName, entry.items || [], si);
+                } else if (entry.items) {
+                    ingHTML += buildEditSection('', entry.items, si);
+                }
+            });
+        }
+        if (!ingHTML) {
+            ingHTML = buildEditSection('', [{ amount: null, unit: '', item: '' }], 0);
+        }
+
+        // Convert existing instructions to HTML for Quill
+        let instructionsHTML = '';
+        if (r.instructions) {
+            instructionsHTML = r.instructions
+                .replace(/\n/g, '<br>')
+                .replace(/<b>/g, '<strong>').replace(/<\/b>/g, '</strong>');
+        }
+
+        app.innerHTML = `
+            <div class="recipe-detail edit-mode-active">
+                <div class="recipe-nav">
+                    <button class="tag-btn" onclick="exitEditMode()">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                        ביטול
+                    </button>
+                    <div class="edit-mode-badge">מצב עריכה</div>
+                </div>
+
+                <!-- Title -->
+                <div class="edit-field-group">
+                    <input type="text" class="edit-title-input" id="edit-title" value="${escapeAttr(r.title)}" placeholder="שם המתכון">
+                </div>
+
+                <!-- Author + ID -->
+                <div class="edit-row-2">
+                    <div class="edit-field-group">
+                        <label class="edit-label">מחבר/ת</label>
+                        <input type="text" class="edit-input" id="edit-author" value="${escapeAttr(r.author)}" placeholder="שם">
+                    </div>
+                    <div class="edit-field-group">
+                        <label class="edit-label">מזהה (ID)</label>
+                        <input type="text" class="edit-input" id="edit-id" value="${escapeAttr(r.id)}" placeholder="english-no-spaces" dir="ltr">
+                    </div>
+                </div>
+
+                <!-- Tags -->
+                <div class="edit-field-group">
+                    <label class="edit-label">תגיות</label>
+                    <div class="edit-tags-grid">${tagChips}</div>
+                </div>
+
+                <!-- Image -->
+                <div class="edit-field-group">
+                    <label class="edit-label">תמונה</label>
+                    <div class="edit-image-section">
+                        <div class="edit-image-inputs">
+                            <div class="edit-image-upload-row">
+                                <label class="edit-upload-btn" for="edit-image-file">
+                                    <svg class="icon-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                                    בחירת תמונה
+                                </label>
+                                <input type="file" id="edit-image-file" accept="image/*" style="display:none;" onchange="handleEditImageUpload(this)">
+                                <span class="edit-image-filename" id="edit-image-filename"></span>
+                            </div>
+                            <div class="edit-image-or">או</div>
+                            <input type="text" class="edit-input" id="edit-image" value="${escapeAttr(imgSrc)}" placeholder="קישור לתמונה או שם קובץ (cake.jpg)" oninput="updateEditImagePreview()" style="margin:0;">
+                        </div>
+                        <div id="edit-img-preview" class="edit-img-preview-box">
+                            ${imgSrc ? `<img src="${escapeAttr(imgSrc)}" class="edit-img-thumb" onerror="this.style.display='none'">` : ''}
+                        </div>
+                    </div>
+                    <div id="edit-image-status" class="edit-image-status"></div>
+                </div>
+
+                <!-- Source URL -->
+                <div class="edit-field-group">
+                    <label class="edit-label">קישור למקור (אופציונלי)</label>
+                    <input type="text" class="edit-input" id="edit-url" value="${escapeAttr(r.sourceUrl || '')}" placeholder="https://..." dir="ltr">
+                </div>
+
+                <hr class="edit-divider">
+
+                <!-- Ingredients -->
+                <div class="edit-field-group">
+                    <label class="edit-label">מצרכים</label>
+                    <div id="edit-ingredients">${ingHTML}</div>
+                    <button class="edit-add-section-btn" onclick="addEditSection()">+ קבוצה חדשה</button>
+                </div>
+
+                <hr class="edit-divider">
+
+                <!-- Instructions (Quill) -->
+                <div class="edit-field-group">
+                    <label class="edit-label">הוראות הכנה</label>
+                    <div id="edit-instructions-editor">${instructionsHTML}</div>
+                </div>
+            </div>
+
+            <!-- Floating action bar -->
+            <div class="edit-action-bar">
+                <button class="edit-action-btn secondary" onclick="exitEditMode()">ביטול</button>
+                <button class="edit-action-btn secondary" onclick="exportEditJSON()">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                    העתק קוד
+                </button>
+                <button class="edit-action-btn primary" onclick="saveEditRecipe()">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                    שמירה
+                </button>
+            </div>
+        `;
+
+        // Initialize Quill
+        initEditQuill();
+    }
+
+    function initEditQuill() {
+        editQuill = new Quill('#edit-instructions-editor', {
+            theme: 'snow',
+            placeholder: 'כתבו כאן את הוראות ההכנה...',
+            modules: {
+                toolbar: [
+                    ['bold', 'underline'],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                    ['clean']
+                ]
+            }
+        });
+        editQuill.format('direction', 'rtl');
+        editQuill.format('align', 'right');
+    }
+
+    // --- Edit mode helpers ---
+    function escapeAttr(str) {
+        if (!str) return '';
+        return String(str).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function toggleEditTag(tag, btn) {
+        if (editTags.has(tag)) {
+            editTags.delete(tag);
+            btn.classList.remove('selected');
+        } else {
+            editTags.add(tag);
+            btn.classList.add('selected');
+        }
+    }
+
+    function updateEditImagePreview() {
+        const url = document.getElementById('edit-image').value.trim();
+        const container = document.getElementById('edit-img-preview');
+        if (url) {
+            const src = (!url.startsWith('http') && !url.startsWith('images/')) ? 'images/' + url : url;
+            container.innerHTML = `<img src="${escapeAttr(src)}" class="edit-img-thumb" onerror="this.style.display='none'">`;
+        } else {
+            container.innerHTML = '';
+        }
+    }
+
+    // --- Image upload with auto-thumbnail ---
+    async function handleEditImageUpload(input) {
+        const file = input.files[0];
+        if (!file || !file.type.startsWith('image/')) return;
+        
+        const status = document.getElementById('edit-image-status');
+        const filenameDisplay = document.getElementById('edit-image-filename');
+        const container = document.getElementById('edit-img-preview');
+        
+        filenameDisplay.textContent = file.name;
+        status.textContent = 'מעבד תמונה...';
+        
+        try {
+            const bitmap = await createImageBitmap(file);
+            
+            // Generate full-size (max 1200px wide)
+            const fullMaxW = 1200;
+            const fullScale = Math.min(1, fullMaxW / bitmap.width);
+            const fullW = Math.round(bitmap.width * fullScale);
+            const fullH = Math.round(bitmap.height * fullScale);
+            const fullCanvas = document.createElement('canvas');
+            fullCanvas.width = fullW; fullCanvas.height = fullH;
+            fullCanvas.getContext('2d').drawImage(bitmap, 0, 0, fullW, fullH);
+            const fullBlob = await new Promise(r => fullCanvas.toBlob(r, 'image/jpeg', 0.85));
+            
+            // Generate thumbnail (400px wide)
+            const thumbMaxW = 400;
+            const thumbScale = thumbMaxW / bitmap.width;
+            const thumbW = thumbMaxW;
+            const thumbH = Math.round(bitmap.height * thumbScale);
+            const thumbCanvas = document.createElement('canvas');
+            thumbCanvas.width = thumbW; thumbCanvas.height = thumbH;
+            thumbCanvas.getContext('2d').drawImage(bitmap, 0, 0, thumbW, thumbH);
+            const thumbBlob = await new Promise(r => thumbCanvas.toBlob(r, 'image/jpeg', 0.8));
+            
+            // Build filenames
+            const dotIdx = file.name.lastIndexOf('.');
+            const baseName = dotIdx !== -1 ? file.name.substring(0, dotIdx) : file.name;
+            const fullName = `${baseName}.jpg`;
+            const thumbName = `${baseName}_thumb.jpg`;
+            
+            // Auto-download both
+            downloadBlob(fullBlob, fullName);
+            await new Promise(r => setTimeout(r, 300));
+            downloadBlob(thumbBlob, thumbName);
+            
+            // Set the image field to the expected path
+            document.getElementById('edit-image').value = `images/${fullName}`;
+            
+            // Show preview from the generated blob
+            const previewUrl = URL.createObjectURL(fullBlob);
+            container.innerHTML = `<img src="${previewUrl}" class="edit-img-thumb">`;
+            
+            status.innerHTML = `<span style="color:var(--primary);">✓</span> הורדו: ${fullName} + ${thumbName}`;
+            
+        } catch (e) {
+            console.error(e);
+            status.innerHTML = `<span style="color:var(--danger-color);">שגיאה בעיבוד התמונה</span>`;
+        }
+    }
+
+    function downloadBlob(blob, filename) {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    // --- Ingredient editing ---
+    function buildEditSection(name, items, index) {
+        let itemsHTML = '';
+        if (items && items.length > 0) {
+            items.forEach(item => {
+                itemsHTML += buildEditIngRow(item);
+            });
+        }
+        return `
+        <div class="edit-section-block">
+            <div class="edit-section-header">
+                <input type="text" class="edit-section-name" value="${escapeAttr(name)}" placeholder="שם קבוצה (למשל: לבצק)">
+                <button class="edit-icon-btn delete" onclick="this.closest('.edit-section-block').remove()" title="מחק קבוצה">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                </button>
+            </div>
+            <div class="edit-ing-items">${itemsHTML}</div>
+            <button class="edit-add-ing-btn" onclick="addEditIngRow(this.previousElementSibling)">+ מרכיב</button>
+        </div>`;
+    }
+
+    function buildEditIngRow(item) {
+        const amt = (item && item.amount !== null && item.amount !== undefined) ? item.amount : '';
+        const unit = (item && item.unit) || '';
+        const name = (item && item.item) || '';
+        return `
+        <div class="edit-ing-row">
+            <input type="text" class="edit-ing-amount" value="${amt}" placeholder="כמות">
+            <input type="text" class="edit-ing-unit" value="${escapeAttr(unit)}" placeholder="יחידה">
+            <input type="text" class="edit-ing-name" value="${escapeAttr(name)}" placeholder="מוצר">
+            <div class="edit-ing-controls">
+                <button class="edit-icon-btn" onclick="moveEditRow(this, -1)" title="למעלה">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                </button>
+                <button class="edit-icon-btn" onclick="moveEditRow(this, 1)" title="למטה">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <button class="edit-icon-btn delete" onclick="this.closest('.edit-ing-row').remove()" title="מחיקה">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+        </div>`;
+    }
+
+    function addEditIngRow(container) {
+        const row = document.createElement('div');
+        row.className = 'edit-ing-row';
+        row.innerHTML = `
+            <input type="text" class="edit-ing-amount" value="" placeholder="כמות">
+            <input type="text" class="edit-ing-unit" value="" placeholder="יחידה">
+            <input type="text" class="edit-ing-name" value="" placeholder="מוצר">
+            <div class="edit-ing-controls">
+                <button class="edit-icon-btn" onclick="moveEditRow(this, -1)" title="למעלה">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg>
+                </button>
+                <button class="edit-icon-btn" onclick="moveEditRow(this, 1)" title="למטה">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <button class="edit-icon-btn delete" onclick="this.closest('.edit-ing-row').remove()" title="מחיקה">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+        `;
+        container.appendChild(row);
+        row.querySelector('.edit-ing-amount').focus();
+    }
+
+    function addEditSection() {
+        const container = document.getElementById('edit-ingredients');
+        const section = document.createElement('div');
+        section.innerHTML = buildEditSection('', [{ amount: null, unit: '', item: '' }], 0);
+        container.appendChild(section.firstElementChild);
+    }
+
+    function moveEditRow(btn, direction) {
+        const row = btn.closest('.edit-ing-row');
+        const container = row.parentElement;
+        if (direction === -1) {
+            const prev = row.previousElementSibling;
+            if (prev) container.insertBefore(row, prev);
+        } else {
+            const next = row.nextElementSibling;
+            if (next) container.insertBefore(next, row);
+        }
+    }
+
+    // --- Collect edit data ---
+    function collectEditData() {
+        const id = document.getElementById('edit-id').value.trim() || 'new-id';
+        const title = document.getElementById('edit-title').value.trim();
+        const author = document.getElementById('edit-author').value.trim();
+        let image = document.getElementById('edit-image').value.trim();
+        const sourceUrl = document.getElementById('edit-url').value.trim();
+        
+        if (image && !image.startsWith('http') && !image.startsWith('images/')) {
+            image = 'images/' + image;
+        }
+
+        const tags = [...editTags];
+
+        // Collect ingredients
+        const ingredients = [];
+        document.querySelectorAll('.edit-section-block').forEach(section => {
+            const sectionName = section.querySelector('.edit-section-name').value.trim();
+            const items = [];
+            section.querySelectorAll('.edit-ing-row').forEach(row => {
+                const amtStr = row.querySelector('.edit-ing-amount').value.trim();
+                const unit = row.querySelector('.edit-ing-unit').value.trim();
+                const item = row.querySelector('.edit-ing-name').value.trim();
+                if (item) {
+                    items.push({ amount: parseAmount(amtStr), unit, item });
+                }
+            });
+            if (sectionName || items.length > 0) {
+                ingredients.push({ sectionName: sectionName, items });
+            }
+        });
+
+        // Get instructions from Quill — convert back to simple format
+        let instructions = '';
+        if (editQuill) {
+            const html = editQuill.root.innerHTML;
+            instructions = quillHTMLToSimple(html);
+        }
+
+        return { id, title, author, tags, image, sourceUrl, ingredients, instructions };
+    }
+
+    function quillHTMLToSimple(html) {
+        // Convert Quill's HTML back to the simple format used in recipes.js
+        let text = html;
+        // Convert <strong> to <b>
+        text = text.replace(/<strong>/g, '<b>').replace(/<\/strong>/g, '</b>');
+        // Convert <em> to nothing (not used in current recipes, strip it)
+        text = text.replace(/<em>/g, '').replace(/<\/em>/g, '');
+        // Convert <p> and <br> to newlines
+        text = text.replace(/<br\s*\/?>/g, '\n');
+        text = text.replace(/<\/p>\s*<p[^>]*>/g, '\n\n');
+        text = text.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '');
+        // Convert ordered list items
+        text = text.replace(/<ol>/g, '').replace(/<\/ol>/g, '');
+        text = text.replace(/<ul>/g, '').replace(/<\/ul>/g, '');
+        let counter = 0;
+        text = text.replace(/<li[^>]*>/g, () => { counter++; return counter + '. '; });
+        text = text.replace(/<\/li>/g, '\n');
+        // Strip remaining Quill direction/align classes and spans
+        text = text.replace(/<[^>]+>/g, '');
+        // Decode entities
+        text = text.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"');
+        // Clean up extra whitespace
+        text = text.replace(/\n{3,}/g, '\n\n').trim();
+        return text;
+    }
+
+    function exportEditJSON() {
+        const obj = collectEditData();
+        const json = JSON.stringify(obj, null, 4).replace(/"([^"]+)":/g, '$1:') + ',';
+        navigator.clipboard.writeText(json).then(() => {
+            showEditToast('הקוד הועתק ללוח!');
+        }).catch(() => {
+            prompt('העתק:', json);
+        });
+    }
+
+    function saveEditRecipe() {
+        const obj = collectEditData();
+        if (!obj.title) {
+            showEditToast('חסר שם למתכון');
+            return;
+        }
+        const json = JSON.stringify(obj, null, 4).replace(/"([^"]+)":/g, '$1:') + ',';
+        navigator.clipboard.writeText(json).then(() => {
+            showEditToast('המתכון נשמר! (הועתק ללוח)');
+        }).catch(() => {
+            prompt('העתק:', json);
+        });
+    }
+
+    function showEditToast(msg) {
+        let toast = document.getElementById('edit-toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'edit-toast';
+            toast.className = 'edit-toast';
+            document.body.appendChild(toast);
+        }
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
 </body>
 </html>

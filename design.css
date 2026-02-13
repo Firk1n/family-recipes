@@ -1,4 +1,4 @@
-﻿/* --- GLOBAL & RESET --- */
+/* --- GLOBAL & RESET --- */
 *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -762,6 +762,21 @@ body {
 }
 
 /* --- NOTES EDIT BUTTON --- */
+.notes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.notes-header-actions {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
 .notes-edit-btn {
     background: var(--input-bg);
     border: 1px solid var(--border-color);
@@ -848,6 +863,11 @@ body {
         align-items: center;
         text-align: center;
     }
+    
+    /* Heart button shouldn't stretch or take row space in nav */
+    .nav-actions > .heart-btn {
+        flex: 0 0 auto;
+    }
 
     .recipe-nav .tag-btn, 
     .nav-actions .tag-btn {
@@ -877,11 +897,6 @@ body {
     .gen-item { grid-column: 1 / -1; } /* Item name takes full row */
     .gen-row-controls { grid-column: 2 / -1; justify-self: end; }
 
-    /* Heart button shouldn't stretch in nav */
-    .nav-actions .heart-btn {
-        flex: 0 0 auto;
-    }
-
     /* Bigger touch targets for notes buttons */
     .notes-edit-btn {
         padding: 6px 14px;
@@ -891,6 +906,487 @@ body {
         padding: 10px 18px;
         font-size: 0.9rem;
     }
+}
+
+/* =============================================
+   INLINE EDIT MODE
+   ============================================= */
+
+.edit-mode-badge {
+    background: var(--primary);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+.edit-mode-active {
+    border: 2px dashed var(--primary);
+    border-radius: 20px;
+}
+
+/* Field groups */
+.edit-field-group {
+    margin-bottom: 18px;
+}
+
+.edit-label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.edit-input {
+    width: 100%;
+    font-family: 'Rubik', sans-serif;
+    font-size: 0.95rem;
+    padding: 10px 14px;
+    background: var(--input-bg);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.edit-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(64,128,103,0.12);
+}
+
+.edit-input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.5;
+}
+
+.edit-title-input {
+    width: 100%;
+    font-family: 'Rubik', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    padding: 12px 14px;
+    background: transparent;
+    color: var(--header-text);
+    border: 1px solid transparent;
+    border-bottom: 2px solid var(--border-color);
+    border-radius: 0;
+    transition: border-color 0.2s;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.edit-title-input:focus {
+    outline: none;
+    border-bottom-color: var(--primary);
+}
+
+.edit-title-input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.4;
+}
+
+.edit-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+@media (max-width: 500px) {
+    .edit-row-2 { grid-template-columns: 1fr; }
+    .edit-title-input { font-size: 1.5rem; }
+}
+
+/* Tags */
+.edit-tags-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.edit-tag-chip {
+    font-family: 'Rubik', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    background: var(--input-bg);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.edit-tag-chip:hover { border-color: var(--primary); color: var(--primary); }
+
+.edit-tag-chip.selected {
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    border-color: var(--primary);
+}
+
+/* Image upload section */
+.edit-image-section {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+}
+
+.edit-image-inputs {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.edit-image-upload-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.edit-upload-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Rubik', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.edit-upload-btn:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.edit-image-filename {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
+}
+
+.edit-image-or {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.edit-img-preview-box {
+    flex-shrink: 0;
+}
+
+.edit-img-thumb {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 1px solid var(--border-color);
+}
+
+.edit-image-status {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+    min-height: 1.2em;
+}
+
+@media (max-width: 500px) {
+    .edit-image-section { flex-direction: column; }
+    .edit-img-preview-box { align-self: center; }
+}
+
+/* Divider */
+.edit-divider {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 24px 0;
+}
+
+/* Ingredient sections */
+.edit-section-block {
+    background: var(--column-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.edit-section-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.edit-section-name {
+    flex: 1;
+    font-family: 'Rubik', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 6px 10px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: var(--primary);
+    transition: border-color 0.2s;
+}
+
+.edit-section-name:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: var(--input-bg);
+}
+
+.edit-section-name::placeholder { color: var(--primary); opacity: 0.5; }
+
+.edit-ing-row {
+    display: grid;
+    grid-template-columns: 72px 90px 1fr auto;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.edit-ing-row input {
+    font-family: 'Rubik', sans-serif;
+    font-size: 0.88rem;
+    padding: 8px 10px;
+    background: var(--input-bg);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    transition: border-color 0.2s;
+}
+
+.edit-ing-row input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.edit-ing-row input::placeholder { color: var(--text-muted); opacity: 0.45; }
+
+.edit-ing-controls {
+    display: flex;
+    gap: 2px;
+}
+
+.edit-icon-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    color: var(--text-muted);
+    opacity: 0.5;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-icon-btn:hover { opacity: 1; background: var(--hover-bg); }
+.edit-icon-btn.delete:hover { opacity: 1; color: var(--danger-color); background: rgba(231,76,60,0.08); }
+
+.edit-icon-btn .icon-svg {
+    width: 16px;
+    height: 16px;
+}
+
+.edit-add-ing-btn {
+    font-family: 'Rubik', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 5px 12px;
+    border: 1px dashed var(--border-color);
+    background: transparent;
+    color: var(--text-muted);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 4px;
+}
+.edit-add-ing-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--tag-bg);
+}
+
+.edit-add-section-btn {
+    width: 100%;
+    font-family: 'Rubik', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 10px;
+    border: 1px dashed var(--border-color);
+    background: transparent;
+    color: var(--primary);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 10px;
+}
+.edit-add-section-btn:hover {
+    background: var(--column-bg);
+    border-color: var(--primary);
+}
+
+/* Quill RTL overrides */
+.edit-mode-active .ql-toolbar.ql-snow {
+    border: 1px solid var(--border-color);
+    border-radius: 8px 8px 0 0;
+    background: var(--input-bg);
+    direction: ltr;
+}
+
+.edit-mode-active .ql-container.ql-snow {
+    border: 1px solid var(--border-color);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    background: var(--input-bg);
+    font-family: 'Rubik', sans-serif;
+    font-size: 1.05rem;
+    min-height: 200px;
+}
+
+.edit-mode-active .ql-editor {
+    direction: rtl;
+    text-align: right;
+    line-height: 1.8;
+    min-height: 200px;
+    color: var(--text-main);
+}
+
+.edit-mode-active .ql-editor.ql-blank::before {
+    right: 15px;
+    left: auto;
+    font-style: normal;
+    color: var(--text-muted);
+    opacity: 0.5;
+}
+
+/* Fix RTL list positioning — bullets/numbers on right side */
+.edit-mode-active .ql-editor ol,
+.edit-mode-active .ql-editor ul {
+    padding-right: 1.5em;
+    padding-left: 0;
+}
+
+.edit-mode-active .ql-editor li {
+    padding-right: 1.5em;
+    padding-left: 0;
+}
+
+.edit-mode-active .ql-editor li::before {
+    margin-right: -1.5em;
+    margin-left: 0;
+    text-align: right;
+}
+
+.edit-mode-active .ql-snow .ql-stroke { stroke: var(--text-muted); }
+.edit-mode-active .ql-snow .ql-fill { fill: var(--text-muted); }
+.edit-mode-active .ql-snow .ql-picker { color: var(--text-muted); }
+.edit-mode-active .ql-snow button:hover .ql-stroke { stroke: var(--primary); }
+.edit-mode-active .ql-snow button:hover .ql-fill { fill: var(--primary); }
+.edit-mode-active .ql-snow button.ql-active .ql-stroke { stroke: var(--primary); }
+.edit-mode-active .ql-snow button.ql-active .ql-fill { fill: var(--primary); }
+
+/* Floating action bar */
+.edit-action-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--card-bg);
+    border-top: 1px solid var(--border-color);
+    padding: 12px 24px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    z-index: 100;
+    box-shadow: 0 -4px 20px var(--shadow-color);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.edit-action-btn {
+    font-family: 'Rubik', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 10px 24px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.edit-action-btn .icon-svg {
+    width: 16px;
+    height: 16px;
+}
+
+.edit-action-btn.primary {
+    background: var(--primary);
+    color: white;
+}
+.edit-action-btn.primary:hover { filter: brightness(1.1); }
+
+.edit-action-btn.secondary {
+    background: var(--input-bg);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+}
+.edit-action-btn.secondary:hover { background: var(--hover-bg); }
+
+/* Toast */
+.edit-toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--primary);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-family: 'Rubik', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+    z-index: 200;
+    direction: rtl;
+}
+.edit-toast.show { transform: translateX(-50%) translateY(0); }
+
+/* Mobile ingredient rows */
+@media (max-width: 600px) {
+    .edit-ing-row {
+        grid-template-columns: 1fr 1fr;
+    }
+    .edit-ing-row .edit-ing-name { grid-column: 1 / -1; }
+    .edit-ing-row .edit-ing-controls { grid-column: 2 / -1; justify-self: end; }
+    
+    .edit-action-bar { padding: 10px 16px; gap: 8px; }
+    .edit-action-btn { padding: 10px 16px; font-size: 0.85rem; }
 }
 
 @media print {
