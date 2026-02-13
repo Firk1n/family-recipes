@@ -829,7 +829,7 @@ body {
 
 /* --- MOBILE ADJUSTMENTS (< 600px) --- */
 @media (max-width: 600px) {
-    .theme-toggle { top: 10px; left: 10px; } /* Adjust toggle for mobile */
+    .theme-toggle { top: 10px; left: 10px; }
     
     .recipe-body-grid { gap: 20px; padding-bottom: 2rem;}
     .english-content .recipe-body-grid { display: block; }
@@ -842,11 +842,6 @@ body {
         align-items: stretch;
         gap: 12px;
         margin-bottom: 15px;
-    }
-    
-    .recipe-nav > .tag-btn {
-        align-self: flex-start;
-        margin-bottom: 0;
     }
     
     .nav-actions {
@@ -864,7 +859,6 @@ body {
         text-align: center;
     }
     
-    /* Heart button shouldn't stretch or take row space in nav */
     .nav-actions > .heart-btn {
         flex: 0 0 auto;
     }
@@ -905,6 +899,15 @@ body {
     .notes-add-btn {
         padding: 10px 18px;
         font-size: 0.9rem;
+    }
+}
+
+/* Phone-only: hide back button, users have native back gesture/button */
+@media (max-width: 480px) {
+    .back-btn { display: none; }
+    .recipe-nav { 
+        flex-direction: row; 
+        justify-content: center;
     }
 }
 
@@ -1282,22 +1285,36 @@ body {
     opacity: 0.5;
 }
 
-/* Fix RTL list positioning — bullets/numbers on right side */
+/* Fix RTL list positioning — override Quill's LTR defaults.
+   Quill uses li:not(.ql-direction-rtl) which beats generic li selectors,
+   so we must target those exact selectors to flip the positioning. */
 .edit-mode-active .ql-editor ol,
 .edit-mode-active .ql-editor ul {
-    padding-right: 1.5em;
-    padding-left: 0;
+    padding-right: 1.5em !important;
+    padding-left: 0 !important;
 }
 
-.edit-mode-active .ql-editor li {
-    padding-right: 1.5em;
-    padding-left: 0;
+/* Override Quill's LTR list item padding */
+.edit-mode-active .ql-editor li,
+.edit-mode-active .ql-editor li:not(.ql-direction-rtl),
+.edit-mode-active .ql-editor li.ql-direction-rtl {
+    padding-right: 1.5em !important;
+    padding-left: 0 !important;
 }
 
-.edit-mode-active .ql-editor li::before {
-    margin-right: -1.5em;
-    margin-left: 0;
-    text-align: right;
+/* Override Quill's LTR marker positioning */
+.edit-mode-active .ql-editor li::before,
+.edit-mode-active .ql-editor li:not(.ql-direction-rtl)::before,
+.edit-mode-active .ql-editor li.ql-direction-rtl::before {
+    margin-right: -1.5em !important;
+    margin-left: 0.3em !important;
+    text-align: left !important;
+}
+
+/* Nested list indentation for RTL */
+.edit-mode-active .ql-editor .ql-indent-1:not(.ql-direction-rtl) {
+    padding-right: 3em !important;
+    padding-left: 0 !important;
 }
 
 .edit-mode-active .ql-snow .ql-stroke { stroke: var(--text-muted); }
