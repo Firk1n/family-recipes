@@ -531,7 +531,6 @@
                     
                     <div class="nav-actions">
                         ${langToggle}
-                        ${bookmarkBtn}
                         ${shareBtn}
                         ${wakeLockBtn}
                     </div>
@@ -539,6 +538,7 @@
 
                 <div class="recipe-hero">
                     <img src="${imgSrc}" class="recipe-hero-image" alt="${data.title}">
+                    ${bookmarkBtn}
                     <div class="recipe-header-content">
                         <h1>${data.title}</h1>
                         <p class="author">${isEn ? 'By' : 'מאת'}: ${data.author}</p>
@@ -1159,11 +1159,10 @@ function runFilterAndShow(searchTerm = '') {
         }
 
         // Convert existing instructions to HTML for Quill
+        // Smart conversion: detect numbered/bulleted lines and wrap in proper <ol>/<ul>
         let instructionsHTML = '';
         if (r.instructions) {
-            instructionsHTML = r.instructions
-                .replace(/\n/g, '<br>')
-                .replace(/<b>/g, '<strong>').replace(/<\/b>/g, '</strong>');
+            instructionsHTML = instructionsToQuillHTML(r.instructions);
         }
 
         app.innerHTML = `
@@ -1284,6 +1283,58 @@ function runFilterAndShow(searchTerm = '') {
     function escapeAttr(str) {
         if (!str) return '';
         return String(str).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function instructionsToQuillHTML(text) {
+        // Convert recipe instructions to Quill-compatible HTML.
+        // Detects numbered lines (1. / 1) / 1-) and bullet lines (* / -) 
+        // and wraps them in proper <ol>/<ul> so Quill doesn't double-number.
+        if (!text) return '';
+        
+        // Normalize <b> to <strong> for Quill
+        text = text.replace(/<b>/g, '<strong>').replace(/<\/b>/g, '</strong>');
+        
+        const lines = text.split('\n');
+        let html = '';
+        let listType = null; // 'ol' or 'ul' or null
+        
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (!line) {
+                // Empty line — close any open list, add empty paragraph
+                if (listType) { html += `</${listType}>`; listType = null; }
+                html += '<p><br></p>';
+                continue;
+            }
+            
+            // Check for ordered list: "1." or "1)" or "1-" followed by space
+            const orderedMatch = line.match(/^(\d+)[\.\)\-]\s+(.*)/);
+            // Check for unordered list: "- " or "* "
+            const unorderedMatch = line.match(/^[\-\*]\s+(.*)/);
+            
+            if (orderedMatch) {
+                if (listType !== 'ol') {
+                    if (listType) html += `</${listType}>`;
+                    html += '<ol>';
+                    listType = 'ol';
+                }
+                html += `<li>${orderedMatch[2]}</li>`;
+            } else if (unorderedMatch) {
+                if (listType !== 'ul') {
+                    if (listType) html += `</${listType}>`;
+                    html += '<ul>';
+                    listType = 'ul';
+                }
+                html += `<li>${unorderedMatch[1]}</li>`;
+            } else {
+                // Regular paragraph
+                if (listType) { html += `</${listType}>`; listType = null; }
+                html += `<p>${line}</p>`;
+            }
+        }
+        
+        if (listType) html += `</${listType}>`;
+        return html;
     }
 
     function toggleEditTag(tag, btn) {
@@ -1516,13 +1567,32 @@ function runFilterAndShow(searchTerm = '') {
         text = text.replace(/<br\s*\/?>/g, '\n');
         text = text.replace(/<\/p>\s*<p[^>]*>/g, '\n\n');
         text = text.replace(/<p[^>]*>/g, '').replace(/<\/p>/g, '');
-        // Convert ordered list items
-        text = text.replace(/<ol>/g, '').replace(/<\/ol>/g, '');
-        text = text.replace(/<ul>/g, '').replace(/<\/ul>/g, '');
-        let counter = 0;
-        text = text.replace(/<li[^>]*>/g, () => { counter++; return counter + '. '; });
-        text = text.replace(/<\/li>/g, '\n');
-        // Strip remaining Quill direction/align classes and spans
+        // Convert ordered list items (reset counter per <ol>)
+        text = text.replace(/<ol>/g, '%%OL_START%%').replace(/<\/ol>/g, '%%OL_END%%');
+        // Convert unordered list items
+        text = text.replace(/<ul>/g, '%%UL_START%%').replace(/<\/ul>/g, '%%UL_END%%');
+        
+        // Process: split by markers and rebuild
+        let result = '';
+        let inOl = false, inUl = false, olCounter = 0;
+        const parts = text.split(/(%%OL_START%%|%%OL_END%%|%%UL_START%%|%%UL_END%%)/);
+        for (const part of parts) {
+            if (part === '%%OL_START%%') { inOl = true; olCounter = 0; continue; }
+            if (part === '%%OL_END%%') { inOl = false; continue; }
+            if (part === '%%UL_START%%') { inUl = true; continue; }
+            if (part === '%%UL_END%%') { inUl = false; continue; }
+            
+            if (inOl) {
+                result += part.replace(/<li[^>]*>/g, () => { olCounter++; return olCounter + '. '; })
+                              .replace(/<\/li>/g, '\n');
+            } else if (inUl) {
+                result += part.replace(/<li[^>]*>/g, '- ').replace(/<\/li>/g, '\n');
+            } else {
+                result += part;
+            }
+        }
+        text = result;
+        // Strip remaining HTML tags
         text = text.replace(/<[^>]+>/g, '');
         // Decode entities
         text = text.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"');

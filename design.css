@@ -730,22 +730,30 @@ body {
     background: rgba(0, 0, 0, 0.6);
 }
 
-/* --- HEART BUTTON (frameless, recipe detail) --- */
+/* --- HEART BUTTON (overlay on recipe hero image) --- */
 .heart-btn {
-    background: transparent;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.75);
     border: none;
     cursor: pointer;
-    padding: 6px;
-    display: inline-flex;
+    padding: 8px;
+    display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s;
-    flex-shrink: 0;
+    border-radius: 50%;
+    transition: transform 0.2s, background 0.2s;
+}
+.heart-btn:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.92);
 }
 .heart-btn svg {
-    width: 22px;
-    height: 22px;
-    stroke: var(--text-muted);
+    width: 26px;
+    height: 26px;
+    stroke: #333;
     fill: none;
     stroke-width: 2;
     stroke-linecap: round;
@@ -758,7 +766,36 @@ body {
 }
 .heart-btn:hover svg {
     stroke: #dc2626;
-    transform: scale(1.15);
+}
+
+[data-theme="dark"] .heart-btn {
+    background: rgba(0, 0, 0, 0.5);
+}
+[data-theme="dark"] .heart-btn svg {
+    stroke: #e0e0e0;
+}
+[data-theme="dark"] .heart-btn.hearted svg {
+    fill: #dc2626;
+    stroke: #dc2626;
+}
+[data-theme="dark"] .heart-btn:hover {
+    background: rgba(0, 0, 0, 0.65);
+}
+[data-theme="dark"] .heart-btn:hover svg {
+    stroke: #dc2626;
+}
+
+/* Larger heart on tablets+ where image is bigger */
+@media (min-width: 601px) {
+    .heart-btn {
+        top: 16px;
+        right: 16px;
+        padding: 10px;
+    }
+    .heart-btn svg {
+        width: 30px;
+        height: 30px;
+    }
 }
 
 /* --- NOTES EDIT BUTTON --- */
@@ -844,6 +881,10 @@ body {
         margin-bottom: 15px;
     }
     
+    .recipe-nav > .tag-btn {
+        align-self: flex-start;
+    }
+    
     .nav-actions {
         width: 100%;
         justify-content: center;
@@ -859,10 +900,6 @@ body {
         text-align: center;
     }
     
-    .nav-actions > .heart-btn {
-        flex: 0 0 auto;
-    }
-
     .recipe-nav .tag-btn, 
     .nav-actions .tag-btn {
         min-width: auto; 
@@ -899,15 +936,6 @@ body {
     .notes-add-btn {
         padding: 10px 18px;
         font-size: 0.9rem;
-    }
-}
-
-/* Phone-only: hide back button, users have native back gesture/button */
-@media (max-width: 480px) {
-    .back-btn { display: none; }
-    .recipe-nav { 
-        flex-direction: row; 
-        justify-content: center;
     }
 }
 
