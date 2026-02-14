@@ -1,4 +1,4 @@
-/* --- GLOBAL & RESET --- */
+﻿/* --- GLOBAL & RESET --- */
 *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -883,6 +883,9 @@ body {
     
     .recipe-nav > .tag-btn {
         align-self: flex-start;
+    }
+	    .recipe-nav > .back-btn {
+        display: none;
     }
     
     .nav-actions {
