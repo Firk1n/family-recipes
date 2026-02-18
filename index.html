@@ -1556,13 +1556,18 @@ function runFilterAndShow(searchTerm = '') {
         return { id, title, author, tags, image, sourceUrl, ingredients, instructions };
     }
 
-    function quillHTMLToSimple(html) {
+ function quillHTMLToSimple(html) {
         // Convert Quill's HTML back to the simple format used in recipes.js
         let text = html;
         // Convert <strong> to <b>
         text = text.replace(/<strong>/g, '<b>').replace(/<\/strong>/g, '</b>');
         // Convert <em> to nothing (not used in current recipes, strip it)
         text = text.replace(/<em>/g, '').replace(/<\/em>/g, '');
+
+        // Protect <b> and <u> tags from the catch-all HTML strip below
+        text = text.replace(/<b>/g, '%%B_OPEN%%').replace(/<\/b>/g, '%%B_CLOSE%%');
+        text = text.replace(/<u>/g, '%%U_OPEN%%').replace(/<\/u>/g, '%%U_CLOSE%%');
+
         // Convert <p> and <br> to newlines
         text = text.replace(/<br\s*\/?>/g, '\n');
         text = text.replace(/<\/p>\s*<p[^>]*>/g, '\n\n');
@@ -1592,8 +1597,13 @@ function runFilterAndShow(searchTerm = '') {
             }
         }
         text = result;
-        // Strip remaining HTML tags
+        // Strip remaining HTML tags (but not <b>/<u>)
         text = text.replace(/<[^>]+>/g, '');
+
+        // Restore <b> and <u> tags
+        text = text.replace(/%%B_OPEN%%/g, '<b>').replace(/%%B_CLOSE%%/g, '</b>');
+        text = text.replace(/%%U_OPEN%%/g, '<u>').replace(/%%U_CLOSE%%/g, '</u>');
+
         // Decode entities
         text = text.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"');
         // Clean up extra whitespace
