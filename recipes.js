@@ -6001,6 +6001,7 @@ const recipes = [
     title: "פלאק פניר",
     author: "אופק",
     tags: [
+	    "חלבי",
         "צמחוני"
     ],
     image: "images/palak_paneer.jpeg",
