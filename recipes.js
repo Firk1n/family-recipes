@@ -771,10 +771,10 @@ const recipes = [
 },
 {
     id: "simone_couscous_chicken",
-    title: "קוסקוס ועוף",
+    title: "מרק עוף וקוסקוס",
     author: "סבתא סימון",
     tags: ["בשרי", "English"],
-    image: "", 
+    image: "images/simone_couscous_chicken.jpg", 
     sourceUrl: "",
     ingredients: [
         { amount: null, unit: "", item: "קוסקוס" },
