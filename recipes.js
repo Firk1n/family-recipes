@@ -3652,7 +3652,7 @@ const recipes = [
             "עוגות",
             "חלבי"
         ],
-        image: "",
+        image: "images/dafna_cold_pecan_cake.jpg",
         sourceUrl: "",
         ingredients: [
             {
